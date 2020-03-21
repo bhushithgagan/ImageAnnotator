@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Button, Icon, Image } from "antd";
+import { Menu, Button, Icon, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 function HomeNav() {

@@ -1,20 +1,16 @@
 import React from "react";
-import { Result, Button, Row, Col } from "antd";
+import { Message, Grid } from "semantic-ui-react";
 
 function NotFound() {
   return (
-    <div style={{ marginLeft: "45%", marginTop: "12%" }}>
-      <Row align="middle" style={{ marginLeft: "auto", marginRight: "auto" }}>
-        <Col>
-          <Result
-            status="404"
-            title="404"
-            subTitle="Sorry, the page you visited does not exist."
-            extra={<Button type="primary">Back Home</Button>}
-          />
-        </Col>
-      </Row>
-    </div>
+    <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
+      <Grid.Column style={{ maxWidth: 500 }}>
+        <Message color="teal" size="massive" negative>
+          <Message.Header> Page Not Found </Message.Header>
+          <p>OOPS! The page you were searching for could not be found!</p>
+        </Message>
+      </Grid.Column>
+    </Grid>
   );
 }
 
