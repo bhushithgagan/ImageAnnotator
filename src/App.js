@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NotFound from "./components/NotFound/NotFound";
 import HomePage from "./components/HomePage/HomePage";
 import LoginForm from "./components/LoginForm/LoginForm";
+import SignUpForm from "./components/SignupForm/SignupForm";
 import "./App.css";
 
 function App() {
@@ -24,7 +25,9 @@ function App() {
           <Route path="/login">
             <LoginForm />
           </Route>
-          <Route path="/signup">{/* <SignUpForm /> */}</Route>
+          <Route path="/signup">
+            <SignUpForm />
+          </Route>
           <Route path="/dashboard">{/* <Dashboard /> */}</Route>
           <Route>
             <NotFound />
