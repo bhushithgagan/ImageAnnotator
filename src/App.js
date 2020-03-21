@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NotFound from "./components/NotFound/NotFound";
 import HomePage from "./components/HomePage/HomePage";
+import LoginForm from "./components/LoginForm/LoginForm";
 import "./App.css";
 
 function App() {
@@ -20,7 +21,9 @@ function App() {
           <Route path="/" exact>
             <HomePage />
           </Route>
-          <Route path="/login">{/* <LoginForm /> */}</Route>
+          <Route path="/login">
+            <LoginForm />
+          </Route>
           <Route path="/signup">{/* <SignUpForm /> */}</Route>
           <Route path="/dashboard">{/* <Dashboard /> */}</Route>
           <Route>
