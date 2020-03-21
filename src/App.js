@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NotFound from "./components/NotFound/NotFound";
+import HomePage from "./components/HomePage/HomePage";
 import "./App.css";
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
       >
         <Switch>
           <Route path="/" exact>
-            {/* <HomePage /> */}
+            <HomePage />
           </Route>
           <Route path="/login">{/* <LoginForm /> */}</Route>
           <Route path="/signup">{/* <SignUpForm /> */}</Route>

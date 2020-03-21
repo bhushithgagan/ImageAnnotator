@@ -6,20 +6,26 @@ function HomeNav() {
   return (
     <Menu>
       <Image
-        src="https://img.icons8.com/office/40/000000/class.png"
+        src="https://img.icons8.com/ios/50/000000/artificial-intelligence.png"
         size="mini"
         style={{
-          height: "40px",
+          height: "50px",
           width: "40px",
-          marginLeft: "0.5%",
-          paddingTop: "0.5%"
+          marginLeft: "0.2%",
+          paddingTop: "0.3%",
+          marginBottom: "0.3%"
         }}
       />
       <span
-        className="txt"
-        style={{ color: "#008080", paddingTop: "1%", marginLeft: "0.5%" }}
+        style={{
+          color: "#008080",
+          paddingTop: "0.7%",
+          marginLeft: "0.5%",
+          fontSize: "160%",
+          fontWeight: "200%"
+        }}
       >
-        CoDash
+        DaNotate
       </span>
       <Menu.Menu position="right">
         <Menu.Item>
