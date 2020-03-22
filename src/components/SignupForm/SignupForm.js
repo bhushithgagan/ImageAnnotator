@@ -6,76 +6,55 @@ import {
   Grid,
   Segment,
   Header,
-  Message,
-  Image
+  Message
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
-//import useForm from "../customHooks/useForm";
+import axios from "axios";
 
 //const ENDPOINT = "https://college-dashboard-backend.herokuapp.com/account/signup";
-// const ENDPOINT = "http://localhost:4000/account/signup";
-
-function validate(data) {
-  let errors = {};
-
-  if (data.password !== data.repassword)
-    errors.passMatch = "Passwords do not match";
-  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(data.email))
-    errors.correctEmail = "Enter a valid email address";
-  if (
-    !data.email ||
-    !data.password ||
-    !data.repassword ||
-    !data.name ||
-    !data.usn
-  )
-    errors.allFilled = "Make sure you fill in all the fields";
-  for (let key in data)
-    if (key.startsWith("credits") && isNaN(Number(data[key])))
-      errors.crednan = "Credits should be numbers";
-  for (let key in data)
-    if (key.startsWith("marks") && isNaN(Number(data[key])))
-      errors.marksnan = "Marks should be numbers";
-  for (let key in data)
-    if (key.startsWith("attd") && isNaN(Number(data[key])))
-      errors.attdnan = "Attendance should be numbers";
-  if (notComplete(data, Number(data.numsubjects)))
-    errors.allFilled = "Make sure you fill in all subject fields";
-
-  return errors;
-}
-
-function notComplete(obj, subCount) {
-  for (let i = 0; i < subCount; i++) {
-    if (
-      !obj.hasOwnProperty(`subject${i + 1}`) ||
-      !obj.hasOwnProperty(`credits${i + 1}`)
-    )
-      return true;
-  }
-  return false;
-}
 
 function SignUpForm(props) {
   const [load, setLoad] = useState(false);
-  //   const [
-  //     handleSubmit,
-  //     handleChange,
-  //     formData,
-  //     setFormData,
-  //     submitResponse,
-  //     errors,
-  //     setErrors
-  //   ] = useForm(ENDPOINT, validate);
-  const [newSec, setNewSec] = useState(0);
+  const [hasError, setHasError] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
+  const [org, setOrg] = useState("");
+  const [type, setType] = useState(true); //true = user false = annotator
 
   document.title = "DaNotate | Sign Up";
 
-  //if (submitResponse === true) props.history.push("/dashboard");
+  const handleEmailChange = event => setEmail(event.target.value);
+  const handleNameChange = event => setName(event.target.value);
+  const handleUsernameChange = event => setUsername(event.target.value);
+  const handlePasswordChange = event => setPassword(event.target.value);
+  const handleRepasswordChange = event => setRepassword(event.target.value);
+  const handleOrgChange = event => setOrg(event.target.value);
+  const handleTypeChange = event => setType(!type);
 
-  //   useEffect(() => {
-  //     if (Object.entries(errors).length > 0) setLoad(false);
-  //   }, [errors]);
+  // props.history.push("/dashboard");
+  useEffect(() => {}, [hasError]);
+
+  function validate(data) {
+    let error = {};
+    if (password !== repassword) error.pass = "Passwords do not match";
+
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email))
+      error.em = "Enter a valid email address";
+
+    if (!email || !password || !repassword || !name || !username)
+      error.fill = "Make sure you fill in all the fields";
+
+    setErrors(error);
+    if (Object.keys(error).length > 0) setHasError(true);
+    else {
+      setHasError(false);
+      axios.post();
+    }
+  }
 
   return (
     <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
@@ -88,10 +67,7 @@ function SignUpForm(props) {
         >
           Create your account
         </Header>
-        <Form
-          error
-          size="large" //onSubmit={handleSubmit}
-        >
+        <Form error size="large" onSubmit={validate}>
           <Segment
             raised
             inverted
@@ -105,76 +81,91 @@ function SignUpForm(props) {
               <Form.Input
                 fluid
                 required
-                //onChange={handleChange}
+                onChange={handleEmailChange}
                 label="Enter Email"
                 placeholder="Email"
                 name="email"
                 type="input"
                 className="zoomIn"
-                //value={formData.email || ""}
+                value={email}
               />
               <Form.Input
                 fluid
                 required
-                //onChange={handleChange}
+                onChange={handleNameChange}
                 label="Enter Name"
                 placeholder="Name"
                 name="name"
                 type="input"
                 className="zoomIn"
-                //value={formData.name || ""}
+                value={name}
+              />
+            </Form.Group>
+            <Form.Group widths="equal">
+              <Form.Input
+                fluid
+                required
+                onChange={handleUsernameChange}
+                label="Enter Username"
+                placeholder="Username"
+                name="username"
+                type="input"
+                className="zoomIn"
+                value={username}
+              />
+              <Form.Input
+                fluid
+                required
+                onChange={handleOrgChange}
+                label="Enter Organisation"
+                placeholder="Organisation"
+                name="organisation"
+                type="input"
+                className="zoomIn"
+                value={org}
               />
             </Form.Group>
 
             <Form.Input
               fluid
               required
-              //onChange={handleChange}
+              onChange={handlePasswordChange}
               label="Enter Password"
               placeholder="Password"
               name="password"
               type="password"
               className="zoomIn"
-              //value={formData.password || ""}
+              value={password}
             />
             <Form.Input
               fluid
               required
-              //onChange={handleChange}
+              onChange={handleRepasswordChange}
               label="Re-enter Password"
               placeholder="Password"
               name="repassword"
               type="password"
               className="zoomIn"
-              //value={formData.repassword || ""}
+              value={repassword}
             />
             <Form.Group inline>
               <label>Account Type</label>
+              User
               <Form.Radio
-                label="User"
-                value="user"
-                //onChange={this.handleChange}
+                toggle
+                style={{ marginLeft: "20%", marginTop: "10%" }}
+                onChange={handleTypeChange}
               />
-              <Form.Radio
-                label="Annotator"
-                value="annotator"
-                //onChange={this.handleChange}
-              />
+              Annotator
             </Form.Group>
-            <Button
-              type="button"
-              //   onClick={() => {
-              //     if (!formData.profilepic || !formData.profilepic.length)
-              //       setFormData({
-              //         ...formData,
-              //         profilepic:
-              //           "https://react.semantic-ui.com/images/wireframe/square-image.png"
-              //       });
-              //     setNewSec(1);
-              //   }}
-            >
-              Next
-            </Button>
+            <Button type="submit">Sign Up</Button>
+            {hasError && (
+              <Message
+                error
+                header="There was some errors with your submission"
+                list={Object.keys(errors).map(key => errors[key])}
+              />
+            )}
           </Segment>
           <Message className="zoomIn">
             Already have an account? <Link to="/login">Login</Link>
