@@ -18,7 +18,6 @@ const ENDPOINTANN =
 
 function LoginForm(props) {
   const [load, setLoad] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const [errors, setErrors] = useState({});
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -34,7 +33,7 @@ function LoginForm(props) {
 
   useEffect(() => {
     if (Object.entries(errors).length > 0) setLoad(false);
-  });
+  }, [errors]);
 
   function handleSubmit(data) {
     let error = {};
@@ -42,11 +41,9 @@ function LoginForm(props) {
       error.fill = "Make sure you fill in all the fields";
 
     setErrors(error);
-    if (Object.keys(error).length > 0) setHasError(true);
-    else {
-      setHasError(false);
-      axios.post();
-    }
+
+    if (type) axios.post(ENDPOINTUSER);
+    else axios.post(ENDPOINTANN);
   }
 
   return (

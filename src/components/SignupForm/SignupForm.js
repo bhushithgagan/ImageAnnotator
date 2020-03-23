@@ -38,7 +38,7 @@ function SignUpForm(props) {
   // props.history.push("/dashboard");
   useEffect(() => {
     if (Object.entries(errors).length > 0) setLoad(false);
-  });
+  }, [errors]);
 
   function handleSubmit(data) {
     let error = {};
