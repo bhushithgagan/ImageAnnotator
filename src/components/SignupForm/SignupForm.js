@@ -36,9 +36,11 @@ function SignUpForm(props) {
   const handleTypeChange = event => setType(!type);
 
   // props.history.push("/dashboard");
-  useEffect(() => {}, [hasError]);
+  useEffect(() => {
+    if (Object.entries(errors).length > 0) setLoad(false);
+  });
 
-  function validate(data) {
+  function handleSubmit(data) {
     let error = {};
     if (password !== repassword) error.pass = "Passwords do not match";
 
@@ -67,7 +69,7 @@ function SignUpForm(props) {
         >
           Create your account
         </Header>
-        <Form error size="large" onSubmit={validate}>
+        <Form error size="large" onSubmit={handleSubmit}>
           <Segment
             raised
             inverted
@@ -158,7 +160,9 @@ function SignUpForm(props) {
               />
               Annotator
             </Form.Group>
-            <Button type="submit">Sign Up</Button>
+            <Button type="submit" loading={load} onClick={() => setLoad(true)}>
+              Sign Up
+            </Button>
             {hasError && (
               <Message
                 error
