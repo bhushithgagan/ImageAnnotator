@@ -4,6 +4,7 @@ import NotFound from "./components/NotFound/NotFound";
 import HomePage from "./components/HomePage/HomePage";
 import LoginForm from "./components/LoginForm/LoginForm";
 import SignUpForm from "./components/SignupForm/SignupForm";
+import UserDashboard from "./components/UserDashboard/UserDashboard";
 import "./App.css";
 
 function App() {
@@ -28,7 +29,9 @@ function App() {
           <Route path="/signup">
             <SignUpForm />
           </Route>
-          <Route path="/dashboard">{/* <Dashboard /> */}</Route>
+          <Route path="/userdashboard">
+            <UserDashboard />
+          </Route>
           <Route>
             <NotFound />
           </Route>
