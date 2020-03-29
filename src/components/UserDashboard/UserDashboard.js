@@ -1,6 +1,6 @@
 //import "./styles/forms.css";
 import React, { useState, useEffect } from "react";
-import { Menu, Dropdown } from "semantic-ui-react";
+import { Menu, Dropdown, Icon } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 
@@ -9,25 +9,20 @@ function UserDashboard(props) {
 
   useEffect(() => {});
 
+  const logoutUser = async () => {
+    const res = await axios.get(
+      "https://image-annotation-backend.herokuapp.com/user/login"
+    );
+    console.log(res);
+    // if (res.data.isSuccess) props.history.push("/");
+    // else console.error("Couldn't logout user");
+  };
+
   return (
     <Menu>
       <Menu.Menu position="right">
-        <Dropdown text={props.name} item>
+        <Dropdown icon="user outline" item>
           <Dropdown.Menu>
-            <center>
-              <Dropdown.Item
-                image={{
-                  src: props.pic,
-                  avatar: false
-                }}
-              />
-            </center>
-            <Dropdown.Divider />
-            <Dropdown.Item
-              icon="user"
-              text="Account"
-              onClick={() => setActiveItem("Account")}
-            />
             <Dropdown.Item icon="log out" text="Logout" onClick={logoutUser} />
           </Dropdown.Menu>
         </Dropdown>

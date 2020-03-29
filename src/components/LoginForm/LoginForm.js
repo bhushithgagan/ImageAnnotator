@@ -12,9 +12,9 @@ import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 
 const ENDPOINTUSER =
-  " https://image-annotation-backend.herokuapp.com/user/login";
+  "https://image-annotation-backend.herokuapp.com/user/login";
 const ENDPOINTANN =
-  " https://image-annotation-backend.herokuapp.com/annotator/login";
+  "https://image-annotation-backend.herokuapp.com/annotator/login";
 
 function LoginForm(props) {
   const [load, setLoad] = useState(false);
