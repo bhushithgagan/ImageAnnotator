@@ -111,12 +111,6 @@ function LoginForm(props) {
               className="zoomIn"
             />
           )}
-          <Message className="zoomIn">
-            Forgot your password?{" "}
-            <Link to="/reset" className="zoomIn">
-              Reset
-            </Link>
-          </Message>
         </Form>
       </Grid.Column>
     </Grid>

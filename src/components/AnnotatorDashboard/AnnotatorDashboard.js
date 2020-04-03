@@ -16,9 +16,9 @@ import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 
 const ENDPOINTLOGOUT =
-  "https://image-annotation-backend.herokuapp.com/user/logout";
+  "https://image-annotation-backend.herokuapp.com/annotator/logout";
 
-function UserDashboard(props) {
+function AnnotatorDashboard(props) {
   document.title = "DaNotate | Dashboard";
 
   useEffect(() => {});
@@ -28,29 +28,6 @@ function UserDashboard(props) {
     console.log(res);
     // if (res.data.isSuccess) props.history.push("/");
     // else console.error("Couldn't logout user");
-  };
-
-  const uploadFile = event => {
-    // filename
-    console.log("filename " + event.target.value);
-
-    //file
-    console.log("file " + event.target.files[0]);
-
-    console.log(event);
-
-    const formData = new FormData();
-    formData.append("file", event.target.files[0]);
-    // axios
-    //   .put("", formData, { headers: { "content-type": "multipart/form-data" } })
-    //   .then(data => {
-    //     console.log("file uploaded");
-    //     console.log(data);
-    //   })
-    //   .catch(e => {
-    //     console.log("error");
-    //     console.log(e);
-    //   });
   };
 
   return (
@@ -90,35 +67,8 @@ function UserDashboard(props) {
           </Dropdown>
         </Menu.Menu>
       </Menu>
-      <Grid
-        textAlign="center"
-        style={{ height: "100vh" }}
-        verticalAlign="middle"
-      >
-        <Grid.Column style={{ maxWidth: 450 }}>
-          <Header as="h2" color="teal" textAlign="center">
-            <Icon name="upload" /> Upload
-          </Header>
-          <Form size="large">
-            <Segment stacked>
-              <input
-                type="file"
-                id="file"
-                name="filename"
-                accept="image/*"
-                onChange={uploadFile}
-                multiple
-              />
-
-              <Button color="teal" fluid size="large">
-                Upload
-              </Button>
-            </Segment>
-          </Form>
-        </Grid.Column>
-      </Grid>
     </div>
   );
 }
 
-export default withRouter(UserDashboard);
+export default withRouter(AnnotatorDashboard);
