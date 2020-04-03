@@ -14,6 +14,7 @@ import {
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
+import ImageAnnotation from "./ImageAnnotation";
 
 const ENDPOINTLOGOUT =
   "https://image-annotation-backend.herokuapp.com/annotator/logout";
@@ -67,6 +68,7 @@ function AnnotatorDashboard(props) {
           </Dropdown>
         </Menu.Menu>
       </Menu>
+      <ImageAnnotation />
     </div>
   );
 }
