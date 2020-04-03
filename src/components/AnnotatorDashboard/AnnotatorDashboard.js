@@ -10,7 +10,7 @@ import {
   Header,
   Image,
   Message,
-  Segment
+  Segment,
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
@@ -42,7 +42,7 @@ function AnnotatorDashboard(props) {
             width: "40px",
             marginLeft: "0.2%",
             paddingTop: "0.3%",
-            marginBottom: "0.3%"
+            marginBottom: "0.3%",
           }}
         />
         <span
@@ -51,7 +51,7 @@ function AnnotatorDashboard(props) {
             paddingTop: "0.7%",
             marginLeft: "0.5%",
             fontSize: "160%",
-            fontWeight: "200%"
+            fontWeight: "200%",
           }}
         >
           DaNotate
