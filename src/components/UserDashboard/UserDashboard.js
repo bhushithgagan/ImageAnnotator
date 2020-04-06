@@ -10,7 +10,7 @@ import {
   Header,
   Image,
   Message,
-  Segment
+  Segment,
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
@@ -30,7 +30,7 @@ function UserDashboard(props) {
     // else console.error("Couldn't logout user");
   };
 
-  const uploadFile = event => {
+  const uploadFile = (event) => {
     // filename
     console.log("filename " + event.target.value);
 
@@ -64,7 +64,7 @@ function UserDashboard(props) {
             width: "40px",
             marginLeft: "0.2%",
             paddingTop: "0.3%",
-            marginBottom: "0.3%"
+            marginBottom: "0.3%",
           }}
         />
         <span
@@ -73,7 +73,7 @@ function UserDashboard(props) {
             paddingTop: "0.7%",
             marginLeft: "0.5%",
             fontSize: "160%",
-            fontWeight: "200%"
+            fontWeight: "200%",
           }}
         >
           DaNotate
@@ -110,8 +110,11 @@ function UserDashboard(props) {
                 multiple
               />
 
-              <Button color="teal" fluid size="large">
-                Upload
+              <Button animated>
+                <Button.Content visible>Upload</Button.Content>
+                <Button.Content hidden>
+                  <Icon name="arrow up" />
+                </Button.Content>
               </Button>
             </Segment>
           </Form>
