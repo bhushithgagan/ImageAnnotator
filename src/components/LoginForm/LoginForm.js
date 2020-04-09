@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-//import "./styles/forms.css";
 import {
   Button,
   Form,
@@ -11,11 +10,8 @@ import {
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-
-const ENDPOINTUSER =
-  "https://image-annotation-backend.herokuapp.com/user/login";
-const ENDPOINTANN =
-  "https://image-annotation-backend.herokuapp.com/annotator/login";
+import { USERLOGIN, ANNLOGIN } from "../../routes/routes";
+//import "./styles/forms.css";
 
 function LoginForm(props) {
   const [load, setLoad] = useState(false);
@@ -149,7 +145,7 @@ function LoginForm(props) {
 
     if (!Object.entries(error).length > 0)
       axios
-        .get(ENDPOINTUSER, {
+        .get(USERLOGIN, {
           withCredentials: false,
           auth: {
             username,
@@ -177,7 +173,7 @@ function LoginForm(props) {
 
     if (!Object.entries(error).length > 0)
       axios
-        .get(ENDPOINTANN, {
+        .get(ANNLOGIN, {
           withCredentials: false,
           auth: {
             username,

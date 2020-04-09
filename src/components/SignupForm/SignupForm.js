@@ -1,4 +1,3 @@
-//import "./styles/forms.css";
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -10,11 +9,8 @@ import {
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-
-const ENDPOINTANN =
-  "https://image-annotation-backend.herokuapp.com/annotator/create";
-const ENDPOINTUSER =
-  "https://image-annotation-backend.herokuapp.com/user/create";
+import { USERCREATE, ANNCREATE } from "../../routes/routes";
+//import "./styles/forms.css";
 
 function SignUpForm(props) {
   const [load, setLoad] = useState(false);
@@ -58,7 +54,7 @@ function SignUpForm(props) {
       setHasError(false);
       if (type)
         axios
-          .post(ENDPOINTUSER, {
+          .post(USERCREATE, {
             username,
             password,
             email,
@@ -77,7 +73,7 @@ function SignUpForm(props) {
           });
       else
         axios
-          .post(ENDPOINTANN, {
+          .post(ANNCREATE, {
             username,
             password,
             email,
