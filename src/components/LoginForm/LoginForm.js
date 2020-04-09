@@ -117,7 +117,7 @@ function LoginForm(props) {
             {Object.entries(errors).length > 0 && (
               <Message
                 error
-                header="Could Not Sign In"
+                header="Could Not Log In"
                 list={Object.keys(errors).map((key) => errors[key])}
                 size="small"
                 className="zoomIn"
@@ -143,7 +143,7 @@ function LoginForm(props) {
   function handleSubmitUser(data) {
     let error = {};
     if (!password || !username) {
-      error.fill = "Make sure you fill in all the fields";
+      error.fields = "Make sure you fill in all the fields";
       setLoad(false);
     }
 
@@ -151,49 +151,48 @@ function LoginForm(props) {
 
     if (!Object.entries(error).length > 0)
       axios
-        .get(
-          ENDPOINTUSER,
-          {},
-          {
-            auth: {
-              username,
-              password,
-            },
-          }
-        )
+        .get(ENDPOINTUSER, {
+          withCredentials: false,
+          auth: {
+            username,
+            password,
+          },
+        })
         .then((res) => {
           console.log(res);
+          setLoad(false);
         })
         .catch((error) => {
           console.log(error);
           setLoad(false);
+          setErrors({ invalid: "Invalid Username and Password" });
         });
   }
 
   function handleSubmitAnnotator(data) {
     let error = {};
     if (!password || !username)
-      error.fill = "Make sure you fill in all the fields";
+      error.fields = "Make sure you fill in all the fields";
 
     setErrors(error);
 
     if (!Object.entries(error).length > 0)
       axios
-        .get(
-          ENDPOINTANN,
-          {},
-          {
-            auth: {
-              username: data.username,
-              password: data.password,
-            },
-          }
-        )
+        .get(ENDPOINTANN, {
+          withCredentials: false,
+          auth: {
+            username,
+            password,
+          },
+        })
         .then((res) => {
           console.log(res);
+          setLoad(false);
         })
         .catch((error) => {
           console.log(error);
+          setLoad(false);
+          setErrors({ invalid: "Invalid Username and Password" });
         });
   }
 
