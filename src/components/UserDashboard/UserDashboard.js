@@ -95,11 +95,11 @@ function UserDashboard(props) {
         style={{ height: "100vh" }}
         verticalAlign="middle"
       >
-        <Grid.Column style={{ maxWidth: 450 }}>
+        <Grid.Column style={{ maxWidth: 450, marginTop: "-10%" }}>
           <Header as="h2" color="teal" textAlign="center">
             <Icon name="upload" /> Upload
           </Header>
-          <Form size="large">
+          <Form size="large" style={{ marginTop: "30%" }}>
             <Segment stacked>
               <input
                 type="file"
@@ -110,7 +110,7 @@ function UserDashboard(props) {
                 multiple
               />
 
-              <Button animated>
+              <Button animated style={{ marginTop: "5%" }}>
                 <Button.Content visible>Upload</Button.Content>
                 <Button.Content hidden>
                   <Icon name="arrow up" />

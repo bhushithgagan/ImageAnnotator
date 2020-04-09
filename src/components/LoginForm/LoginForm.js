@@ -134,8 +134,6 @@ function LoginForm(props) {
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
 
-  //if (submitResponse === true) props.history.push("/dashboard");
-
   useEffect(() => {
     if (Object.entries(errors).length > 0) setLoad(false);
   }, [errors]);
@@ -161,6 +159,7 @@ function LoginForm(props) {
         .then((res) => {
           console.log(res);
           setLoad(false);
+          props.history.push("/userdashboard");
         })
         .catch((error) => {
           console.log(error);
@@ -188,6 +187,7 @@ function LoginForm(props) {
         .then((res) => {
           console.log(res);
           setLoad(false);
+          props.history.push("/annotatordashboard");
         })
         .catch((error) => {
           console.log(error);

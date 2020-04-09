@@ -6,12 +6,15 @@ import {
   Grid,
   Segment,
   Header,
-  Message
+  Message,
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 
-//const ENDPOINT = "https://college-dashboard-backend.herokuapp.com/account/signup";
+const ENDPOINTANN =
+  "https://image-annotation-backend.herokuapp.com/annotator/create";
+const ENDPOINTUSER =
+  "https://image-annotation-backend.herokuapp.com/user/create";
 
 function SignUpForm(props) {
   const [load, setLoad] = useState(false);
@@ -27,15 +30,14 @@ function SignUpForm(props) {
 
   document.title = "DaNotate | Sign Up";
 
-  const handleEmailChange = event => setEmail(event.target.value);
-  const handleNameChange = event => setName(event.target.value);
-  const handleUsernameChange = event => setUsername(event.target.value);
-  const handlePasswordChange = event => setPassword(event.target.value);
-  const handleRepasswordChange = event => setRepassword(event.target.value);
-  const handleOrgChange = event => setOrg(event.target.value);
-  const handleTypeChange = event => setType(!type);
+  const handleEmailChange = (event) => setEmail(event.target.value);
+  const handleNameChange = (event) => setName(event.target.value);
+  const handleUsernameChange = (event) => setUsername(event.target.value);
+  const handlePasswordChange = (event) => setPassword(event.target.value);
+  const handleRepasswordChange = (event) => setRepassword(event.target.value);
+  const handleOrgChange = (event) => setOrg(event.target.value);
+  const handleTypeChange = (event) => setType(!type);
 
-  // props.history.push("/dashboard");
   useEffect(() => {
     if (Object.entries(errors).length > 0) setLoad(false);
   }, [errors]);
@@ -54,7 +56,44 @@ function SignUpForm(props) {
     if (Object.keys(error).length > 0) setHasError(true);
     else {
       setHasError(false);
-      axios.post();
+      if (type)
+        axios
+          .post(ENDPOINTUSER, {
+            username,
+            password,
+            email,
+            name,
+            organization: org,
+          })
+          .then((res) => {
+            console.log(res);
+            setLoad(false);
+            props.history.push("/userdashboard");
+          })
+          .catch((error) => {
+            console.log(error);
+            setLoad(false);
+            setErrors({ invalid: "Unable to Create Account" });
+          });
+      else
+        axios
+          .post(ENDPOINTANN, {
+            username,
+            password,
+            email,
+            name,
+            organization: org,
+          })
+          .then((res) => {
+            console.log(res);
+            setLoad(false);
+            props.history.push("/annotatordashboard");
+          })
+          .catch((error) => {
+            console.log(error);
+            setLoad(false);
+            setErrors({ invalid: "Unable to Create Account" });
+          });
     }
   }
 
@@ -167,7 +206,7 @@ function SignUpForm(props) {
               <Message
                 error
                 header="There was some errors with your submission"
-                list={Object.keys(errors).map(key => errors[key])}
+                list={Object.keys(errors).map((key) => errors[key])}
               />
             )}
           </Segment>
