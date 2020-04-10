@@ -24,6 +24,7 @@ function UserDashboard(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [load, setLoad] = useState(false);
 
   document.title = "DaNotate | Dashboard";
 
@@ -31,7 +32,12 @@ function UserDashboard(props) {
   const handleTagsChange = (event) => setTags(event.target.value);
 
   useEffect(() => {
-    if (!username || !password) props.history.push("Dont-Forget-To-Login!");
+    if (
+      typeof props.location.credentials == "undefined" ||
+      !props.location.credentials.username ||
+      !props.location.credentials.password
+    )
+      props.history.push("Dont-Forget-To-Login!");
     else {
       setUsername(props.location.credentials.username);
       setPassword(props.location.credentials.password);
@@ -50,28 +56,40 @@ function UserDashboard(props) {
   };
 
   const handleSubmit = (event) => {
-    console.log(props);
+    setLoad(true);
+    let error = {};
 
-    const formData = new FormData();
-    formData.append("files", file);
-    formData.append("categories", categories);
-    formData.append("tags", tags);
-    axios
-      .post(USERUPLOAD, formData, {
-        headers: { "content-type": "multipart/form-data" },
-        auth: {
-          username,
-          password,
-        },
-      })
-      .then((data) => {
-        console.log("file uploaded");
-        console.log(data);
-      })
-      .catch((e) => {
-        console.log("error");
-        console.log(e);
-      });
+    if (!tags || !categories || !file) {
+      setLoad(false);
+      error.fields = "Make sure you fill in all the fields and upload a file";
+      setErrors(error);
+    } else {
+      setErrors(error);
+      const formData = new FormData();
+      formData.append("files", file);
+      formData.append("categories", categories);
+      formData.append("tags", tags);
+      axios
+        .post(USERUPLOAD, formData, {
+          headers: { "content-type": "multipart/form-data" },
+          auth: {
+            username,
+            password,
+          },
+        })
+        .then((data) => {
+          setLoad(false);
+          setTags("");
+          setCategories("");
+          setFile({});
+          console.log("file uploaded");
+          console.log(data);
+        })
+        .catch((e) => {
+          console.log("error");
+          console.log(e);
+        });
+    }
   };
 
   return (
@@ -149,13 +167,27 @@ function UserDashboard(props) {
                 style={{ marginTop: "4%", marginLeft: "2%" }}
               />
             </Segment>
-            <Button animated type="submit" style={{ marginTop: "5%" }}>
+            <Button
+              animated
+              loading={load}
+              type="submit"
+              style={{ marginTop: "5%" }}
+            >
               <Button.Content visible>Upload</Button.Content>
               <Button.Content hidden>
                 <Icon name="arrow up" />
               </Button.Content>
             </Button>
           </Form>
+          {Object.entries(errors).length > 0 && (
+            <Message
+              error
+              header="Could Not Upload"
+              list={Object.keys(errors).map((key) => errors[key])}
+              size="small"
+              className="zoomIn"
+            />
+          )}
         </Grid.Column>
       </Grid>
     </div>
