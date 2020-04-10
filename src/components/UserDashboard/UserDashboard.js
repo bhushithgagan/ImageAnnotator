@@ -37,18 +37,30 @@ function UserDashboard(props) {
       !props.location.credentials.username ||
       !props.location.credentials.password
     )
-      props.history.push("Dont-Forget-To-Login!");
+      props.history.push("Dont-Forget-To-Login");
     else {
       setUsername(props.location.credentials.username);
       setPassword(props.location.credentials.password);
     }
   });
 
-  const logoutUser = async () => {
-    const res = await axios.get(USERLOGOUT);
-    console.log(res);
-    // if (res.data.isSuccess) props.history.push("/");
-    // else console.error("Couldn't logout user");
+  const logoutUser = () => {
+    axios
+      .get(USERLOGOUT, {
+        withCredentials: false,
+        auth: {
+          username: "",
+          password: "",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error.response.status);
+        if (error.response.status == 401) props.history.push("/");
+        else console.error("Couldn't logout user");
+      });
   };
 
   const onFileChange = (event) => {
