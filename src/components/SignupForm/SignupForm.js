@@ -21,7 +21,7 @@ function SignUpForm(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
-  const [org, setOrg] = useState("");
+  const [organization, setOrganization] = useState("");
   const [type, setType] = useState(true); //true = user false = annotator
 
   document.title = "DaNotate | Sign Up";
@@ -31,7 +31,8 @@ function SignUpForm(props) {
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
   const handleRepasswordChange = (event) => setRepassword(event.target.value);
-  const handleOrgChange = (event) => setOrg(event.target.value);
+  const handleOrganizationChange = (event) =>
+    setOrganization(event.target.value);
   const handleTypeChange = (event) => setType(!type);
 
   useEffect(() => {
@@ -59,12 +60,15 @@ function SignUpForm(props) {
             password,
             email,
             name,
-            organization: org,
+            organization,
           })
           .then((res) => {
             console.log(res);
             setLoad(false);
-            props.history.push("/userdashboard");
+            props.history.push({
+              pathname: "/userdashboard",
+              credentials: { username, password },
+            });
           })
           .catch((error) => {
             console.log(error);
@@ -78,7 +82,7 @@ function SignUpForm(props) {
             password,
             email,
             name,
-            organization: org,
+            organization,
           })
           .then((res) => {
             console.log(res);
@@ -153,13 +157,13 @@ function SignUpForm(props) {
               <Form.Input
                 fluid
                 required
-                onChange={handleOrgChange}
+                onChange={handleOrganizationChange}
                 label="Enter Organisation"
                 placeholder="Organisation"
                 name="organisation"
                 type="input"
                 className="zoomIn"
-                value={org}
+                value={organization}
               />
             </Form.Group>
 

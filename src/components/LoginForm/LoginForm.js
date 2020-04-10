@@ -155,7 +155,10 @@ function LoginForm(props) {
         .then((res) => {
           console.log(res);
           setLoad(false);
-          props.history.push("/userdashboard");
+          props.history.push({
+            pathname: "/userdashboard",
+            credentials: { username, password },
+          });
         })
         .catch((error) => {
           console.log(error);

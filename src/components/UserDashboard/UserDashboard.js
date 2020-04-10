@@ -11,46 +11,67 @@ import {
   Image,
   Message,
   Segment,
+  Input,
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-
-const ENDPOINTLOGOUT =
-  "https://image-annotation-backend.herokuapp.com/user/logout";
+import { USERLOGOUT, USERUPLOAD } from "../../routes/routes";
 
 function UserDashboard(props) {
+  const [categories, setCategories] = useState("");
+  const [tags, setTags] = useState("");
+  const [file, setFile] = useState({});
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
+
   document.title = "DaNotate | Dashboard";
 
-  useEffect(() => {});
+  const handleCategoriesChange = (event) => setCategories(event.target.value);
+  const handleTagsChange = (event) => setTags(event.target.value);
+
+  useEffect(() => {
+    if (!username || !password) props.history.push("Dont-Forget-To-Login!");
+    else {
+      setUsername(props.location.credentials.username);
+      setPassword(props.location.credentials.password);
+    }
+  });
 
   const logoutUser = async () => {
-    const res = await axios.get(ENDPOINTLOGOUT);
+    const res = await axios.get(USERLOGOUT);
     console.log(res);
     // if (res.data.isSuccess) props.history.push("/");
     // else console.error("Couldn't logout user");
   };
 
-  const uploadFile = (event) => {
-    // filename
-    console.log("filename " + event.target.value);
+  const onFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
 
-    //file
-    console.log("file " + event.target.files[0]);
-
-    console.log(event);
+  const handleSubmit = (event) => {
+    console.log(props);
 
     const formData = new FormData();
-    formData.append("file", event.target.files[0]);
-    // axios
-    //   .put("", formData, { headers: { "content-type": "multipart/form-data" } })
-    //   .then(data => {
-    //     console.log("file uploaded");
-    //     console.log(data);
-    //   })
-    //   .catch(e => {
-    //     console.log("error");
-    //     console.log(e);
-    //   });
+    formData.append("files", file);
+    formData.append("categories", categories);
+    formData.append("tags", tags);
+    axios
+      .post(USERUPLOAD, formData, {
+        headers: { "content-type": "multipart/form-data" },
+        auth: {
+          username,
+          password,
+        },
+      })
+      .then((data) => {
+        console.log("file uploaded");
+        console.log(data);
+      })
+      .catch((e) => {
+        console.log("error");
+        console.log(e);
+      });
   };
 
   return (
@@ -99,24 +120,41 @@ function UserDashboard(props) {
           <Header as="h2" color="teal" textAlign="center">
             <Icon name="upload" /> Upload
           </Header>
-          <Form size="large" style={{ marginTop: "30%" }}>
+          <Form
+            size="large"
+            onSubmit={handleSubmit}
+            style={{ marginTop: "30%" }}
+          >
             <Segment stacked>
               <input
                 type="file"
                 id="file"
                 name="filename"
                 accept="image/*"
-                onChange={uploadFile}
+                onChange={onFileChange}
                 multiple
               />
-
-              <Button animated style={{ marginTop: "5%" }}>
-                <Button.Content visible>Upload</Button.Content>
-                <Button.Content hidden>
-                  <Icon name="arrow up" />
-                </Button.Content>
-              </Button>
+              <Input
+                focus
+                placeholder="Categories"
+                onChange={handleCategoriesChange}
+                value={categories}
+                style={{ marginTop: "4%" }}
+              />
+              <Input
+                focus
+                placeholder="Tags"
+                onChange={handleTagsChange}
+                value={tags}
+                style={{ marginTop: "4%", marginLeft: "2%" }}
+              />
             </Segment>
+            <Button animated type="submit" style={{ marginTop: "5%" }}>
+              <Button.Content visible>Upload</Button.Content>
+              <Button.Content hidden>
+                <Icon name="arrow up" />
+              </Button.Content>
+            </Button>
           </Form>
         </Grid.Column>
       </Grid>
