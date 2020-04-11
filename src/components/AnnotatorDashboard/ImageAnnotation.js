@@ -10,11 +10,14 @@ import {
   Input,
   Icon,
 } from "semantic-ui-react";
+import { ANNGETIMG, USERGETIMG } from "../../routes/routes";
+import axios from "axios";
 
-function ImageAnnotation(props) {
-  const [label, setLabel] = useState("");
+function ImageAnnotation({ credentials: { username, password } }) {
+  const [categories, setCategories] = useState("");
+  const [images, setImages] = useState([]);
 
-  const handleLabelChange = (event) => setLabel(event.target.value);
+  const handleCategoriesChange = (event) => setCategories(event.target.value);
 
   const uploadFile = (event) => {
     // filename
@@ -39,20 +42,25 @@ function ImageAnnotation(props) {
     //   });
   };
 
-  const nextImage = (event) => {
-    // axios
-    //   .put("", , { headers: { "content-type": "" } })
-    //   .then(data => {
-    //     console.log("file uploaded");
-    //     console.log(data);
-    //   })
-    //   .catch(e => {
-    //     console.log("error");
-    //     console.log(e);
-    //   });
-  };
+  const nextImage = (event) => {};
 
-  useEffect(() => {});
+  useEffect(() => {
+    axios
+      .get(USERGETIMG, {
+        withCredentials: false,
+        auth: {
+          username,
+          password,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setImages(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <div>
@@ -62,61 +70,64 @@ function ImageAnnotation(props) {
           <Icon name="right arrow" />
         </Button>
       </div>
+      {images.map((img, key) => (
+        <div style={{ marginLeft: "10%", marginTop: "5%" }}>
+          <div>
+            <ImageEditor
+              includeUI={{
+                loadImage: {
+                  path: img.url,
+                  name: img.imageName,
+                },
 
-      <div style={{ marginLeft: "10%", marginTop: "5%" }}>
-        <ImageEditor
-          includeUI={{
-            loadImage: {
-              path:
-                "https://image.shutterstock.com/image-photo/colorful-flower-on-dark-tropical-260nw-721703848.jpg",
-              name: "SampleImage",
-            },
+                menu: ["shape"],
+                initMenu: "shape",
+                uiSize: {
+                  width: "1000px",
+                  height: "700px",
+                },
+                menuBarPosition: "top",
+              }}
+              cssMaxHeight={500}
+              cssMaxWidth={700}
+              selectionStyle={{
+                cornerSize: 20,
+                rotatingPointOffset: 70,
+              }}
+              usageStatistics={true}
+            />
+          </div>
 
-            menu: ["shape"],
-            initMenu: "shape",
-            uiSize: {
-              width: "1000px",
-              height: "700px",
-            },
-            menuBarPosition: "top",
-          }}
-          cssMaxHeight={500}
-          cssMaxWidth={700}
-          selectionStyle={{
-            cornerSize: 20,
-            rotatingPointOffset: 70,
-          }}
-          usageStatistics={true}
-        />
-      </div>
-
-      <Form
-        size="large"
-        style={{ float: "right", marginTop: "-17%", marginRight: "10%" }}
-      >
-        <Segment stacked>
-          <input
-            type="file"
-            id="file"
-            name="filename"
-            accept="image/*"
-            onChange={uploadFile}
-            multiple
-          />
-          <Input
-            focus
-            placeholder="Label"
-            onChange={handleLabelChange}
-            style={{ marginTop: "4%" }}
-          />
-          <Button animated style={{ marginLeft: "50%" }}>
-            <Button.Content visible>Upload</Button.Content>
-            <Button.Content hidden>
-              <Icon name="arrow up" />
-            </Button.Content>
-          </Button>
-        </Segment>
-      </Form>
+          <Form
+            size="large"
+            style={{ float: "right", marginTop: "-17%", marginRight: "10%" }}
+          >
+            <Segment stacked>
+              <input
+                type="file"
+                id="file"
+                name="filename"
+                accept="image/*"
+                onChange={uploadFile}
+                multiple
+              />
+              <Input
+                focus
+                placeholder="Categories"
+                onChange={handleCategoriesChange}
+                value={categories}
+                style={{ marginTop: "4%" }}
+              />
+              <Button animated style={{ marginLeft: "50%" }}>
+                <Button.Content visible>Upload</Button.Content>
+                <Button.Content hidden>
+                  <Icon name="arrow up" />
+                </Button.Content>
+              </Button>
+            </Segment>
+          </Form>
+        </div>
+      ))}
     </div>
   );
 }

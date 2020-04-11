@@ -82,7 +82,9 @@ function AnnotatorDashboard(props) {
           </Dropdown>
         </Menu.Menu>
       </Menu>
-      <ImageAnnotation />
+      {typeof props.location.credentials !== "undefined" && (
+        <ImageAnnotation credentials={props.location.credentials} />
+      )}
     </div>
   );
 }

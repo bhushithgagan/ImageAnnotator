@@ -10,3 +10,7 @@ export const USERLOGOUT =
   "https://image-annotation-backend.herokuapp.com/user/logout";
 export const USERUPLOAD =
   "https://image-annotation-backend.herokuapp.com/user/images/upload";
+export const ANNGETIMG =
+  "https://image-annotation-backend.herokuapp.com/annotator/images/get-all-images";
+export const USERGETIMG =
+  "https://image-annotation-backend.herokuapp.com/user/images/get-all-images";
