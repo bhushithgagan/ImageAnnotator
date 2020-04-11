@@ -68,7 +68,7 @@ function ImageAnnotation(props) {
           includeUI={{
             loadImage: {
               path:
-                "https://ichef.bbci.co.uk/wwfeatures/live/976_549/images/live/p0/7z/n7/p07zn7p7.jpg",
+                "https://image.shutterstock.com/image-photo/colorful-flower-on-dark-tropical-260nw-721703848.jpg",
               name: "SampleImage",
             },
 

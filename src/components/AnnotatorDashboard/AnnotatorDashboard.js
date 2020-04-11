@@ -20,9 +20,23 @@ const ENDPOINTLOGOUT =
   "https://image-annotation-backend.herokuapp.com/annotator/logout";
 
 function AnnotatorDashboard(props) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
   document.title = "DaNotate | Dashboard";
 
-  useEffect(() => {});
+  useEffect(() => {
+    if (
+      typeof props.location.credentials == "undefined" ||
+      !props.location.credentials.username ||
+      !props.location.credentials.password
+    )
+      props.history.push("Dont-Forget-To-Login");
+    else {
+      setUsername(props.location.credentials.username);
+      setPassword(props.location.credentials.password);
+    }
+  });
 
   const logoutUser = async () => {
     const res = await axios.get(ENDPOINTLOGOUT);

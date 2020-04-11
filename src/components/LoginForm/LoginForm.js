@@ -186,7 +186,10 @@ function LoginForm(props) {
         .then((res) => {
           console.log(res);
           setLoad(false);
-          props.history.push("/annotatordashboard");
+          props.history.push({
+            pathname: "/annotatordashboard",
+            credentials: { username, password },
+          });
         })
         .catch((error) => {
           console.log(error);
