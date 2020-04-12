@@ -10,43 +10,59 @@ import {
   Input,
   Icon,
 } from "semantic-ui-react";
-import { ANNGETIMG, USERGETIMG } from "../../routes/routes";
+import { ANNGETIMG, ANNUPLOAD } from "../../routes/routes";
 import axios from "axios";
 
 function ImageAnnotation({ credentials: { username, password } }) {
   const [categories, setCategories] = useState("");
   const [images, setImages] = useState([]);
+  const [file, setFile] = useState({});
+  const [load, setLoad] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleCategoriesChange = (event) => setCategories(event.target.value);
+  const onFileChange = (event) => setFile(event.target.files[0]);
 
-  const uploadFile = (event) => {
-    // filename
-    console.log("filename " + event.target.value);
+  const handleSubmit = (event) => {
+    setLoad(true);
+    let error = {};
 
-    //file
-    console.log("file " + event.target.files[0]);
-
-    console.log(event);
-
-    const formData = new FormData();
-    formData.append("file", event.target.files[0]);
-    // axios
-    //   .put("", formData, { headers: { "content-type": "multipart/form-data" } })
-    //   .then(data => {
-    //     console.log("file uploaded");
-    //     console.log(data);
-    //   })
-    //   .catch(e => {
-    //     console.log("error");
-    //     console.log(e);
-    //   });
+    if (!categories || !file) {
+      setLoad(false);
+      error.fields = "Make sure you fill in all the fields and upload a file";
+      setErrors(error);
+    } else {
+      setErrors(error);
+      const formData = new FormData();
+      formData.append("files", file);
+      formData.append("categories", categories);
+      axios
+        .post(ANNUPLOAD, formData, {
+          headers: { "content-type": "multipart/form-data" },
+          auth: {
+            username,
+            password,
+          },
+        })
+        .then((data) => {
+          setLoad(false);
+          setCategories("");
+          setFile({});
+          console.log("file uploaded");
+          console.log(data);
+        })
+        .catch((e) => {
+          console.log("error");
+          console.log(e);
+        });
+    }
   };
 
   const nextImage = (event) => {};
 
   useEffect(() => {
     axios
-      .get(USERGETIMG, {
+      .get(ANNGETIMG, {
         withCredentials: false,
         auth: {
           username,
@@ -100,6 +116,7 @@ function ImageAnnotation({ credentials: { username, password } }) {
 
           <Form
             size="large"
+            onSubmit={handleSubmit}
             style={{ float: "right", marginTop: "-17%", marginRight: "10%" }}
           >
             <Segment stacked>
@@ -108,7 +125,7 @@ function ImageAnnotation({ credentials: { username, password } }) {
                 id="file"
                 name="filename"
                 accept="image/*"
-                onChange={uploadFile}
+                onChange={onFileChange}
                 multiple
               />
               <Input
@@ -118,7 +135,7 @@ function ImageAnnotation({ credentials: { username, password } }) {
                 value={categories}
                 style={{ marginTop: "4%" }}
               />
-              <Button animated style={{ marginLeft: "50%" }}>
+              <Button animated loading={load} style={{ marginLeft: "50%" }}>
                 <Button.Content visible>Upload</Button.Content>
                 <Button.Content hidden>
                   <Icon name="arrow up" />
@@ -126,6 +143,15 @@ function ImageAnnotation({ credentials: { username, password } }) {
               </Button>
             </Segment>
           </Form>
+          {Object.entries(errors).length > 0 && (
+            <Message
+              error
+              header="Could Not Upload"
+              list={Object.keys(errors).map((key) => errors[key])}
+              size="small"
+              className="zoomIn"
+            />
+          )}
         </div>
       ))}
     </div>

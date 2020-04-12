@@ -8,8 +8,12 @@ export const ANNCREATE =
   "https://image-annotation-backend.herokuapp.com/annotator/create";
 export const USERLOGOUT =
   "https://image-annotation-backend.herokuapp.com/user/logout";
+export const ANNLOGOUT =
+  "https://image-annotation-backend.herokuapp.com/annotator/logout";
 export const USERUPLOAD =
   "https://image-annotation-backend.herokuapp.com/user/images/upload";
+export const ANNUPLOAD =
+  "https://image-annotation-backend.herokuapp.com/annotator/images/upload";
 export const ANNGETIMG =
   "https://image-annotation-backend.herokuapp.com/annotator/images/get-all-images";
 export const USERGETIMG =

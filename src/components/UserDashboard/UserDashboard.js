@@ -30,6 +30,7 @@ function UserDashboard(props) {
 
   const handleCategoriesChange = (event) => setCategories(event.target.value);
   const handleTagsChange = (event) => setTags(event.target.value);
+  const onFileChange = (event) => setFile(event.target.files[0]);
 
   useEffect(() => {
     if (
@@ -61,10 +62,6 @@ function UserDashboard(props) {
         if (error.response.status == 401) props.history.push("/");
         else console.error("Couldn't logout user");
       });
-  };
-
-  const onFileChange = (event) => {
-    setFile(event.target.files[0]);
   };
 
   const handleSubmit = (event) => {
