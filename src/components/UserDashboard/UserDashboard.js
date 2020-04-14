@@ -15,14 +15,15 @@ import {
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import { USERLOGOUT, USERUPLOAD } from "../../routes/routes";
+import { USERLOGOUT, USERUPLOAD, USERACCDETAILS } from "../../routes/routes";
 
 function UserDashboard(props) {
   const [categories, setCategories] = useState("");
   const [tags, setTags] = useState("");
-  const [file, setFile] = useState({});
+  const [file, setFile] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [errors, setErrors] = useState({});
   const [load, setLoad] = useState(false);
 
@@ -30,7 +31,10 @@ function UserDashboard(props) {
 
   const handleCategoriesChange = (event) => setCategories(event.target.value);
   const handleTagsChange = (event) => setTags(event.target.value);
-  const onFileChange = (event) => setFile(event.target.files[0]);
+  const onFileChange = (event) => {
+    Object.values(event.target.files);
+    setFile(Object.values(event.target.files));
+  };
 
   useEffect(() => {
     if (
@@ -42,8 +46,23 @@ function UserDashboard(props) {
     else {
       setUsername(props.location.credentials.username);
       setPassword(props.location.credentials.password);
+      axios
+        .get(USERACCDETAILS, {
+          withCredentials: false,
+          auth: {
+            username: props.location.credentials.username,
+            password: props.location.credentials.password,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setName(res.data.name);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-  });
+  }, [username]);
 
   const logoutUser = () => {
     axios
@@ -75,7 +94,7 @@ function UserDashboard(props) {
     } else {
       setErrors(error);
       const formData = new FormData();
-      formData.append("files", file);
+      for (const img of file) formData.append("files", img);
       formData.append("categories", categories);
       formData.append("tags", tags);
       axios
@@ -143,9 +162,17 @@ function UserDashboard(props) {
         style={{ height: "100vh" }}
         verticalAlign="middle"
       >
-        <Grid.Column style={{ maxWidth: 450, marginTop: "-10%" }}>
+        <Grid.Column style={{ maxWidth: 450, marginTop: "-5%" }}>
           <Header as="h2" color="teal" textAlign="center">
             <Icon name="upload" /> Upload
+          </Header>
+          <Header
+            as="h2"
+            color="teal"
+            textAlign="center"
+            style={{ marginTop: "5%" }}
+          >
+            Welcome, {name}!
           </Header>
           <Form
             size="large"

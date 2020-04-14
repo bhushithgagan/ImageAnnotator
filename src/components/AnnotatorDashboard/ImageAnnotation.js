@@ -21,12 +21,13 @@ function ImageAnnotation({ credentials: { username, password } }) {
   const [errors, setErrors] = useState({});
 
   const handleCategoriesChange = (event) => setCategories(event.target.value);
-  const onFileChange = (event) => setFile(event.target.files[0]);
-
+  const onFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
   const handleSubmit = (event) => {
     setLoad(true);
     let error = {};
-
+    console.log(file);
     if (!categories || !file) {
       setLoad(false);
       error.fields = "Make sure you fill in all the fields and upload a file";
@@ -87,7 +88,27 @@ function ImageAnnotation({ credentials: { username, password } }) {
         </Button>
       </div>
       {images.map((img, key) => (
-        <div style={{ marginLeft: "10%", marginTop: "5%" }}>
+        <div key={key} style={{ marginLeft: "10%", marginTop: "5%" }}>
+          <Header
+            as="h3"
+            color="teal"
+            textAlign="center"
+            style={{ marginBottom: "2%" }}
+          >
+            {img.imageName}
+          </Header>
+
+          <Header
+            as="h3"
+            color="teal"
+            textAlign="center"
+            style={{ marginBottom: "2%" }}
+          >
+            Categories =>{"  "}
+            {img.categories.map((cat, inkey) => (
+              <span key={inkey}>{cat} </span>
+            ))}
+          </Header>
           <div>
             <ImageEditor
               includeUI={{
@@ -122,7 +143,7 @@ function ImageAnnotation({ credentials: { username, password } }) {
             <Segment stacked>
               <input
                 type="file"
-                id="file"
+                id={key}
                 name="filename"
                 accept="image/*"
                 onChange={onFileChange}
