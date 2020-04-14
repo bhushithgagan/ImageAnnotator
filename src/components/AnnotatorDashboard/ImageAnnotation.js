@@ -16,26 +16,41 @@ import axios from "axios";
 function ImageAnnotation({ credentials: { username, password } }) {
   const [categories, setCategories] = useState("");
   const [images, setImages] = useState([]);
-  const [file, setFile] = useState({});
   const [load, setLoad] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleCategoriesChange = (event) => setCategories(event.target.value);
-  const onFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
-  const handleSubmit = (event) => {
+
+  const handleSubmit = (event, key) => {
     setLoad(true);
     let error = {};
-    console.log(file);
-    if (!categories || !file) {
+    if (!categories) {
       setLoad(false);
       error.fields = "Make sure you fill in all the fields and upload a file";
       setErrors(error);
+    } else if (!images[key].categories.includes(categories)) {
+      error.cat = "Make sure categories are right";
+      setErrors(error);
     } else {
       setErrors(error);
+      let canv = document.getElementsByClassName("upper-canvas")[key];
+      let url = canv.toDataURL(console.log);
+      var byteString;
+      if (url.split(",")[0].indexOf("base64") >= 0)
+        byteString = atob(url.split(",")[1]);
+      else byteString = unescape(url.split(",")[1]);
+
+      let mimeString = url.split(",")[0].split(":")[1].split(";")[0];
+
+      var ia = new Uint8Array(byteString.length);
+      for (var i = 0; i < byteString.length; i++)
+        ia[i] = byteString.charCodeAt(i);
+
+      var theBlob = new Blob([ia], { type: mimeString });
+      var img = new File([theBlob], images[key].imageName);
+
       const formData = new FormData();
-      formData.append("files", file);
+      formData.append("files", img);
       formData.append("categories", categories);
       axios
         .post(ANNUPLOAD, formData, {
@@ -48,9 +63,11 @@ function ImageAnnotation({ credentials: { username, password } }) {
         .then((data) => {
           setLoad(false);
           setCategories("");
-          setFile({});
           console.log("file uploaded");
           console.log(data);
+          images.splice(key, 1);
+          setImages(images);
+          console.log(images);
         })
         .catch((e) => {
           console.log("error");
@@ -77,7 +94,7 @@ function ImageAnnotation({ credentials: { username, password } }) {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [username]);
 
   return (
     <div>
@@ -137,18 +154,10 @@ function ImageAnnotation({ credentials: { username, password } }) {
 
           <Form
             size="large"
-            onSubmit={handleSubmit}
+            onSubmit={(event) => handleSubmit(event, key)}
             style={{ float: "right", marginTop: "-17%", marginRight: "10%" }}
           >
             <Segment stacked>
-              <input
-                type="file"
-                id={key}
-                name="filename"
-                accept="image/*"
-                onChange={onFileChange}
-                multiple
-              />
               <Input
                 focus
                 placeholder="Categories"
