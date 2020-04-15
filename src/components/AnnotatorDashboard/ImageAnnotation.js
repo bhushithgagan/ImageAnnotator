@@ -22,6 +22,7 @@ function ImageAnnotation({ credentials: { username, password } }) {
   const handleCategoriesChange = (event) => setCategories(event.target.value);
 
   const handleSubmit = (event, key) => {
+    console.log(key);
     setLoad(true);
     let error = {};
     if (!categories) {
@@ -29,11 +30,12 @@ function ImageAnnotation({ credentials: { username, password } }) {
       error.fields = "Make sure you fill in all the fields and upload a file";
       setErrors(error);
     } else if (!images[key].categories.includes(categories)) {
+      setLoad(false);
       error.cat = "Make sure categories are right";
       setErrors(error);
     } else {
       setErrors(error);
-      let canv = document.getElementsByClassName("upper-canvas")[key];
+      let canv = document.getElementsByClassName("lower-canvas")[key];
       let url = canv.toDataURL(console.log);
       var byteString;
       if (url.split(",")[0].indexOf("base64") >= 0)
@@ -65,9 +67,9 @@ function ImageAnnotation({ credentials: { username, password } }) {
           setCategories("");
           console.log("file uploaded");
           console.log(data);
-          images.splice(key, 1);
-          setImages(images);
-          console.log(images);
+          let temp = [...images];
+          let tmp = temp[key];
+          setImages(temp.filter((x) => x != tmp));
         })
         .catch((e) => {
           console.log("error");
