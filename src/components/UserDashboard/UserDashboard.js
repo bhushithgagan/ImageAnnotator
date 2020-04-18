@@ -15,7 +15,12 @@ import {
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
-import { USERLOGOUT, USERUPLOAD, USERACCDETAILS } from "../../routes/routes";
+import {
+  USERLOGOUT,
+  USERUPLOAD,
+  USERACCDETAILS,
+  USERGETIMG,
+} from "../../routes/routes";
 
 function UserDashboard(props) {
   const [categories, setCategories] = useState("");
@@ -32,7 +37,7 @@ function UserDashboard(props) {
   const handleCategoriesChange = (event) => setCategories(event.target.value);
   const handleTagsChange = (event) => setTags(event.target.value);
   const onFileChange = (event) => {
-    Object.values(event.target.files);
+    console.log(event);
     setFile(Object.values(event.target.files));
   };
 
@@ -83,6 +88,24 @@ function UserDashboard(props) {
       });
   };
 
+  const getImages = (event) => {
+    axios
+      .get(USERGETIMG, {
+        withCredentials: false,
+        auth: {
+          username,
+          password,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        res.data.map((e) => saveAs(e, e.filename));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleSubmit = (event) => {
     setLoad(true);
     let error = {};
@@ -114,7 +137,8 @@ function UserDashboard(props) {
           console.log(data);
         })
         .catch((e) => {
-          console.log("error");
+          setLoad(false);
+          setErrors({ upload: "Couldn't Upload Files" });
           console.log(e);
         });
     }
@@ -187,6 +211,9 @@ function UserDashboard(props) {
                 accept="image/*"
                 onChange={onFileChange}
                 multiple
+                webkitdirectory=""
+                mozdirectory=""
+                directory=""
               />
               <Input
                 focus
@@ -215,6 +242,16 @@ function UserDashboard(props) {
               </Button.Content>
             </Button>
           </Form>
+
+          <div>
+            <Button animated onClick={getImages} color="green" style={{}}>
+              <Button.Content visible>Download</Button.Content>
+              <Button.Content hidden>
+                <Icon name="arrow down" />
+              </Button.Content>
+            </Button>
+          </div>
+
           {Object.entries(errors).length > 0 && (
             <Message
               error

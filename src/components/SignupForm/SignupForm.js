@@ -14,7 +14,6 @@ import { USERCREATE, ANNCREATE } from "../../routes/routes";
 
 function SignUpForm(props) {
   const [load, setLoad] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -37,9 +36,10 @@ function SignUpForm(props) {
 
   useEffect(() => {
     if (Object.entries(errors).length > 0) setLoad(false);
-  }, [errors]);
+  });
 
   function handleSubmit(data) {
+    setLoad(true);
     let error = {};
     if (password !== repassword) error.pass = "Passwords do not match";
 
@@ -50,9 +50,8 @@ function SignUpForm(props) {
       error.fill = "Make sure you fill in all the fields";
 
     setErrors(error);
-    if (Object.keys(error).length > 0) setHasError(true);
+    if (Object.keys(error).length > 0) setLoad(false);
     else {
-      setHasError(false);
       if (type)
         axios
           .post(USERCREATE, {
@@ -87,7 +86,10 @@ function SignUpForm(props) {
           .then((res) => {
             console.log(res);
             setLoad(false);
-            props.history.push("/annotatordashboard");
+            props.history.push({
+              pathname: "/annotatordashboard",
+              credentials: { username, password },
+            });
           })
           .catch((error) => {
             console.log(error);
@@ -199,10 +201,10 @@ function SignUpForm(props) {
               />
               Annotator
             </Form.Group>
-            <Button type="submit" loading={load} onClick={() => setLoad(true)}>
+            <Button type="submit" loading={load}>
               Sign Up
             </Button>
-            {hasError && (
+            {Object.entries(errors).length > 0 && (
               <Message
                 error
                 header="There was some errors with your submission"
