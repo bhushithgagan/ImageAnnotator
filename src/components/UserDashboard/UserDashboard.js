@@ -276,7 +276,7 @@ function UserDashboard(props) {
                         />
                         <List.Content key={key}>
                           <List.Header>
-                            <a href={data.url} download target="_blank">
+                            <a href={data.url} download>
                               {data.imageName}
                             </a>
                           </List.Header>
