@@ -12,6 +12,7 @@ import {
   Message,
   Segment,
   Input,
+  List,
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
@@ -30,6 +31,7 @@ function UserDashboard(props) {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [errors, setErrors] = useState({});
+  const [downloadUrls, setDownloadUrls] = useState([]);
   const [load, setLoad] = useState(false);
 
   document.title = "DaNotate | Dashboard";
@@ -99,11 +101,21 @@ function UserDashboard(props) {
       })
       .then((res) => {
         console.log(res);
-        res.data.map((e) => saveAs(e, e.filename));
+        setDownloadUrls(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const getDataUrl = async (url) => {
+    let blob = await fetch(url).then((r) => r.blob());
+    let dataUrl = await new Promise((resolve) => {
+      let reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+    return dataUrl;
   };
 
   const handleSubmit = (event) => {
@@ -250,6 +262,31 @@ function UserDashboard(props) {
                 <Icon name="arrow down" />
               </Button.Content>
             </Button>
+            {downloadUrls.length > 0 && (
+              <div>
+                {" "}
+                <List divided relaxed>
+                  {downloadUrls.map((data, key) => {
+                    return (
+                      <List.Item key={key}>
+                        <List.Icon
+                          name="file image outline"
+                          size="large"
+                          verticalAlign="middle"
+                        />
+                        <List.Content key={key}>
+                          <List.Header>
+                            <a href={data.url} download target="_blank">
+                              {data.imageName}
+                            </a>
+                          </List.Header>
+                        </List.Content>
+                      </List.Item>
+                    );
+                  })}
+                </List>{" "}
+              </div>
+            )}
           </div>
 
           {Object.entries(errors).length > 0 && (
