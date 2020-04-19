@@ -199,11 +199,8 @@ function UserDashboard(props) {
         verticalAlign="middle"
       >
         <Grid.Column style={{ maxWidth: 450, marginTop: "-5%" }}>
-          <Header as="h2" color="teal" textAlign="center">
-            <Icon name="upload" /> Upload
-          </Header>
           <Header
-            as="h2"
+            as="h1"
             color="teal"
             textAlign="center"
             style={{ marginTop: "5%" }}
@@ -215,6 +212,15 @@ function UserDashboard(props) {
             onSubmit={handleSubmit}
             style={{ marginTop: "30%" }}
           >
+            <Header
+              as="h2"
+              color="teal"
+              textAlign="center"
+              style={{ marginTop: "5%" }}
+            >
+              <Icon name="upload" />
+            </Header>
+
             <Segment stacked>
               <input
                 type="file"
@@ -255,8 +261,16 @@ function UserDashboard(props) {
             </Button>
           </Form>
 
-          <div>
-            <Button animated onClick={getImages} color="green" style={{}}>
+          <div style={{ marginTop: "10%" }}>
+            <Header
+              as="h2"
+              color="teal"
+              textAlign="center"
+              style={{ marginTop: "5%" }}
+            >
+              <Icon name="download" />
+            </Header>
+            <Button animated onClick={getImages} color="green">
               <Button.Content visible>Download</Button.Content>
               <Button.Content hidden>
                 <Icon name="arrow down" />
@@ -276,7 +290,7 @@ function UserDashboard(props) {
                         />
                         <List.Content key={key}>
                           <List.Header>
-                            <a href={data.url} download>
+                            <a href={data.url} target="_blank" download>
                               {data.imageName}
                             </a>
                           </List.Header>
