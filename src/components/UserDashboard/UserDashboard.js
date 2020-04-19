@@ -39,7 +39,7 @@ function UserDashboard(props) {
   const handleCategoriesChange = (event) => setCategories(event.target.value);
   const handleTagsChange = (event) => setTags(event.target.value);
   const onFileChange = (event) => {
-    console.log(event);
+    console.log(event.target.files);
     setFile(Object.values(event.target.files));
   };
 
@@ -144,7 +144,6 @@ function UserDashboard(props) {
           setLoad(false);
           setTags("");
           setCategories("");
-          setFile({});
           console.log("file uploaded");
           console.log(data);
         })
