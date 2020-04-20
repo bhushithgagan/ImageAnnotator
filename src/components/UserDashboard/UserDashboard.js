@@ -21,6 +21,7 @@ import {
   USERUPLOAD,
   USERACCDETAILS,
   USERGETIMG,
+  USERGETUNANNIMG,
 } from "../../routes/routes";
 
 function UserDashboard(props) {
@@ -32,6 +33,9 @@ function UserDashboard(props) {
   const [name, setName] = useState("");
   const [errors, setErrors] = useState({});
   const [downloadUrls, setDownloadUrls] = useState([]);
+  const [noDownloadUrls, setNoDownloadUrls] = useState([]);
+  const [folder, setFolder] = useState([]);
+  const [disabled, setDisabled] = useState([]);
   const [load, setLoad] = useState(false);
 
   document.title = "DaNotate | Dashboard";
@@ -102,21 +106,47 @@ function UserDashboard(props) {
       .then((res) => {
         console.log(res);
         setDownloadUrls(res.data);
+        let arr = res.data.map((a) => a.imageName);
+        let x = res.data.map((a) => a.folderName);
+        setFolder(x.filter((a, b) => x.indexOf(a) === b));
+        axios
+          .get(USERGETUNANNIMG, {
+            withCredentials: false,
+            auth: {
+              username,
+              password,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            setNoDownloadUrls(res.data);
+            let ar = res.data.map((a) => a.imageName);
+            let a = [];
+            for (const value of arr) {
+              if (ar.includes(value)) a.push(true);
+              else a.push(false);
+            }
+            setDisabled(a);
+            console.log(a);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const getDataUrl = async (url) => {
-    let blob = await fetch(url).then((r) => r.blob());
-    let dataUrl = await new Promise((resolve) => {
-      let reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.readAsDataURL(blob);
-    });
-    return dataUrl;
-  };
+  // const getDataUrl = async (url) => {
+  //   let blob = await fetch(url).then((r) => r.blob());
+  //   let dataUrl = await new Promise((resolve) => {
+  //     let reader = new FileReader();
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.readAsDataURL(blob);
+  //   });
+  //   return dataUrl;
+  // };
 
   const handleSubmit = (event) => {
     setLoad(true);
@@ -270,7 +300,7 @@ function UserDashboard(props) {
               <Icon name="download" />
             </Header>
             <Button animated onClick={getImages} color="green">
-              <Button.Content visible>Download</Button.Content>
+              <Button.Content visible>Get Images</Button.Content>
               <Button.Content hidden>
                 <Icon name="arrow down" />
               </Button.Content>
@@ -283,16 +313,28 @@ function UserDashboard(props) {
                     return (
                       <List.Item key={key}>
                         <List.Icon
-                          name="file image outline"
+                          name="file image"
                           size="large"
                           verticalAlign="middle"
                         />
                         <List.Content key={key}>
                           <List.Header>
-                            <a href={data.url} target="_blank" download>
-                              {data.imageName}
-                            </a>
+                            {data.imageName}
+                            <Button
+                              disabled={disabled[key]}
+                              style={{
+                                display: "inline-block",
+                                textAlign: "center",
+                                width: "100%",
+                              }}
+                            >
+                              <a href={data.url} target="_blank" download>
+                                Download
+                              </a>
+                            </Button>
                           </List.Header>
+
+                          <List.Description></List.Description>
                         </List.Content>
                       </List.Item>
                     );
