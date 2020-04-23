@@ -49,7 +49,10 @@ function ImageAnnotation({ credentials: { username, password } }) {
         ia[i] = byteString.charCodeAt(i);
 
       var theBlob = new Blob([ia], { type: mimeString });
-      var img = new File([theBlob], images[key].imageName);
+      var img = new File(
+        [theBlob],
+        images[key].folderName + "/" + images[key].imageName
+      );
 
       const formData = new FormData();
       formData.append("files", img);
@@ -72,13 +75,12 @@ function ImageAnnotation({ credentials: { username, password } }) {
           setImages(temp.filter((x) => x != tmp));
         })
         .catch((e) => {
+          setLoad(false);
           console.log("error");
           console.log(e);
         });
     }
   };
-
-  const nextImage = (event) => {};
 
   useEffect(() => {
     axios
@@ -100,12 +102,6 @@ function ImageAnnotation({ credentials: { username, password } }) {
 
   return (
     <div>
-      <div style={{ marginLeft: "90%" }}>
-        <Button icon labelPosition="right" onClick={nextImage}>
-          Next
-          <Icon name="right arrow" />
-        </Button>
-      </div>
       {images.map((img, key) => (
         <div key={key} style={{ marginLeft: "10%", marginTop: "5%" }}>
           <Header
