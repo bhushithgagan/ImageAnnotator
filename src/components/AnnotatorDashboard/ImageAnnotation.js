@@ -71,8 +71,8 @@ function ImageAnnotation({ credentials: { username, password } }) {
           console.log("file uploaded");
           console.log(data);
           let temp = [...images];
-          let tmp = temp[key];
-          setImages(temp.filter((x) => x != tmp));
+          temp.splice(key, 1);
+          setImages(temp);
         })
         .catch((e) => {
           setLoad(false);
@@ -125,6 +125,7 @@ function ImageAnnotation({ credentials: { username, password } }) {
             ))}
           </Header>
           <div>
+            {console.log(img.url)}
             <ImageEditor
               includeUI={{
                 loadImage: {

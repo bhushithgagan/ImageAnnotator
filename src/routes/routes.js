@@ -17,7 +17,7 @@ export const ANNUPLOAD =
 export const ANNGETIMG =
   "https://image-annotation-backend.herokuapp.com/annotator/images/get-unannotated-images";
 export const USERGETIMG =
-  "https://image-annotation-backend.herokuapp.com/user/images/get-all-images";
+  "https://image-annotation-backend.herokuapp.com/user/images/get-annotated-images";
 export const USERGETUNANNIMG =
   "https://image-annotation-backend.herokuapp.com/user/images/get-unannotated-images";
 export const USERACCDETAILS =

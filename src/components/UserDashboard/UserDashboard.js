@@ -106,9 +106,9 @@ function UserDashboard(props) {
       .then((res) => {
         console.log(res);
         setDownloadUrls(res.data);
-        let arr = res.data.map((a) => a.imageName);
-        let x = res.data.map((a) => a.folderName);
-        setFolder(x.filter((a, b) => x.indexOf(a) === b));
+        // let arr = res.data.map((a) => a.imageName);
+        // let x = res.data.map((a) => a.folderName);
+        // setFolder(x.filter((a, b) => x.indexOf(a) === b));
         axios
           .get(USERGETUNANNIMG, {
             withCredentials: false,
@@ -120,14 +120,14 @@ function UserDashboard(props) {
           .then((res) => {
             console.log(res);
             setNoDownloadUrls(res.data);
-            let ar = res.data.map((a) => a.imageName);
-            let a = [];
-            for (const value of arr) {
-              if (ar.includes(value)) a.push(true);
-              else a.push(false);
-            }
-            setDisabled(a);
-            console.log(a);
+            // let ar = res.data.map((a) => a.imageName);
+            // let a = [];
+            // for (const value of arr) {
+            //   if (ar.includes(value)) a.push(true);
+            //   else a.push(false);
+            // }
+            // setDisabled(a);
+            // console.log(a);
           })
           .catch((error) => {
             console.log(error);
@@ -321,7 +321,36 @@ function UserDashboard(props) {
                           <List.Header>
                             {data.imageName}
                             <Button
-                              disabled={disabled[key]}
+                              style={{
+                                display: "inline-block",
+                                textAlign: "center",
+                                width: "100%",
+                              }}
+                            >
+                              <a href={data.url} target="_blank" download>
+                                Download
+                              </a>
+                            </Button>
+                          </List.Header>
+
+                          <List.Description></List.Description>
+                        </List.Content>
+                      </List.Item>
+                    );
+                  })}
+                  {noDownloadUrls.map((data, key) => {
+                    return (
+                      <List.Item key={key}>
+                        <List.Icon
+                          name="file image"
+                          size="large"
+                          verticalAlign="middle"
+                        />
+                        <List.Content key={key}>
+                          <List.Header>
+                            {data.imageName}
+                            <Button
+                              disabled
                               style={{
                                 display: "inline-block",
                                 textAlign: "center",
