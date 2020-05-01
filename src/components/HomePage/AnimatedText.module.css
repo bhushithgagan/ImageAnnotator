@@ -11,10 +11,10 @@
     font-size: 100px;
     font-weight: 600;
     font-family: "Graduate", cursive;
-    line-height: 1.1;
-    letter-spacing: 5px;
-    text-shadow: 5px 3px 8px rgba(0, 0, 0, 0.2);
-    margin: 0;
+    line-height: 1;
+    letter-spacing: 10px; 
+    text-shadow: 5px 3px 8px rgba(5, 5, 5, 0.5);
+    margin: 0;  
   }
   
   .animatedTextContentClone {

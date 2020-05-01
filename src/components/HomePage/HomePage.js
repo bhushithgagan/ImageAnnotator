@@ -8,8 +8,8 @@ function HomePage() {
   return (
     <div>
       <HomeNav />
-      <AnimatedText />
-      {/* <HomeBody /> */}
+  {/*<AnimatedText />*/}
+       <HomeBody /> 
     </div>
   );
 }
