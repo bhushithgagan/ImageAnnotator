@@ -6,20 +6,28 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import SignUpForm from "./components/SignupForm/SignupForm";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
 import AnnotatorDashboard from "./components/AnnotatorDashboard/AnnotatorDashboard";
+import AnimatedText from "./components/HomePage/AnimatedText"; 
 import "./App.css";
-
+import "./style.css"; 
 function App() {
   return (
     <Router>
       <div
         style={{
-          position: "absolute",
+          position: "fixed",
           top: 0,
           left: 0,
           width: "100%",
-          height: "100%"
+          height: "50%"
         }}
       >
+       <AnimatedText 
+          textColor="grey" 
+          overlayColor="#008080" 
+        >
+          DaNotate 
+        </AnimatedText> 
+      
         <Switch>
           <Route path="/" exact>
             <HomePage />
