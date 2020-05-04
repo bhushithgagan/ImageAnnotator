@@ -107,8 +107,10 @@ function UserDashboard(props) {
         console.log(res);
         setDownloadUrls(res.data);
         // let arr = res.data.map((a) => a.imageName);
-        // let x = res.data.map((a) => a.folderName);
-        // setFolder(x.filter((a, b) => x.indexOf(a) === b));
+        let x = res.data.map((a) => a.folderName);
+        let y = new Set(x);
+
+        setFolder([...y]);
         axios
           .get(USERGETUNANNIMG, {
             withCredentials: false,
@@ -118,6 +120,7 @@ function UserDashboard(props) {
             },
           })
           .then((res) => {
+            console.log(folder);
             console.log(res);
             setNoDownloadUrls(res.data);
             // let ar = res.data.map((a) => a.imageName);
@@ -305,72 +308,100 @@ function UserDashboard(props) {
                 <Icon name="arrow down" />
               </Button.Content>
             </Button>
-            {downloadUrls.length > 0 && (
-              <div>
-                {" "}
-                <List divided relaxed>
-                  {downloadUrls.map((data, key) => {
-                    return (
-                      <List.Item key={key}>
-                        <List.Icon
-                          name="file image"
-                          size="large"
-                          verticalAlign="middle"
+            {folder.length > 0 &&
+              folder.map((fol, okey) => {
+                return (
+                  <div>
+                    <Dropdown
+                      text={fol}
+                      icon="folder"
+                      floating
+                      labeled
+                      button
+                      scrolling
+                      className="icon"
+                      style={{ margin: "5%" }}
+                    >
+                      <Dropdown.Menu>
+                        <Dropdown.Header
+                          icon="folder"
+                          content={fol}
+                          key={okey}
                         />
-                        <List.Content key={key}>
-                          <List.Header>
-                            {data.imageName}
-                            <Button
-                              style={{
-                                display: "inline-block",
-                                textAlign: "center",
-                                width: "100%",
-                              }}
-                            >
-                              <a href={data.url} target="_blank" download>
-                                Download
-                              </a>
-                            </Button>
-                          </List.Header>
+                        {downloadUrls.length > 0 && (
+                          <div>
+                            {" "}
+                            <Dropdown.Item>
+                              {downloadUrls.map((data, key) => {
+                                if (data.folderName == fol)
+                                  return (
+                                    <div>
+                                      <Icon
+                                        name="file image"
+                                        size="large"
+                                        verticalAlign="middle"
+                                      />
 
-                          <List.Description></List.Description>
-                        </List.Content>
-                      </List.Item>
-                    );
-                  })}
-                  {noDownloadUrls.map((data, key) => {
-                    return (
-                      <List.Item key={key}>
-                        <List.Icon
-                          name="file image"
-                          size="large"
-                          verticalAlign="middle"
-                        />
-                        <List.Content key={key}>
-                          <List.Header>
-                            {data.imageName}
-                            <Button
-                              disabled
-                              style={{
-                                display: "inline-block",
-                                textAlign: "center",
-                                width: "100%",
-                              }}
-                            >
-                              <a href={data.url} target="_blank" download>
-                                Download
-                              </a>
-                            </Button>
-                          </List.Header>
+                                      {data.imageName}
+                                      <Button
+                                        style={{
+                                          display: "inline-block",
+                                          textAlign: "center",
+                                          marginLeft: "1%",
+                                        }}
+                                      >
+                                        <a
+                                          href={data.url}
+                                          target="_blank"
+                                          download
+                                        >
+                                          Download
+                                        </a>
+                                      </Button>
+                                    </div>
+                                  );
+                              })}
+                            </Dropdown.Item>
+                            <Dropdown.Item>
+                              {noDownloadUrls.map((data, key) => {
+                                if (data.folderName == fol)
+                                  return (
+                                    <div>
+                                      <Icon
+                                        name="file image"
+                                        size="large"
+                                        verticalAlign="middle"
+                                      />
 
-                          <List.Description></List.Description>
-                        </List.Content>
-                      </List.Item>
-                    );
-                  })}
-                </List>{" "}
-              </div>
-            )}
+                                      {data.imageName}
+                                      <Button
+                                        disabled
+                                        style={{
+                                          display: "inline-block",
+                                          textAlign: "center",
+                                          marginLeft: "1%",
+                                        }}
+                                      >
+                                        <a
+                                          href={data.url}
+                                          target="_blank"
+                                          download
+                                        >
+                                          Download
+                                        </a>
+                                      </Button>
+                                    </div>
+                                  );
+                              })}
+                            </Dropdown.Item>
+                          </div>
+                        )}
+                        <Dropdown.Divider />
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                );
+              })}
           </div>
 
           {Object.entries(errors).length > 0 && (
