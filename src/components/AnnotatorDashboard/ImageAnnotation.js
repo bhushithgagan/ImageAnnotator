@@ -10,10 +10,12 @@ import {
   Input,
   Icon,
 } from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
 import { ANNGETIMG, ANNUPLOAD } from "../../routes/routes";
 import axios from "axios";
 
-function ImageAnnotation({ credentials: { username, password } }) {
+function ImageAnnotation(props) {
+  const { username, password } = props.credentials;
   const [categories, setCategories] = useState("");
   const [images, setImages] = useState([]);
   const [load, setLoad] = useState(false);
@@ -70,9 +72,25 @@ function ImageAnnotation({ credentials: { username, password } }) {
           setCategories("");
           console.log("file uploaded");
           console.log(data);
-          let temp = [...images];
-          temp.splice(key, 1);
-          setImages(temp);
+          const { history, location } = props;
+          if (location.pathname === "/annotatordashboard") {
+            history.replace(`/reload`);
+            setTimeout(() => {
+              history.replace({
+                pathname: "/annotatordashboard",
+                credentials: { username, password },
+              });
+            });
+          } else {
+            props.history.push({
+              pathname: "/annotatordashboard",
+              credentials: { username, password },
+            });
+          }
+
+          // let temp = [...images];
+          // temp.splice(key, 1);
+          // setImages(temp);
         })
         .catch((e) => {
           setLoad(false);
@@ -187,4 +205,4 @@ function ImageAnnotation({ credentials: { username, password } }) {
   );
 }
 
-export default ImageAnnotation;
+export default withRouter(ImageAnnotation);
