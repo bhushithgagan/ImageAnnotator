@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 
 import classes from "./AnimatedText.module.css";
+import "./styles.css";
 
 const AnimatedText = ({ textColor, overlayColor, children, ...props }) => {
   const containerElem = useRef(null);
@@ -8,14 +9,14 @@ const AnimatedText = ({ textColor, overlayColor, children, ...props }) => {
 
   const [mousePos, setMousePos] = useState(initialMousePos);
 
-  const handleMouseMove = event => {
+  const handleMouseMove = (event) => {
     event = event.nativeEvent;
     const elem = containerElem.current;
     const newX = (event.offsetX / elem.clientWidth) * 100;
     const newY = (event.offsetY / elem.clientHeight) * 100;
     const newMousePos = {
       x: newX,
-      y: newY
+      y: newY,
     };
     setMousePos(newMousePos);
   };
@@ -23,29 +24,34 @@ const AnimatedText = ({ textColor, overlayColor, children, ...props }) => {
   const handleMouseOut = () => setMousePos(initialMousePos);
 
   return (
-    <section
-      className={classes.animatedTextContainer}
-      style={{
-        "--maskX": mousePos.x,
-        "--maskY": mousePos.y
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseOut={handleMouseOut}
-      ref={containerElem}
-      {...props}
-    >
-      <h1 style={{ color: textColor }} className={classes.animatedTextContent}>
-        {children}
-      </h1>
-      <h1
-        aria-hidden={true}
-        style={{ color: overlayColor }}
-        className={classes.animatedTextContentClone}
+    <div className="header">
+      <section
+        className={classes.animatedTextContainer}
+        style={{
+          "--maskX": mousePos.x,
+          "--maskY": mousePos.y,
+        }}
+        onMouseMove={handleMouseMove}
+        onMouseOut={handleMouseOut}
+        ref={containerElem}
+        {...props}
       >
-        {children}
-      </h1>
-    </section>
+        <h1
+          style={{ color: textColor }}
+          className={classes.animatedTextContent}
+        >
+          {children}
+        </h1>
+        <h1
+          aria-hidden={true}
+          style={{ color: overlayColor }}
+          className={classes.animatedTextContentClone}
+        >
+          {children}
+        </h1>
+      </section>
+    </div>
   );
 };
 
-export default AnimatedText ;
+export default AnimatedText;
