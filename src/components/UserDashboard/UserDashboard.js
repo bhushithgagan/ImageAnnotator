@@ -24,6 +24,9 @@ import {
   USERGETUNANNIMG,
 } from "../../routes/routes";
 
+// let annotatedCounts = new Object();
+// let unannotatedCounts = new Object();
+
 function UserDashboard(props) {
   const [categories, setCategories] = useState("");
   const [tags, setTags] = useState("");
@@ -37,6 +40,8 @@ function UserDashboard(props) {
   const [folder, setFolder] = useState([]);
   const [success, setSuccess] = useState(false);
   const [load, setLoad] = useState(false);
+  const [annotatedCounts, setannotatedCounts] = useState({});
+  const [unannotatedCounts, setunannotatedCounts] = useState({});
 
   document.title = "DaNotate | Dashboard";
 
@@ -95,6 +100,9 @@ function UserDashboard(props) {
   };
 
   const getImages = (event) => {
+    setannotatedCounts(new Object());
+    setunannotatedCounts(new Object());
+
     axios
       .get(USERGETIMG, {
         withCredentials: false,
@@ -106,29 +114,45 @@ function UserDashboard(props) {
       .then((res) => {
         console.log(res);
         setDownloadUrls(res.data);
-
-        let x = res.data.map((a) => a.folderName);
+        let counts = new Object();
+        let x = res.data.map((a) => {
+            let folderName = a.folderName;
+            if (!(folderName in counts)) counts[folderName] = 1;
+            else counts[folderName] += 1;
+            return folderName
+        });
+        setannotatedCounts(counts);
         let y = new Set(x);
 
         setFolder([...y]);
-        axios
-          .get(USERGETUNANNIMG, {
-            withCredentials: false,
-            auth: {
-              username,
-              password,
-            },
-          })
-          .then((res) => {
-            setNoDownloadUrls(res.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+       
       })
       .catch((error) => {
         console.log(error);
       });
+
+    axios
+        .get(USERGETUNANNIMG, {
+        withCredentials: false,
+        auth: {
+            username,
+            password,
+        },
+        })
+        .then((res) => {
+        setNoDownloadUrls(res.data);
+        let counts = new Object();
+        let x = res.data.map((a) => {
+            let folderName = a.folderName;
+            if (!(folderName in counts)) counts[folderName] = 1;
+            else counts[folderName] += 1;
+            return folderName
+        });
+        setunannotatedCounts(counts);
+        })
+        .catch((error) => {
+        console.log(error);
+        });
   };
 
   // const getDataUrl = async (url) => {
@@ -312,7 +336,7 @@ function UserDashboard(props) {
                 return (
                   <div key={okey} style={{ marginTop: "2%" }}>
                     <Dropdown
-                      text={fol}
+                      text={fol + " annotated: " + annotatedCounts[fol] + " unannotated: " + unannotatedCounts[fol]}
                       icon="folder"
                       floating
                       labeled
@@ -326,7 +350,7 @@ function UserDashboard(props) {
                       <Dropdown.Menu>
                         <Dropdown.Header
                           icon="folder"
-                          content={fol}
+                          content={fol + " annotated: " + annotatedCounts[fol] + " unannotated: " + unannotatedCounts[fol]}
                           key={okey}
                         />
                         {downloadUrls.length > 0 && (
