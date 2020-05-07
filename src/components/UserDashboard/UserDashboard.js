@@ -106,7 +106,6 @@ function UserDashboard(props) {
       .then((res) => {
         console.log(res);
         setDownloadUrls(res.data);
-        // let arr = res.data.map((a) => a.imageName);
         let x = res.data.map((a) => a.folderName);
         let y = new Set(x);
 
@@ -123,14 +122,6 @@ function UserDashboard(props) {
             console.log(folder);
             console.log(res);
             setNoDownloadUrls(res.data);
-            // let ar = res.data.map((a) => a.imageName);
-            // let a = [];
-            // for (const value of arr) {
-            //   if (ar.includes(value)) a.push(true);
-            //   else a.push(false);
-            // }
-            // setDisabled(a);
-            // console.log(a);
           })
           .catch((error) => {
             console.log(error);
@@ -320,7 +311,7 @@ function UserDashboard(props) {
             {folder.length > 0 &&
               folder.map((fol, okey) => {
                 return (
-                  <div>
+                  <div style={{ marginTop: "2%" }}>
                     <Dropdown
                       text={fol}
                       icon="folder"
@@ -329,7 +320,8 @@ function UserDashboard(props) {
                       button
                       scrolling
                       className="icon"
-                      style={{ margin: "5%" }}
+                      compact
+                      style={{ margin: "2%", width: "28em" }}
                     >
                       <Dropdown.Menu>
                         <Dropdown.Header
@@ -344,30 +336,39 @@ function UserDashboard(props) {
                               {downloadUrls.map((data, key) => {
                                 if (data.folderName == fol)
                                   return (
-                                    <div>
-                                      <Icon
-                                        name="file image"
-                                        size="large"
-                                        verticalAlign="middle"
-                                      />
-
-                                      {data.imageName}
-                                      <Button
-                                        style={{
-                                          display: "inline-block",
-                                          textAlign: "center",
-                                          marginLeft: "1%",
-                                        }}
-                                      >
-                                        <a
-                                          href={data.url}
-                                          target="_blank"
-                                          download
+                                    <Grid columns={2} divided>
+                                      <Grid.Row>
+                                        <Grid.Column
+                                          style={{ align: "center" }}
                                         >
-                                          Download
-                                        </a>
-                                      </Button>
-                                    </div>
+                                          <Icon
+                                            name="file image"
+                                            size="large"
+                                            verticalAlign="middle"
+                                          />
+
+                                          {data.imageName}
+                                        </Grid.Column>
+                                        <Grid.Column
+                                          style={{ align: "center" }}
+                                        >
+                                          <Button
+                                            style={{
+                                              display: "block",
+                                              margin: "auto",
+                                            }}
+                                          >
+                                            <a
+                                              href={data.url}
+                                              target="_blank"
+                                              download
+                                            >
+                                              Download
+                                            </a>
+                                          </Button>
+                                        </Grid.Column>
+                                      </Grid.Row>
+                                    </Grid>
                                   );
                               })}
                             </Dropdown.Item>
@@ -376,29 +377,40 @@ function UserDashboard(props) {
                                 if (data.folderName == fol)
                                   return (
                                     <div>
-                                      <Icon
-                                        name="file image"
-                                        size="large"
-                                        verticalAlign="middle"
-                                      />
+                                      <Grid columns={2} divided>
+                                        <Grid.Row>
+                                          <Grid.Column
+                                            style={{ align: "center" }}
+                                          >
+                                            <Icon
+                                              name="file image"
+                                              size="large"
+                                              verticalAlign="middle"
+                                            />
 
-                                      {data.imageName}
-                                      <Button
-                                        disabled
-                                        style={{
-                                          display: "inline-block",
-                                          textAlign: "center",
-                                          marginLeft: "1%",
-                                        }}
-                                      >
-                                        <a
-                                          href={data.url}
-                                          target="_blank"
-                                          download
-                                        >
-                                          Download
-                                        </a>
-                                      </Button>
+                                            {data.imageName}
+                                          </Grid.Column>
+                                          <Grid.Column
+                                            style={{ align: "center" }}
+                                          >
+                                            <Button
+                                              disabled
+                                              style={{
+                                                display: "block",
+                                                margin: "auto",
+                                              }}
+                                            >
+                                              <a
+                                                href={data.url}
+                                                target="_blank"
+                                                download
+                                              >
+                                                Download
+                                              </a>
+                                            </Button>
+                                          </Grid.Column>
+                                        </Grid.Row>
+                                      </Grid>
                                     </div>
                                   );
                               })}
