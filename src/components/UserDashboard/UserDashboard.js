@@ -106,6 +106,7 @@ function UserDashboard(props) {
       .then((res) => {
         console.log(res);
         setDownloadUrls(res.data);
+
         let x = res.data.map((a) => a.folderName);
         let y = new Set(x);
 
@@ -119,8 +120,6 @@ function UserDashboard(props) {
             },
           })
           .then((res) => {
-            console.log(folder);
-            console.log(res);
             setNoDownloadUrls(res.data);
           })
           .catch((error) => {
@@ -311,7 +310,7 @@ function UserDashboard(props) {
             {folder.length > 0 &&
               folder.map((fol, okey) => {
                 return (
-                  <div style={{ marginTop: "2%" }}>
+                  <div key={okey} style={{ marginTop: "2%" }}>
                     <Dropdown
                       text={fol}
                       icon="folder"
@@ -322,6 +321,7 @@ function UserDashboard(props) {
                       className="icon"
                       compact
                       style={{ margin: "2%", width: "28em" }}
+                      key={okey}
                     >
                       <Dropdown.Menu>
                         <Dropdown.Header
@@ -336,7 +336,7 @@ function UserDashboard(props) {
                               {downloadUrls.map((data, key) => {
                                 if (data.folderName == fol)
                                   return (
-                                    <Grid columns={2} divided>
+                                    <Grid columns={2} divided key={key}>
                                       <Grid.Row>
                                         <Grid.Column
                                           style={{ align: "center" }}
@@ -344,7 +344,6 @@ function UserDashboard(props) {
                                           <Icon
                                             name="file image"
                                             size="large"
-                                            verticalAlign="middle"
                                           />
 
                                           {data.imageName}
@@ -376,7 +375,7 @@ function UserDashboard(props) {
                               {noDownloadUrls.map((data, key) => {
                                 if (data.folderName == fol)
                                   return (
-                                    <div>
+                                    <div key={key}>
                                       <Grid columns={2} divided>
                                         <Grid.Row>
                                           <Grid.Column
@@ -385,7 +384,6 @@ function UserDashboard(props) {
                                             <Icon
                                               name="file image"
                                               size="large"
-                                              verticalAlign="middle"
                                             />
 
                                             {data.imageName}
