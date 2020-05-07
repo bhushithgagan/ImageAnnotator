@@ -50,31 +50,35 @@ function UserDashboard(props) {
   };
 
   useEffect(() => {
-    if (
-      typeof props.location.credentials == "undefined" ||
-      !props.location.credentials.username ||
-      !props.location.credentials.password
-    )
-      props.history.push("Dont-Forget-To-Login");
-    else {
-      setUsername(props.location.credentials.username);
-      setPassword(props.location.credentials.password);
-      axios
-        .get(USERACCDETAILS, {
-          withCredentials: false,
-          auth: {
-            username: props.location.credentials.username,
-            password: props.location.credentials.password,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          setName(res.data.name);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+    // if (
+    //   typeof props.location.credentials == "undefined" ||
+    //   !props.location.credentials.username ||
+    //   !props.location.credentials.password
+    // )
+    //   props.history.push("Dont-Forget-To-Login");
+    //else {
+    // setUsername(props.location.credentials.username);
+    // setPassword(props.location.credentials.password);
+    setUsername("s");
+    setPassword("s");
+    axios
+      .get(USERACCDETAILS, {
+        withCredentials: false,
+        auth: {
+          //username: props.location.credentials.username,
+          //password: props.location.credentials.password,
+          username: "s",
+          password: "s",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setName(res.data.name);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    //}
   }, [username]);
 
   const logoutUser = () => {
@@ -236,35 +240,29 @@ function UserDashboard(props) {
           </Dropdown>
         </Menu.Menu>
       </Menu>
-      <Grid
-        textAlign="center"
-        style={{ height: "100vh" }}
-        verticalAlign="middle"
-      >
-        <Grid.Column style={{ maxWidth: 450, marginTop: "-5%" }}>
-          <Header
-            as="h1"
-            color="teal"
-            textAlign="center"
-            style={{ marginTop: "5%" }}
-          >
+      <Grid style={{ align: "center" }}>
+        <Grid.Column style={{ display: "block", margin: "auto" }}>
+          <Header as="h1" color="teal" textAlign="center">
             Welcome, {name}!
           </Header>
           <Form
             size="large"
             onSubmit={handleSubmit}
-            style={{ marginTop: "30%" }}
+            style={{ display: "block", margin: "auto", marginTop: "1em" }}
           >
             <Header
               as="h2"
               color="teal"
               textAlign="center"
-              style={{ marginTop: "5%" }}
+              style={{ display: "block", marginTop: "4em" }}
             >
               <Icon name="upload" />
             </Header>
 
-            <Segment stacked>
+            <Segment
+              stacked
+              style={{ maxWidth: "25%", display: "block", margin: "auto" }}
+            >
               <input
                 type="file"
                 id="file"
@@ -281,21 +279,31 @@ function UserDashboard(props) {
                 placeholder="Categories"
                 onChange={handleCategoriesChange}
                 value={categories}
-                style={{ marginTop: "4%" }}
+                style={{
+                  display: "flex",
+                  margin: "auto",
+                  position: "relative",
+                  marginTop: "1em",
+                }}
               />
               <Input
                 focus
                 placeholder="Tags"
                 onChange={handleTagsChange}
                 value={tags}
-                style={{ marginTop: "4%", marginLeft: "2%" }}
+                style={{
+                  display: "flex",
+                  margin: "auto",
+                  position: "relative",
+                  marginTop: "1em",
+                }}
               />
             </Segment>
             <Button
               animated
               loading={load}
               type="submit"
-              style={{ marginTop: "5%" }}
+              style={{ display: "block", margin: "auto", marginTop: "1em" }}
             >
               <Button.Content visible>Upload</Button.Content>
               <Button.Content hidden>
@@ -312,17 +320,22 @@ function UserDashboard(props) {
             )}
           </div>
 
-          <div style={{ marginTop: "10%" }}>
+          <div style={{ align: "center" }}>
             <Header
               as="h2"
               color="teal"
               textAlign="center"
-              style={{ marginTop: "5%" }}
+              style={{ marginTop: "3em" }}
             >
               <Icon name="download" />
             </Header>
-            <Button animated onClick={getImages} color="green">
-              <Button.Content visible>Get Images</Button.Content>
+            <Button
+              animated
+              onClick={getImages}
+              color="green"
+              style={{ display: "block", margin: "auto", marginTop: "1em" }}
+            >
+              <Button.Content visible>Request Images</Button.Content>
               <Button.Content hidden>
                 <Icon name="arrow down" />
               </Button.Content>
