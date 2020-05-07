@@ -10,7 +10,7 @@ function Details() {
     >
       
       <span className="txt">
-        Upload you Data and get it labeled for your Machine Learning training model!
+        Upload your Data and get it labeled for your Machine Learning training model!
       </span>
 
  
