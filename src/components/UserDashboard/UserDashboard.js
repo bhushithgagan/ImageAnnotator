@@ -24,9 +24,6 @@ import {
   USERGETUNANNIMG,
 } from "../../routes/routes";
 
-// let annotatedCounts = new Object();
-// let unannotatedCounts = new Object();
-
 function UserDashboard(props) {
   const [categories, setCategories] = useState("");
   const [tags, setTags] = useState("");
@@ -40,8 +37,8 @@ function UserDashboard(props) {
   const [folder, setFolder] = useState([]);
   const [success, setSuccess] = useState(false);
   const [load, setLoad] = useState(false);
-  const [annotatedCounts, setannotatedCounts] = useState({});
-  const [unannotatedCounts, setunannotatedCounts] = useState({});
+  const [annotatedCounts, setAnnotatedCounts] = useState({});
+  const [unannotatedCounts, setUnannotatedCounts] = useState({});
 
   document.title = "DaNotate | Dashboard";
 
@@ -100,8 +97,8 @@ function UserDashboard(props) {
   };
 
   const getImages = (event) => {
-    setannotatedCounts(new Object());
-    setunannotatedCounts(new Object());
+    setAnnotatedCounts(new Object());
+    setUnannotatedCounts(new Object());
 
     axios
       .get(USERGETIMG, {
@@ -116,43 +113,42 @@ function UserDashboard(props) {
         setDownloadUrls(res.data);
         let counts = new Object();
         let x = res.data.map((a) => {
-            let folderName = a.folderName;
-            if (!(folderName in counts)) counts[folderName] = 1;
-            else counts[folderName] += 1;
-            return folderName
+          let folderName = a.folderName;
+          if (!(folderName in counts)) counts[folderName] = 1;
+          else counts[folderName] += 1;
+          return folderName;
         });
-        setannotatedCounts(counts);
+        setAnnotatedCounts(counts);
         let y = new Set(x);
 
         setFolder([...y]);
-       
       })
       .catch((error) => {
         console.log(error);
       });
 
     axios
-        .get(USERGETUNANNIMG, {
+      .get(USERGETUNANNIMG, {
         withCredentials: false,
         auth: {
-            username,
-            password,
+          username,
+          password,
         },
-        })
-        .then((res) => {
+      })
+      .then((res) => {
         setNoDownloadUrls(res.data);
         let counts = new Object();
         let x = res.data.map((a) => {
-            let folderName = a.folderName;
-            if (!(folderName in counts)) counts[folderName] = 1;
-            else counts[folderName] += 1;
-            return folderName
+          let folderName = a.folderName;
+          if (!(folderName in counts)) counts[folderName] = 1;
+          else counts[folderName] += 1;
+          return folderName;
         });
-        setunannotatedCounts(counts);
-        })
-        .catch((error) => {
+        setUnannotatedCounts(counts);
+      })
+      .catch((error) => {
         console.log(error);
-        });
+      });
   };
 
   // const getDataUrl = async (url) => {
@@ -336,7 +332,15 @@ function UserDashboard(props) {
                 return (
                   <div key={okey} style={{ marginTop: "2%" }}>
                     <Dropdown
-                      text={fol + " annotated: " + annotatedCounts[fol] + " unannotated: " + unannotatedCounts[fol]}
+                      text={
+                        fol +
+                        "\t\t\t\t (" +
+                        Math.round(
+                          (annotatedCounts[fol] * 100) /
+                            (unannotatedCounts[fol] + annotatedCounts[fol])
+                        ) +
+                        "% Done)"
+                      }
                       icon="folder"
                       floating
                       labeled
@@ -350,7 +354,12 @@ function UserDashboard(props) {
                       <Dropdown.Menu>
                         <Dropdown.Header
                           icon="folder"
-                          content={fol + " annotated: " + annotatedCounts[fol] + " unannotated: " + unannotatedCounts[fol]}
+                          content={
+                            " Annotated: " +
+                            annotatedCounts[fol] +
+                            " Unannotated: " +
+                            unannotatedCounts[fol]
+                          }
                           key={okey}
                         />
                         {downloadUrls.length > 0 && (

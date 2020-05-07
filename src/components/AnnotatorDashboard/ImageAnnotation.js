@@ -24,7 +24,6 @@ function ImageAnnotation(props) {
   const handleCategoriesChange = (event) => setCategories(event.target.value);
 
   const handleSubmit = (event, key) => {
-    console.log(key);
     setLoad(true);
     let error = {};
     if (!categories) {
@@ -94,7 +93,7 @@ function ImageAnnotation(props) {
         })
         .catch((e) => {
           setLoad(false);
-          console.log("error");
+          console.log("Error");
           console.log(e);
         });
     }
@@ -143,7 +142,6 @@ function ImageAnnotation(props) {
             ))}
           </Header>
           <div>
-            {console.log(img.url)}
             <ImageEditor
               includeUI={{
                 loadImage: {
