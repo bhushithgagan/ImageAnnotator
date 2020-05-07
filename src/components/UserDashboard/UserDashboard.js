@@ -50,35 +50,31 @@ function UserDashboard(props) {
   };
 
   useEffect(() => {
-    // if (
-    //   typeof props.location.credentials == "undefined" ||
-    //   !props.location.credentials.username ||
-    //   !props.location.credentials.password
-    // )
-    //   props.history.push("Dont-Forget-To-Login");
-    //else {
-    // setUsername(props.location.credentials.username);
-    // setPassword(props.location.credentials.password);
-    setUsername("s");
-    setPassword("s");
-    axios
-      .get(USERACCDETAILS, {
-        withCredentials: false,
-        auth: {
-          //username: props.location.credentials.username,
-          //password: props.location.credentials.password,
-          username: "s",
-          password: "s",
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setName(res.data.name);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    //}
+    if (
+      typeof props.location.credentials == "undefined" ||
+      !props.location.credentials.username ||
+      !props.location.credentials.password
+    )
+      props.history.push("Dont-Forget-To-Login");
+    else {
+      setUsername(props.location.credentials.username);
+      setPassword(props.location.credentials.password);
+      axios
+        .get(USERACCDETAILS, {
+          withCredentials: false,
+          auth: {
+            username: props.location.credentials.username,
+            password: props.location.credentials.password,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setName(res.data.name);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, [username]);
 
   const logoutUser = () => {

@@ -86,10 +86,6 @@ function ImageAnnotation(props) {
               credentials: { username, password },
             });
           }
-
-          // let temp = [...images];
-          // temp.splice(key, 1);
-          // setImages(temp);
         })
         .catch((e) => {
           setLoad(false);
@@ -118,14 +114,17 @@ function ImageAnnotation(props) {
   }, [username]);
 
   return (
-    <div>
+    <div style={{ align: "left" }}>
       {images.map((img, key) => (
-        <div key={key} style={{ marginLeft: "10%", marginTop: "5%" }}>
+        <div
+          key={key}
+          style={{ display: "inlineBlock", margin: "auto", marginLeft: "1em" }}
+        >
           <Header
             as="h3"
             color="teal"
             textAlign="center"
-            style={{ marginBottom: "2%" }}
+            style={{ display: "block", margin: "auto", marginTop: "2em" }}
           >
             {img.imageName}
           </Header>
@@ -134,7 +133,7 @@ function ImageAnnotation(props) {
             as="h3"
             color="teal"
             textAlign="center"
-            style={{ marginBottom: "2%" }}
+            style={{ display: "block", margin: "auto", marginTop: "1em" }}
           >
             Categories =>{"  "}
             {img.categories.map((cat, inkey) => (
@@ -170,20 +169,35 @@ function ImageAnnotation(props) {
           <Form
             size="large"
             onSubmit={(event) => handleSubmit(event, key)}
-            style={{ float: "right", marginTop: "-17%", marginRight: "10%" }}
+            style={{ align: "center" }}
           >
-            <Segment stacked>
+            <Segment
+              stacked
+              style={{
+                display: "inlineFlex",
+                margin: "auto",
+                float: "right",
+                marginTop: "-30em",
+                marginRight: "5em",
+                width: "20%",
+              }}
+            >
               <Input
                 focus
                 placeholder="Categories"
                 onChange={handleCategoriesChange}
                 value={categories}
-                style={{ marginTop: "4%" }}
+                style={{
+                  display: "flex",
+                  margin: "auto",
+                  position: "relative",
+                  marginTop: "1em",
+                }}
               />
               <Button
                 animated
                 loading={load}
-                style={{ position: "relative", marginLeft: "2%" }}
+                style={{ display: "block", margin: "auto", marginTop: "1em" }}
               >
                 <Button.Content visible>Upload</Button.Content>
                 <Button.Content hidden>

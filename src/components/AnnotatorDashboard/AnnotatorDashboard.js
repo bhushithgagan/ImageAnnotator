@@ -29,22 +29,23 @@ function AnnotatorDashboard(props) {
       !props.location.credentials.password
     )
       props.history.push("Dont-Forget-To-Login");
-
-    axios
-      .get(ANNACCDETAILS, {
-        withCredentials: false,
-        auth: {
-          username: props.location.credentials.username,
-          password: props.location.credentials.password,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setName(res.data.name);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    else {
+      axios
+        .get(ANNACCDETAILS, {
+          withCredentials: false,
+          auth: {
+            username: props.location.credentials.username,
+            password: props.location.credentials.password,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setName(res.data.name);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }, [name]);
 
   const logoutAnnotator = () => {
@@ -107,7 +108,7 @@ function AnnotatorDashboard(props) {
         as="h1"
         color="teal"
         textAlign="center"
-        style={{ marginTop: "5%" }}
+        style={{ align: "center", display: "block", margin: "auto" }}
       >
         Welcome, {name}!
       </Header>
