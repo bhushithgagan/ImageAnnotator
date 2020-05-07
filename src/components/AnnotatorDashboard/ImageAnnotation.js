@@ -182,7 +182,11 @@ function ImageAnnotation(props) {
                 value={categories}
                 style={{ marginTop: "4%" }}
               />
-              <Button animated loading={load} style={{ marginLeft: "50%" }}>
+              <Button
+                animated
+                loading={load}
+                style={{ position: "relative", marginLeft: "2%" }}
+              >
                 <Button.Content visible>Upload</Button.Content>
                 <Button.Content hidden>
                   <Icon name="arrow up" />

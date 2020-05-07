@@ -35,7 +35,7 @@ function UserDashboard(props) {
   const [downloadUrls, setDownloadUrls] = useState([]);
   const [noDownloadUrls, setNoDownloadUrls] = useState([]);
   const [folder, setFolder] = useState([]);
-  const [disabled, setDisabled] = useState([]);
+  const [success, setSuccess] = useState(false);
   const [load, setLoad] = useState(false);
 
   document.title = "DaNotate | Dashboard";
@@ -177,6 +177,7 @@ function UserDashboard(props) {
           setLoad(false);
           setTags("");
           setCategories("");
+          setSuccess(true);
           console.log("file uploaded");
           console.log(data);
         })
@@ -292,6 +293,14 @@ function UserDashboard(props) {
               </Button.Content>
             </Button>
           </Form>
+          <div style={{ marginTop: "5%" }}>
+            {success && (
+              <Message positive>
+                <Message.Header>Success!</Message.Header>
+                <p>Successfully Uploaded!</p>
+              </Message>
+            )}
+          </div>
 
           <div style={{ marginTop: "10%" }}>
             <Header

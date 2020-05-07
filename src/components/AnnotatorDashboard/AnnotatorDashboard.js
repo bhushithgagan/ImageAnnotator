@@ -61,7 +61,7 @@ function AnnotatorDashboard(props) {
       })
       .catch((error) => {
         console.log(error.response.status);
-        if (error.response.status == 401) props.history.push("/");
+        if (error.response.status === 401) props.history.push("/");
         else console.error("Couldn't logout annotator");
       });
   };
