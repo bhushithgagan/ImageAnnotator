@@ -339,7 +339,7 @@ function UserDashboard(props) {
             {folder.length > 0 &&
               folder.map((fol, okey) => {
                 return (
-                  <div key={okey} style={{ marginTop: "2%" }}>
+                  <div key={okey} style={{ marginTop: "2%", align: "center" }}>
                     <Dropdown
                       text={
                         fol +
@@ -357,7 +357,12 @@ function UserDashboard(props) {
                       scrolling
                       className="icon"
                       compact
-                      style={{ margin: "2%", width: "28em" }}
+                      style={{
+                        margin: "2%",
+                        width: "28em",
+                        display: "block",
+                        margin: "auto",
+                      }}
                       key={okey}
                     >
                       <Dropdown.Menu>
