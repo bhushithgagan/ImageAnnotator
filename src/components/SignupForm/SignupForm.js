@@ -36,7 +36,7 @@ function SignUpForm(props) {
 
   useEffect(() => {
     if (Object.entries(errors).length > 0) setLoad(false);
-  });
+  }, [errors]);
 
   function handleSubmit(data) {
     setLoad(true);

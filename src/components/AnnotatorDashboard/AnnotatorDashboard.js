@@ -1,18 +1,7 @@
 //import "./styles/forms.css";
 import React, { useState, useEffect } from "react";
-import {
-  Menu,
-  Dropdown,
-  Icon,
-  Button,
-  Form,
-  Grid,
-  Header,
-  Image,
-  Message,
-  Segment,
-} from "semantic-ui-react";
-import { Link, withRouter } from "react-router-dom";
+import { Menu, Dropdown, Header, Image } from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import ImageAnnotation from "./ImageAnnotation";
 import { ANNLOGOUT, ANNACCDETAILS } from "../../routes/routes";

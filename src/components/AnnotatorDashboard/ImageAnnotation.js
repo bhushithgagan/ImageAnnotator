@@ -3,7 +3,6 @@ import ImageEditor from "@toast-ui/react-image-editor";
 import {
   Button,
   Form,
-  Grid,
   Segment,
   Header,
   Message,
