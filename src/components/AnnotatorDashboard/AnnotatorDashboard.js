@@ -15,13 +15,12 @@ import {
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import ImageAnnotation from "./ImageAnnotation";
-import { ANNLOGOUT } from "../../routes/routes";
-
-const ENDPOINTLOGOUT =
-  "https://image-annotation-backend.herokuapp.com/annotator/logout";
+import { ANNLOGOUT, ANNACCDETAILS } from "../../routes/routes";
 
 function AnnotatorDashboard(props) {
   document.title = "DaNotate | Dashboard";
+
+  const [name, setName] = useState("");
 
   useEffect(() => {
     if (
@@ -30,7 +29,24 @@ function AnnotatorDashboard(props) {
       !props.location.credentials.password
     )
       props.history.push("Dont-Forget-To-Login");
-  });
+    else {
+      axios
+        .get(ANNACCDETAILS, {
+          withCredentials: false,
+          auth: {
+            username: props.location.credentials.username,
+            password: props.location.credentials.password,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setName(res.data.name);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [name]);
 
   const logoutAnnotator = () => {
     axios
@@ -46,7 +62,7 @@ function AnnotatorDashboard(props) {
       })
       .catch((error) => {
         console.log(error.response.status);
-        if (error.response.status == 401) props.history.push("/");
+        if (error.response.status === 401) props.history.push("/");
         else console.error("Couldn't logout annotator");
       });
   };
@@ -88,6 +104,14 @@ function AnnotatorDashboard(props) {
           </Dropdown>
         </Menu.Menu>
       </Menu>
+      <Header
+        as="h1"
+        color="teal"
+        textAlign="center"
+        style={{ align: "center", display: "block", margin: "auto" }}
+      >
+        Welcome, {name}!
+      </Header>
       {typeof props.location.credentials !== "undefined" && (
         <ImageAnnotation credentials={props.location.credentials} />
       )}

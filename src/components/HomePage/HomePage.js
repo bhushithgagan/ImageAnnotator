@@ -7,6 +7,8 @@ import Details from "./Details";
 import CarouselHP from "./CarouselHP"
 
 function HomePage() {
+  document.title = "DaNotate | Home";
+
   return (
     <div>
       <HomeNav />
