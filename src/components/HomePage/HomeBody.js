@@ -1,7 +1,12 @@
 import React from "react";
+import AnimatedText from "./AnimatedText";
 
 function HomeBody() {
-  return <div></div>;
+  return (
+    <div>
+      <AnimatedText />
+    </div>
+  );
 }
 
 export default HomeBody;
