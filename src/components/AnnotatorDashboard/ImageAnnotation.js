@@ -19,6 +19,7 @@ function ImageAnnotation(props) {
   const [categories, setCategories] = useState("");
   const [images, setImages] = useState([]);
   const [load, setLoad] = useState(false);
+  const [done, setDone] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleCategoriesChange = (event) => setCategories(event.target.value);
@@ -107,6 +108,7 @@ function ImageAnnotation(props) {
       .then((res) => {
         console.log(res.data);
         setImages(res.data);
+        if (res.data.length === 0) setDone(true);
       })
       .catch((error) => {
         console.log(error);
@@ -115,6 +117,13 @@ function ImageAnnotation(props) {
 
   return (
     <div style={{ align: "left" }}>
+      {done && (
+        <div style={{ display: "flex", marginLeft: "47%", marginTop: "5em" }}>
+          <Message positive>
+            <Message.Header>All Caught Up!</Message.Header>
+          </Message>
+        </div>
+      )}
       {images.map((img, key) => (
         <div
           key={key}
@@ -140,6 +149,7 @@ function ImageAnnotation(props) {
               <span key={inkey}>{cat} </span>
             ))}
           </Header>
+
           <div>
             <ImageEditor
               includeUI={{
