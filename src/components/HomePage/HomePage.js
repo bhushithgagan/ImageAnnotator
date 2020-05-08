@@ -4,7 +4,7 @@ import HomeBody from "./HomeBody";
 import AnimatedText from "./AnimatedText";
 import "./styles.css";
 import Details from "./Details";
-import CarouselHP from "./CarouselHP"
+import CarouselHP from "./CarouselHP";
 
 function HomePage() {
   document.title = "DaNotate | Home";
@@ -12,12 +12,12 @@ function HomePage() {
   return (
     <div>
       <HomeNav />
-      {/*<AnimatedText />*/}
+
       <AnimatedText textColor="grey" overlayColor="#008080">
         DaNotate
       </AnimatedText>
-      <Details/>
-      <CarouselHP/>
+      <Details />
+      <CarouselHP />
       <HomeBody />
     </div>
   );

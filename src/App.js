@@ -6,7 +6,6 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import SignUpForm from "./components/SignupForm/SignupForm";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
 import AnnotatorDashboard from "./components/AnnotatorDashboard/AnnotatorDashboard";
-import AnimatedText from "./components/HomePage/AnimatedText";
 import "./App.css";
 import "./style.css";
 function App() {
