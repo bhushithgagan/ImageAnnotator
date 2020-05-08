@@ -35,8 +35,10 @@ function UserDashboard(props) {
   const [downloadUrls, setDownloadUrls] = useState([]);
   const [noDownloadUrls, setNoDownloadUrls] = useState([]);
   const [folder, setFolder] = useState([]);
-  const [disabled, setDisabled] = useState([]);
+  const [success, setSuccess] = useState(false);
   const [load, setLoad] = useState(false);
+  const [annotatedCounts, setAnnotatedCounts] = useState({});
+  const [unannotatedCounts, setUnannotatedCounts] = useState({});
 
   document.title = "DaNotate | Dashboard";
 
@@ -95,6 +97,9 @@ function UserDashboard(props) {
   };
 
   const getImages = (event) => {
+    setAnnotatedCounts(new Object());
+    setUnannotatedCounts(new Object());
+
     axios
       .get(USERGETIMG, {
         withCredentials: false,
@@ -106,32 +111,40 @@ function UserDashboard(props) {
       .then((res) => {
         console.log(res);
         setDownloadUrls(res.data);
-        // let arr = res.data.map((a) => a.imageName);
-        // let x = res.data.map((a) => a.folderName);
-        // setFolder(x.filter((a, b) => x.indexOf(a) === b));
-        axios
-          .get(USERGETUNANNIMG, {
-            withCredentials: false,
-            auth: {
-              username,
-              password,
-            },
-          })
-          .then((res) => {
-            console.log(res);
-            setNoDownloadUrls(res.data);
-            // let ar = res.data.map((a) => a.imageName);
-            // let a = [];
-            // for (const value of arr) {
-            //   if (ar.includes(value)) a.push(true);
-            //   else a.push(false);
-            // }
-            // setDisabled(a);
-            // console.log(a);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        let counts = new Object();
+        let x = res.data.map((a) => {
+          let folderName = a.folderName;
+          if (!(folderName in counts)) counts[folderName] = 1;
+          else counts[folderName] += 1;
+          return folderName;
+        });
+        setAnnotatedCounts(counts);
+        let y = new Set(x);
+
+        setFolder([...y]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axios
+      .get(USERGETUNANNIMG, {
+        withCredentials: false,
+        auth: {
+          username,
+          password,
+        },
+      })
+      .then((res) => {
+        setNoDownloadUrls(res.data);
+        let counts = new Object();
+        let x = res.data.map((a) => {
+          let folderName = a.folderName;
+          if (!(folderName in counts)) counts[folderName] = 1;
+          else counts[folderName] += 1;
+          return folderName;
+        });
+        setUnannotatedCounts(counts);
       })
       .catch((error) => {
         console.log(error);
@@ -174,6 +187,7 @@ function UserDashboard(props) {
           setLoad(false);
           setTags("");
           setCategories("");
+          setSuccess(true);
           console.log("file uploaded");
           console.log(data);
         })
@@ -222,35 +236,29 @@ function UserDashboard(props) {
           </Dropdown>
         </Menu.Menu>
       </Menu>
-      <Grid
-        textAlign="center"
-        style={{ height: "100vh" }}
-        verticalAlign="middle"
-      >
-        <Grid.Column style={{ maxWidth: 450, marginTop: "-5%" }}>
-          <Header
-            as="h1"
-            color="teal"
-            textAlign="center"
-            style={{ marginTop: "5%" }}
-          >
+      <Grid style={{ align: "center" }}>
+        <Grid.Column style={{ display: "block", margin: "auto" }}>
+          <Header as="h1" color="teal" textAlign="center">
             Welcome, {name}!
           </Header>
           <Form
             size="large"
             onSubmit={handleSubmit}
-            style={{ marginTop: "30%" }}
+            style={{ display: "block", margin: "auto", marginTop: "1em" }}
           >
             <Header
               as="h2"
               color="teal"
               textAlign="center"
-              style={{ marginTop: "5%" }}
+              style={{ display: "block", marginTop: "4em" }}
             >
               <Icon name="upload" />
             </Header>
 
-            <Segment stacked>
+            <Segment
+              stacked
+              style={{ maxWidth: "25%", display: "block", margin: "auto" }}
+            >
               <input
                 type="file"
                 id="file"
@@ -267,21 +275,31 @@ function UserDashboard(props) {
                 placeholder="Categories"
                 onChange={handleCategoriesChange}
                 value={categories}
-                style={{ marginTop: "4%" }}
+                style={{
+                  display: "flex",
+                  margin: "auto",
+                  position: "relative",
+                  marginTop: "1em",
+                }}
               />
               <Input
                 focus
                 placeholder="Tags"
                 onChange={handleTagsChange}
                 value={tags}
-                style={{ marginTop: "4%", marginLeft: "2%" }}
+                style={{
+                  display: "flex",
+                  margin: "auto",
+                  position: "relative",
+                  marginTop: "1em",
+                }}
               />
             </Segment>
             <Button
               animated
               loading={load}
               type="submit"
-              style={{ marginTop: "5%" }}
+              style={{ display: "block", margin: "auto", marginTop: "1em" }}
             >
               <Button.Content visible>Upload</Button.Content>
               <Button.Content hidden>
@@ -289,88 +307,162 @@ function UserDashboard(props) {
               </Button.Content>
             </Button>
           </Form>
+          <div style={{ marginTop: "5%" }}>
+            {success && (
+              <Message positive>
+                <Message.Header>Success!</Message.Header>
+                <p>Successfully Uploaded!</p>
+              </Message>
+            )}
+          </div>
 
-          <div style={{ marginTop: "10%" }}>
+          <div style={{ align: "center" }}>
             <Header
               as="h2"
               color="teal"
               textAlign="center"
-              style={{ marginTop: "5%" }}
+              style={{ marginTop: "3em" }}
             >
               <Icon name="download" />
             </Header>
-            <Button animated onClick={getImages} color="green">
-              <Button.Content visible>Get Images</Button.Content>
+            <Button
+              animated
+              onClick={getImages}
+              color="green"
+              style={{ display: "block", margin: "auto", marginTop: "1em" }}
+            >
+              <Button.Content visible>Request Images</Button.Content>
               <Button.Content hidden>
                 <Icon name="arrow down" />
               </Button.Content>
             </Button>
-            {downloadUrls.length > 0 && (
-              <div>
-                {" "}
-                <List divided relaxed>
-                  {downloadUrls.map((data, key) => {
-                    return (
-                      <List.Item key={key}>
-                        <List.Icon
-                          name="file image"
-                          size="large"
-                          verticalAlign="middle"
+            {folder.length > 0 &&
+              folder.map((fol, okey) => {
+                return (
+                  <div key={okey} style={{ marginTop: "2%" }}>
+                    <Dropdown
+                      text={
+                        fol +
+                        "\t\t\t\t (" +
+                        Math.round(
+                          (annotatedCounts[fol] * 100) /
+                            (unannotatedCounts[fol] + annotatedCounts[fol])
+                        ) +
+                        "% Done)"
+                      }
+                      icon="folder"
+                      floating
+                      labeled
+                      button
+                      scrolling
+                      className="icon"
+                      compact
+                      style={{ margin: "2%", width: "28em" }}
+                      key={okey}
+                    >
+                      <Dropdown.Menu>
+                        <Dropdown.Header
+                          icon="folder"
+                          content={
+                            " Annotated: " +
+                            annotatedCounts[fol] +
+                            " Unannotated: " +
+                            unannotatedCounts[fol]
+                          }
+                          key={okey}
                         />
-                        <List.Content key={key}>
-                          <List.Header>
-                            {data.imageName}
-                            <Button
-                              style={{
-                                display: "inline-block",
-                                textAlign: "center",
-                                width: "100%",
-                              }}
-                            >
-                              <a href={data.url} target="_blank" download>
-                                Download
-                              </a>
-                            </Button>
-                          </List.Header>
+                        {downloadUrls.length > 0 && (
+                          <div>
+                            {" "}
+                            <Dropdown.Item>
+                              {downloadUrls.map((data, key) => {
+                                if (data.folderName == fol)
+                                  return (
+                                    <Grid columns={2} divided key={key}>
+                                      <Grid.Row>
+                                        <Grid.Column
+                                          style={{ align: "center" }}
+                                        >
+                                          <Icon
+                                            name="file image"
+                                            size="large"
+                                          />
 
-                          <List.Description></List.Description>
-                        </List.Content>
-                      </List.Item>
-                    );
-                  })}
-                  {noDownloadUrls.map((data, key) => {
-                    return (
-                      <List.Item key={key}>
-                        <List.Icon
-                          name="file image"
-                          size="large"
-                          verticalAlign="middle"
-                        />
-                        <List.Content key={key}>
-                          <List.Header>
-                            {data.imageName}
-                            <Button
-                              disabled
-                              style={{
-                                display: "inline-block",
-                                textAlign: "center",
-                                width: "100%",
-                              }}
-                            >
-                              <a href={data.url} target="_blank" download>
-                                Download
-                              </a>
-                            </Button>
-                          </List.Header>
+                                          {data.imageName}
+                                        </Grid.Column>
+                                        <Grid.Column
+                                          style={{ align: "center" }}
+                                        >
+                                          <Button
+                                            style={{
+                                              display: "block",
+                                              margin: "auto",
+                                            }}
+                                          >
+                                            <a
+                                              href={data.url}
+                                              target="_blank"
+                                              download
+                                            >
+                                              Download
+                                            </a>
+                                          </Button>
+                                        </Grid.Column>
+                                      </Grid.Row>
+                                    </Grid>
+                                  );
+                              })}
+                            </Dropdown.Item>
+                            <Dropdown.Item>
+                              {noDownloadUrls.map((data, key) => {
+                                if (data.folderName == fol)
+                                  return (
+                                    <div key={key}>
+                                      <Grid columns={2} divided>
+                                        <Grid.Row>
+                                          <Grid.Column
+                                            style={{ align: "center" }}
+                                          >
+                                            <Icon
+                                              name="file image"
+                                              size="large"
+                                            />
 
-                          <List.Description></List.Description>
-                        </List.Content>
-                      </List.Item>
-                    );
-                  })}
-                </List>{" "}
-              </div>
-            )}
+                                            {data.imageName}
+                                          </Grid.Column>
+                                          <Grid.Column
+                                            style={{ align: "center" }}
+                                          >
+                                            <Button
+                                              disabled
+                                              style={{
+                                                display: "block",
+                                                margin: "auto",
+                                              }}
+                                            >
+                                              <a
+                                                href={data.url}
+                                                target="_blank"
+                                                download
+                                              >
+                                                Download
+                                              </a>
+                                            </Button>
+                                          </Grid.Column>
+                                        </Grid.Row>
+                                      </Grid>
+                                    </div>
+                                  );
+                              })}
+                            </Dropdown.Item>
+                          </div>
+                        )}
+                        <Dropdown.Divider />
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                );
+              })}
           </div>
 
           {Object.entries(errors).length > 0 && (

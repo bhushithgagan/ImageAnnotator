@@ -10,10 +10,12 @@ import {
   Input,
   Icon,
 } from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
 import { ANNGETIMG, ANNUPLOAD } from "../../routes/routes";
 import axios from "axios";
 
-function ImageAnnotation({ credentials: { username, password } }) {
+function ImageAnnotation(props) {
+  const { username, password } = props.credentials;
   const [categories, setCategories] = useState("");
   const [images, setImages] = useState([]);
   const [load, setLoad] = useState(false);
@@ -22,7 +24,6 @@ function ImageAnnotation({ credentials: { username, password } }) {
   const handleCategoriesChange = (event) => setCategories(event.target.value);
 
   const handleSubmit = (event, key) => {
-    console.log(key);
     setLoad(true);
     let error = {};
     if (!categories) {
@@ -70,13 +71,25 @@ function ImageAnnotation({ credentials: { username, password } }) {
           setCategories("");
           console.log("file uploaded");
           console.log(data);
-          let temp = [...images];
-          temp.splice(key, 1);
-          setImages(temp);
+          const { history, location } = props;
+          if (location.pathname === "/annotatordashboard") {
+            history.replace(`/reload`);
+            setTimeout(() => {
+              history.replace({
+                pathname: "/annotatordashboard",
+                credentials: { username, password },
+              });
+            });
+          } else {
+            props.history.push({
+              pathname: "/annotatordashboard",
+              credentials: { username, password },
+            });
+          }
         })
         .catch((e) => {
           setLoad(false);
-          console.log("error");
+          console.log("Error");
           console.log(e);
         });
     }
@@ -101,14 +114,17 @@ function ImageAnnotation({ credentials: { username, password } }) {
   }, [username]);
 
   return (
-    <div>
+    <div style={{ align: "left" }}>
       {images.map((img, key) => (
-        <div key={key} style={{ marginLeft: "10%", marginTop: "5%" }}>
+        <div
+          key={key}
+          style={{ display: "inlineBlock", margin: "auto", marginLeft: "1em" }}
+        >
           <Header
             as="h3"
             color="teal"
             textAlign="center"
-            style={{ marginBottom: "2%" }}
+            style={{ display: "block", margin: "auto", marginTop: "2em" }}
           >
             {img.imageName}
           </Header>
@@ -117,7 +133,7 @@ function ImageAnnotation({ credentials: { username, password } }) {
             as="h3"
             color="teal"
             textAlign="center"
-            style={{ marginBottom: "2%" }}
+            style={{ display: "block", margin: "auto", marginTop: "1em" }}
           >
             Categories =>{"  "}
             {img.categories.map((cat, inkey) => (
@@ -125,7 +141,6 @@ function ImageAnnotation({ credentials: { username, password } }) {
             ))}
           </Header>
           <div>
-            {console.log(img.url)}
             <ImageEditor
               includeUI={{
                 loadImage: {
@@ -154,17 +169,36 @@ function ImageAnnotation({ credentials: { username, password } }) {
           <Form
             size="large"
             onSubmit={(event) => handleSubmit(event, key)}
-            style={{ float: "right", marginTop: "-17%", marginRight: "10%" }}
+            style={{ align: "center" }}
           >
-            <Segment stacked>
+            <Segment
+              stacked
+              style={{
+                display: "inlineFlex",
+                margin: "auto",
+                float: "right",
+                marginTop: "-30em",
+                marginRight: "5em",
+                width: "20%",
+              }}
+            >
               <Input
                 focus
                 placeholder="Categories"
                 onChange={handleCategoriesChange}
                 value={categories}
-                style={{ marginTop: "4%" }}
+                style={{
+                  display: "flex",
+                  margin: "auto",
+                  position: "relative",
+                  marginTop: "1em",
+                }}
               />
-              <Button animated loading={load} style={{ marginLeft: "50%" }}>
+              <Button
+                animated
+                loading={load}
+                style={{ display: "block", margin: "auto", marginTop: "1em" }}
+              >
                 <Button.Content visible>Upload</Button.Content>
                 <Button.Content hidden>
                   <Icon name="arrow up" />
@@ -187,4 +221,4 @@ function ImageAnnotation({ credentials: { username, password } }) {
   );
 }
 
-export default ImageAnnotation;
+export default withRouter(ImageAnnotation);
