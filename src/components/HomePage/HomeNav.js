@@ -25,7 +25,7 @@ function HomeNav() {
           fontWeight: "200%"
         }}
       >
-        DaNotate
+        
       </span>
       <Menu.Menu position="right">
         <Menu.Item>
