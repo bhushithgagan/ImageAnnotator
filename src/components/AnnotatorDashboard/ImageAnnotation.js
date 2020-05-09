@@ -145,7 +145,7 @@ function ImageAnnotation(props) {
           >
             Categories =>{"  "}
             {img.categories.map((cat, inkey) => (
-              <span key={inkey}>{cat} </span>
+              <span key={inkey}>{cat} :: </span>
             ))}
           </Header>
 
