@@ -1,26 +1,21 @@
 //import "./styles/forms.css";
 import React, { useState, useEffect } from "react";
-import {
-  Menu,
-  Dropdown,
-  Icon,
-  Button,
-  Form,
-  Grid,
-  Header,
-  Image,
-  Message,
-  Segment,
-} from "semantic-ui-react";
-import { Link, withRouter } from "react-router-dom";
+import { Menu, Dropdown, Header, Image, Message } from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import ImageAnnotation from "./ImageAnnotation";
-import { ANNLOGOUT, ANNACCDETAILS } from "../../routes/routes";
+import {
+  ANNLOGOUT,
+  ANNACCDETAILS,
+  ANNDELMESS,
+  ANNGETMESS,
+} from "../../routes/routes";
 
 function AnnotatorDashboard(props) {
   document.title = "DaNotate | Dashboard";
 
   const [name, setName] = useState("");
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     if (
@@ -45,8 +40,48 @@ function AnnotatorDashboard(props) {
         .catch((error) => {
           console.log(error);
         });
+      axios
+        .get(ANNGETMESS, {
+          withCredentials: false,
+          auth: {
+            username: props.location.credentials.username,
+            password: props.location.credentials.password,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          setMessages(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [name]);
+
+  const delMessage = (body) => {
+    axios
+      .post(
+        ANNDELMESS,
+        {
+          message: body.header,
+        },
+        {
+          headers: { "content-type": "application/json" },
+          withCredentials: false,
+          auth: {
+            username: props.location.credentials.username,
+            password: props.location.credentials.password,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setMessages(messages.filter((x) => x !== body.header));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const logoutAnnotator = () => {
     axios
@@ -112,6 +147,37 @@ function AnnotatorDashboard(props) {
       >
         Welcome, {name}!
       </Header>
+      <div
+        style={{
+          maxHeight: "15em",
+          overflow: "scroll",
+          margin: "auto",
+          marginTop: "5em",
+          maxWidth: "50%",
+          align: "center",
+        }}
+      >
+        {" "}
+        {messages.length > 0 &&
+          messages.map((mess, key) => {
+            return (
+              <Message
+                color="teal"
+                header={mess}
+                onDismiss={(event, body) => delMessage(body)}
+                key={key}
+                style={{
+                  maxWidth: "20%",
+                  align: "center",
+                  display: "inlineBlock",
+                  margin: "auto",
+                  marginTop: "2em",
+                }}
+              />
+            );
+          })}
+      </div>
+
       {typeof props.location.credentials !== "undefined" && (
         <ImageAnnotation credentials={props.location.credentials} />
       )}

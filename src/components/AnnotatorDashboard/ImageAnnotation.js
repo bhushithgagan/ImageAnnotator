@@ -3,7 +3,6 @@ import ImageEditor from "@toast-ui/react-image-editor";
 import {
   Button,
   Form,
-  Grid,
   Segment,
   Header,
   Message,
@@ -19,6 +18,7 @@ function ImageAnnotation(props) {
   const [categories, setCategories] = useState("");
   const [images, setImages] = useState([]);
   const [load, setLoad] = useState(false);
+  const [done, setDone] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleCategoriesChange = (event) => setCategories(event.target.value);
@@ -107,6 +107,7 @@ function ImageAnnotation(props) {
       .then((res) => {
         console.log(res.data);
         setImages(res.data);
+        if (res.data.length === 0) setDone(true);
       })
       .catch((error) => {
         console.log(error);
@@ -114,7 +115,14 @@ function ImageAnnotation(props) {
   }, [username]);
 
   return (
-    <div style={{ align: "left" }}>
+    <div style={{ align: "left", overlow: "auto" }}>
+      {done && (
+        <div style={{ display: "flex", marginLeft: "47%", marginTop: "5em" }}>
+          <Message positive>
+            <Message.Header>All Caught Up!</Message.Header>
+          </Message>
+        </div>
+      )}
       {images.map((img, key) => (
         <div
           key={key}
@@ -137,9 +145,10 @@ function ImageAnnotation(props) {
           >
             Categories =>{"  "}
             {img.categories.map((cat, inkey) => (
-              <span key={inkey}>{cat} </span>
+              <span key={inkey}>{cat} :: </span>
             ))}
           </Header>
+
           <div>
             <ImageEditor
               includeUI={{
@@ -169,17 +178,18 @@ function ImageAnnotation(props) {
           <Form
             size="large"
             onSubmit={(event) => handleSubmit(event, key)}
-            style={{ align: "center" }}
+            style={{ align: "center", overlow: "auto" }}
           >
             <Segment
               stacked
               style={{
-                display: "inlineFlex",
+                display: "block",
                 margin: "auto",
                 float: "right",
                 marginTop: "-30em",
                 marginRight: "5em",
                 width: "20%",
+                overlow: "auto",
               }}
             >
               <Input

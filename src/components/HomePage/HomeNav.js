@@ -13,7 +13,7 @@ function HomeNav() {
           width: "40px",
           marginLeft: "0.2%",
           paddingTop: "0.3%",
-          marginBottom: "0.3%"
+          marginBottom: "0.3%",
         }}
       />
       <span
@@ -22,7 +22,7 @@ function HomeNav() {
           paddingTop: "0.7%",
           marginLeft: "0.5%",
           fontSize: "160%",
-          fontWeight: "200%"
+          fontWeight: "200%",
         }}
       >
         
@@ -42,6 +42,16 @@ function HomeNav() {
               <Icon name="arrow right" />
             </Button.Content>
           </Button>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to="/adminlogin">
+            <Button color="blue" animated>
+              <Button.Content visible>Admin Login</Button.Content>
+              <Button.Content hidden>
+                <Icon name="address card outline" />
+              </Button.Content>
+            </Button>
+          </Link>
         </Menu.Item>
       </Menu.Menu>
     </Menu>

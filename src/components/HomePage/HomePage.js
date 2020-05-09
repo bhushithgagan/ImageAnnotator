@@ -4,7 +4,9 @@ import HomeBody from "./HomeBody";
 import AnimatedText from "./AnimatedText";
 import "./styles.css";
 import Details from "./Details";
-import CarouselHP from "./CarouselHP"
+import CarouselHP from "./CarouselHP";
+import { Link, withRouter } from "react-router-dom";
+import { Button } from "semantic-ui-react";
 
 function HomePage() {
   document.title = "DaNotate | Home";
@@ -12,15 +14,14 @@ function HomePage() {
   return (
     <div>
       <HomeNav />
-      {/*<AnimatedText />*/}
       <AnimatedText textColor="grey" overlayColor="#008080">
         DaNotate
       </AnimatedText>
-      <Details/>
-      <CarouselHP/>
+      <Details />
+      <CarouselHP />
       <HomeBody />
     </div>
   );
 }
 
-export default HomePage;
+export default withRouter(HomePage);

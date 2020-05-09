@@ -6,11 +6,10 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import SignUpForm from "./components/SignupForm/SignupForm";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
 import AnnotatorDashboard from "./components/AnnotatorDashboard/AnnotatorDashboard";
-import AnimatedText from "./components/HomePage/AnimatedText";
+import AdminLogin from "./components/AdminLogin/AdminLogin";
+import AdminSignUp from "./components/AdminSignUp/AdminSignUp";
 import "./App.css";
 import "./style.css";
-import AnnotatorList from "./components/AnnotatorList/AnnotatorList";
-
 function App() {
   return (
     <Router>
@@ -31,8 +30,11 @@ function App() {
           <Route path="/annotatordashboard">
             <AnnotatorDashboard />
           </Route>
-          <Route path="/admindashboard">
-            <AnnotatorList />
+          <Route path="/adminlogin">
+            <AdminLogin />
+          </Route>
+          <Route path="/adminsignup">
+            <AdminSignUp />
           </Route>
           <Route>
             <NotFound />

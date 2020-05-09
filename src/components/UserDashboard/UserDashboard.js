@@ -12,9 +12,8 @@ import {
   Message,
   Segment,
   Input,
-  List,
 } from "semantic-ui-react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import {
   USERLOGOUT,
@@ -39,6 +38,7 @@ function UserDashboard(props) {
   const [load, setLoad] = useState(false);
   const [annotatedCounts, setAnnotatedCounts] = useState({});
   const [unannotatedCounts, setUnannotatedCounts] = useState({});
+  let folders = [];
 
   document.title = "DaNotate | Dashboard";
 
@@ -91,14 +91,14 @@ function UserDashboard(props) {
       })
       .catch((error) => {
         console.log(error.response.status);
-        if (error.response.status == 401) props.history.push("/");
+        if (error.response.status === 401) props.history.push("/");
         else console.error("Couldn't logout user");
       });
   };
 
   const getImages = (event) => {
-    setAnnotatedCounts(new Object());
-    setUnannotatedCounts(new Object());
+    setAnnotatedCounts({});
+    setUnannotatedCounts({});
 
     axios
       .get(USERGETIMG, {
@@ -111,7 +111,7 @@ function UserDashboard(props) {
       .then((res) => {
         console.log(res);
         setDownloadUrls(res.data);
-        let counts = new Object();
+        let counts = {};
         let x = res.data.map((a) => {
           let folderName = a.folderName;
           if (!(folderName in counts)) counts[folderName] = 1;
@@ -122,29 +122,39 @@ function UserDashboard(props) {
         let y = new Set(x);
 
         setFolder([...y]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        folders = [...y];
 
-    axios
-      .get(USERGETUNANNIMG, {
-        withCredentials: false,
-        auth: {
-          username,
-          password,
-        },
-      })
-      .then((res) => {
-        setNoDownloadUrls(res.data);
-        let counts = new Object();
-        let x = res.data.map((a) => {
-          let folderName = a.folderName;
-          if (!(folderName in counts)) counts[folderName] = 1;
-          else counts[folderName] += 1;
-          return folderName;
-        });
-        setUnannotatedCounts(counts);
+        axios
+          .get(USERGETUNANNIMG, {
+            withCredentials: false,
+            auth: {
+              username,
+              password,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            setNoDownloadUrls(res.data);
+            if (res.data.length !== 0) {
+              let counts = {};
+              let x = res.data.map((a) => {
+                let folderName = a.folderName;
+                if (!(folderName in counts)) counts[folderName] = 1;
+                else counts[folderName] += 1;
+                return folderName;
+              });
+              setUnannotatedCounts(counts);
+            } else {
+              let c = {};
+              for (let i of folders) {
+                c[i] = 0;
+              }
+              setUnannotatedCounts(c);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         console.log(error);
@@ -336,10 +346,11 @@ function UserDashboard(props) {
                 <Icon name="arrow down" />
               </Button.Content>
             </Button>
+
             {folder.length > 0 &&
               folder.map((fol, okey) => {
                 return (
-                  <div key={okey} style={{ marginTop: "2%" }}>
+                  <div key={okey} style={{ marginTop: "2%", align: "center" }}>
                     <Dropdown
                       text={
                         fol +
@@ -357,7 +368,11 @@ function UserDashboard(props) {
                       scrolling
                       className="icon"
                       compact
-                      style={{ margin: "2%", width: "28em" }}
+                      style={{
+                        margin: "auto",
+                        width: "28em",
+                        display: "block",
+                      }}
                       key={okey}
                     >
                       <Dropdown.Menu>
@@ -376,7 +391,7 @@ function UserDashboard(props) {
                             {" "}
                             <Dropdown.Item>
                               {downloadUrls.map((data, key) => {
-                                if (data.folderName == fol)
+                                if (data.folderName === fol)
                                   return (
                                     <Grid columns={2} divided key={key}>
                                       <Grid.Row>
@@ -402,6 +417,7 @@ function UserDashboard(props) {
                                             <a
                                               href={data.url}
                                               target="_blank"
+                                              rel="noopener noreferrer"
                                               download
                                             >
                                               Download
@@ -415,7 +431,7 @@ function UserDashboard(props) {
                             </Dropdown.Item>
                             <Dropdown.Item>
                               {noDownloadUrls.map((data, key) => {
-                                if (data.folderName == fol)
+                                if (data.folderName === fol)
                                   return (
                                     <div key={key}>
                                       <Grid columns={2} divided>
@@ -443,6 +459,7 @@ function UserDashboard(props) {
                                               <a
                                                 href={data.url}
                                                 target="_blank"
+                                                rel="noopener noreferrer"
                                                 download
                                               >
                                                 Download
