@@ -175,8 +175,11 @@ function AdminSignUp(props) {
               onChange={handleMessageChange}
               value={message}
             />
-            <Button type="submit" loading={load}>
+            <Button type="submit" inverted loading={load}>
               Request Acess
+            </Button>
+            <Button as={Link} to="/" style={{ marginLeft: "15em" }}>
+              Home
             </Button>
             {Object.entries(errors).length > 0 && (
               <Message
