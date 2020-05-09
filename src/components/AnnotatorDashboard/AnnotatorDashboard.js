@@ -1,4 +1,3 @@
-//import "./styles/forms.css";
 import React, { useState, useEffect } from "react";
 import { Menu, Dropdown, Header, Image, Message } from "semantic-ui-react";
 import { withRouter } from "react-router-dom";

@@ -8,6 +8,7 @@ import UserDashboard from "./components/UserDashboard/UserDashboard";
 import AnnotatorDashboard from "./components/AnnotatorDashboard/AnnotatorDashboard";
 import AdminLogin from "./components/AdminLogin/AdminLogin";
 import AdminSignUp from "./components/AdminSignUp/AdminSignUp";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 import "./App.css";
 
 function App() {
@@ -35,6 +36,9 @@ function App() {
           </Route>
           <Route path="/adminsignup">
             <AdminSignUp />
+          </Route>
+          <Route path="/admindashboard">
+            <AdminDashboard />
           </Route>
           <Route>
             <NotFound />

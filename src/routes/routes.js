@@ -30,3 +30,11 @@ export const ANNACCDETAILS =
   "https://image-annotation-backend.herokuapp.com/annotator/get-account-details";
 export const ADMINLOGIN =
   "https://image-annotation-backend.herokuapp.com/admin/login";
+export const ADMINANN =
+  "https://image-annotation-backend.herokuapp.com/admin/get-annotators";
+export const ADMINDETS =
+  "https://image-annotation-backend.herokuapp.com/admin/get-account-details";
+export const ADMINSENDMESS =
+  "https://image-annotation-backend.herokuapp.com/admin/send-message";
+export const ADMINLOGOUT =
+  "https://image-annotation-backend.herokuapp.com/admin/logout";
