@@ -6,6 +6,8 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import SignUpForm from "./components/SignupForm/SignupForm";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
 import AnnotatorDashboard from "./components/AnnotatorDashboard/AnnotatorDashboard";
+import AdminLogin from "./components/AdminLogin/AdminLogin";
+import AdminSignUp from "./components/AdminSignUp/AdminSignUp";
 import "./App.css";
 
 function App() {
@@ -27,6 +29,12 @@ function App() {
           </Route>
           <Route path="/annotatordashboard">
             <AnnotatorDashboard />
+          </Route>
+          <Route path="/adminlogin">
+            <AdminLogin />
+          </Route>
+          <Route path="/adminsignup">
+            <AdminSignUp />
           </Route>
           <Route>
             <NotFound />
