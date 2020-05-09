@@ -6,20 +6,14 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import SignUpForm from "./components/SignupForm/SignupForm";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
 import AnnotatorDashboard from "./components/AnnotatorDashboard/AnnotatorDashboard";
+import AdminLogin from "./components/AdminLogin/AdminLogin";
+import AdminSignUp from "./components/AdminSignUp/AdminSignUp";
 import "./App.css";
 import "./style.css";
 function App() {
   return (
     <Router>
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "50%",
-        }}
-      >
+      <div>
         <Switch>
           <Route path="/" exact>
             <HomePage />
@@ -35,6 +29,12 @@ function App() {
           </Route>
           <Route path="/annotatordashboard">
             <AnnotatorDashboard />
+          </Route>
+          <Route path="/adminlogin">
+            <AdminLogin />
+          </Route>
+          <Route path="/adminsignup">
+            <AdminSignUp />
           </Route>
           <Route>
             <NotFound />

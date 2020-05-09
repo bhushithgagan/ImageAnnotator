@@ -24,7 +24,7 @@ const AnimatedText = ({ textColor, overlayColor, children, ...props }) => {
   const handleMouseOut = () => setMousePos(initialMousePos);
 
   return (
-    <div className="header">
+    <div className="dan">
       <section
         className={classes.animatedTextContainer}
         style={{

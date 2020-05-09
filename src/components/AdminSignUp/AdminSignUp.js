@@ -8,10 +8,9 @@ import {
   Message,
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
-import axios from "axios";
-import { USERCREATE, ANNCREATE } from "../../routes/routes";
+import * as emailjs from "emailjs-com";
 
-function SignUpForm(props) {
+function AdminSignUp(props) {
   const [load, setLoad] = useState(false);
   const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
@@ -19,19 +18,18 @@ function SignUpForm(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
-  const [organization, setOrganization] = useState("");
-  const [type, setType] = useState(true); //true = user false = annotator
+  const [message, setMessage] = useState("");
+  const [pos, setPos] = useState("");
 
-  document.title = "DaNotate | Sign Up";
+  document.title = "DaNotate | Admin Sign Up";
 
   const handleEmailChange = (event) => setEmail(event.target.value);
   const handleNameChange = (event) => setName(event.target.value);
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
   const handleRepasswordChange = (event) => setRepassword(event.target.value);
-  const handleOrganizationChange = (event) =>
-    setOrganization(event.target.value);
-  const handleTypeChange = (event) => setType(!type);
+  const handleMessageChange = (event) => setMessage(event.target.value);
+  const handlePosChange = (event) => setPos(event.target.value);
 
   useEffect(() => {
     if (Object.entries(errors).length > 0) setLoad(false);
@@ -51,50 +49,30 @@ function SignUpForm(props) {
     setErrors(error);
     if (Object.keys(error).length > 0) setLoad(false);
     else {
-      if (type)
-        axios
-          .post(USERCREATE, {
-            username,
-            password,
-            email,
-            name,
-            organization,
-          })
-          .then((res) => {
-            console.log(res);
-            setLoad(false);
-            props.history.push({
-              pathname: "/userdashboard",
-              credentials: { username, password },
-            });
-          })
-          .catch((error) => {
-            console.log(error);
-            setLoad(false);
-            setErrors({ invalid: "Unable to Create Account" });
-          });
-      else
-        axios
-          .post(ANNCREATE, {
-            username,
-            password,
-            email,
-            name,
-            organization,
-          })
-          .then((res) => {
-            console.log(res);
-            setLoad(false);
-            props.history.push({
-              pathname: "/annotatordashboard",
-              credentials: { username, password },
-            });
-          })
-          .catch((error) => {
-            console.log(error);
-            setLoad(false);
-            setErrors({ invalid: "Unable to Create Account" });
-          });
+      console.log("Sending mail");
+      let templateParams = {
+        name,
+        email,
+        username,
+        password,
+        pos,
+        message,
+      };
+      emailjs
+        .send(
+          "danotate",
+          "danotate",
+          templateParams,
+          "user_ZRui7kedkWLckhuaDr49u"
+        )
+        .then((res) => {
+          setLoad(false);
+          console.log("Success");
+        })
+        .catch((error) => {
+          console.log(error);
+          setErrors({ err: "Unsuccessful Request" });
+        });
     }
   }
 
@@ -107,7 +85,7 @@ function SignUpForm(props) {
           style={{ color: "#008080" }}
           className="zoomIn"
         >
-          Create your account
+          Admin Details
         </Header>
         <Form error size="large" onSubmit={handleSubmit}>
           <Segment
@@ -158,13 +136,13 @@ function SignUpForm(props) {
               <Form.Input
                 fluid
                 required
-                onChange={handleOrganizationChange}
-                label="Enter Organisation"
-                placeholder="Organisation"
-                name="organisation"
+                onChange={handlePosChange}
+                label="Enter Position"
+                placeholder="Position"
+                name="position"
                 type="input"
                 className="zoomIn"
-                value={organization}
+                value={pos}
               />
             </Form.Group>
 
@@ -190,18 +168,18 @@ function SignUpForm(props) {
               className="zoomIn"
               value={repassword}
             />
-            <Form.Group inline>
-              <label>Account Type</label>
-              User
-              <Form.Radio
-                toggle
-                style={{ marginLeft: "20%", marginTop: "10%" }}
-                onChange={handleTypeChange}
-              />
-              Annotator
-            </Form.Group>
-            <Button type="submit" loading={load}>
-              Sign Up
+            <Form.TextArea
+              label="Message"
+              placeholder="Short Message to Danotate Team"
+              name="message"
+              onChange={handleMessageChange}
+              value={message}
+            />
+            <Button type="submit" inverted loading={load}>
+              Request Acess
+            </Button>
+            <Button as={Link} to="/" style={{ marginLeft: "15em" }}>
+              Home
             </Button>
             {Object.entries(errors).length > 0 && (
               <Message
@@ -211,13 +189,10 @@ function SignUpForm(props) {
               />
             )}
           </Segment>
-          <Message className="zoomIn">
-            Already have an account? <Link to="/login">Login</Link>
-          </Message>
         </Form>
       </Grid.Column>
     </Grid>
   );
 }
 
-export default withRouter(SignUpForm);
+export default withRouter(AdminSignUp);

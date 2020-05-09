@@ -3,7 +3,6 @@ import ImageEditor from "@toast-ui/react-image-editor";
 import {
   Button,
   Form,
-  Grid,
   Segment,
   Header,
   Message,
@@ -116,7 +115,7 @@ function ImageAnnotation(props) {
   }, [username]);
 
   return (
-    <div style={{ align: "left" }}>
+    <div style={{ align: "left", overlow: "auto" }}>
       {done && (
         <div style={{ display: "flex", marginLeft: "47%", marginTop: "5em" }}>
           <Message positive>
@@ -146,7 +145,7 @@ function ImageAnnotation(props) {
           >
             Categories =>{"  "}
             {img.categories.map((cat, inkey) => (
-              <span key={inkey}>{cat} </span>
+              <span key={inkey}>{cat} :: </span>
             ))}
           </Header>
 
@@ -179,17 +178,18 @@ function ImageAnnotation(props) {
           <Form
             size="large"
             onSubmit={(event) => handleSubmit(event, key)}
-            style={{ align: "center" }}
+            style={{ align: "center", overlow: "auto" }}
           >
             <Segment
               stacked
               style={{
-                display: "inlineFlex",
+                display: "block",
                 margin: "auto",
                 float: "right",
                 marginTop: "-30em",
                 marginRight: "5em",
                 width: "20%",
+                overlow: "auto",
               }}
             >
               <Input

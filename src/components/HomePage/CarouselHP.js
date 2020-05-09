@@ -10,7 +10,7 @@ import "./styles.css";
 
 function CarouselHP() {
   return (
-    <div className="carhp" style={{ margintTop: "50%" }}>
+    <div>
       <Carousel
         enableAutoPlay
         enableSwipe

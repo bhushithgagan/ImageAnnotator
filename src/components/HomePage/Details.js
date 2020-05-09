@@ -6,7 +6,7 @@ function Details() {
     <Container
       textAlign="center"
       text
-      style={{ maxWidth: "60%", overflow: "auto", marginTop: "3em" }}
+      style={{ maxWidth: "60%", overflow: "auto", align: "center" }}
     >
       <span className="txt">
         Upload your Data and get it labeled for your Machine Learning training
