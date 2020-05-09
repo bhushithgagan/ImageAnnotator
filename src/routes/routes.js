@@ -24,3 +24,7 @@ export const USERACCDETAILS =
   "https://image-annotation-backend.herokuapp.com/user/get-account-details";
 export const ANNACCDETAILS =
   "https://image-annotation-backend.herokuapp.com/annotator/get-account-details";
+export const GETADANN = 
+  "https://image-annotation-backend.herokuapp.com/admin/get-annotators";
+export const GETADMINDETS = 
+  "https://image-annotation-backend.herokuapp.com/admin/get-account-details";

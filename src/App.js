@@ -9,18 +9,12 @@ import AnnotatorDashboard from "./components/AnnotatorDashboard/AnnotatorDashboa
 import AnimatedText from "./components/HomePage/AnimatedText";
 import "./App.css";
 import "./style.css";
+import AnnotatorList from "./components/AnnotatorList/AnnotatorList";
+
 function App() {
   return (
     <Router>
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "50%",
-        }}
-      >
+      <div>
         <Switch>
           <Route path="/" exact>
             <HomePage />
@@ -36,6 +30,9 @@ function App() {
           </Route>
           <Route path="/annotatordashboard">
             <AnnotatorDashboard />
+          </Route>
+          <Route path="/admindashboard">
+            <AnnotatorList />
           </Route>
           <Route>
             <NotFound />
