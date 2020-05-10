@@ -8,6 +8,7 @@ import {
   Button,
   Form,
   TextArea,
+  List,
 } from "semantic-ui-react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
@@ -23,7 +24,7 @@ import "./AnnotatorList.css";
 function AdminDashboard(props) {
   document.title = "DaNotate | Admin Dashboard";
 
-  const icons = [
+  const avatars = [
     "matthew.png",
     "elliot.jpg",
     "steve.jpg",
@@ -202,7 +203,9 @@ function AdminDashboard(props) {
                 <Image
                   floated="right"
                   size="mini"
-                  src="https://react.semantic-ui.com/images/avatar/large/matthew.png"
+                  src={`https://react.semantic-ui.com/images/avatar/large/${
+                    avatars[key % 5]
+                  }`}
                 />
                 <Button
                   color="red"
@@ -215,9 +218,17 @@ function AdminDashboard(props) {
                 <Card.Header>{ann.name}</Card.Header>
                 <Card.Meta>{ann.email}</Card.Meta>
                 <Card.Description>
-                  Images Annotated By {ann.name}: {ann.num_images_annotated}{" "}
-                  <br />
-                  Created Account On: {ann.created_on.slice(0, 10)}
+                  <List>
+                    <List.Item
+                      icon="hashtag"
+                      content={`Images Annotated: ${ann.num_images_annotated}`}
+                    />
+
+                    <List.Item
+                      icon="calendar alternate"
+                      content={`Created On: ${ann.created_on.slice(0, 10)}`}
+                    />
+                  </List>
                 </Card.Description>
               </Card.Content>
               <Card.Content extra>
