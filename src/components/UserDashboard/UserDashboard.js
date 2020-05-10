@@ -171,6 +171,20 @@ function UserDashboard(props) {
   //   return dataUrl;
   // };
 
+  const downloadCSV = (allImages, key) => {
+    let images = allImages.filter((x) => x.folderName === folder[key]);
+    let csvContent = "data:text/csv;charset=utf-8,";
+    images.map((x) => {
+      csvContent += x.imageName + "," + x.url + "," + x.category + "\r\n";
+    });
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${folder[key]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+  };
+
   const handleSubmit = (event) => {
     setLoad(true);
     let error = {};
@@ -338,7 +352,7 @@ function UserDashboard(props) {
             <Button
               animated
               onClick={getImages}
-              color="green"
+              color="teal"
               style={{ display: "block", margin: "auto", marginTop: "1em" }}
             >
               <Button.Content visible>Request Images</Button.Content>
@@ -477,6 +491,17 @@ function UserDashboard(props) {
                         <Dropdown.Divider />
                       </Dropdown.Menu>
                     </Dropdown>
+                    <Button
+                      color="green"
+                      onClick={(event) => downloadCSV(downloadUrls, okey)}
+                      style={{
+                        display: "block",
+                        margin: "auto",
+                        marginTop: "1em",
+                      }}
+                    >
+                      Download CSV
+                    </Button>
                   </div>
                 );
               })}

@@ -9,12 +9,10 @@ import {
   Tab,
   Menu,
   Image,
-  Dropdown,
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import { USERLOGIN, ANNLOGIN } from "../../routes/routes";
-//import "./styles/forms.css";
 
 function LoginForm(props) {
   const [load, setLoad] = useState(false);
