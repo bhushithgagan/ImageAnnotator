@@ -36,5 +36,7 @@ export const ADMINDETS =
   "https://image-annotation-backend.herokuapp.com/admin/get-account-details";
 export const ADMINSENDMESS =
   "https://image-annotation-backend.herokuapp.com/admin/send-message";
+export const ADMINDELANN =
+  "https://image-annotation-backend.herokuapp.com/admin/delete-annotator";
 export const ADMINLOGOUT =
   "https://image-annotation-backend.herokuapp.com/admin/logout";

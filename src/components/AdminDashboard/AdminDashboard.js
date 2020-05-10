@@ -16,11 +16,21 @@ import {
   ADMINDETS,
   ADMINLOGOUT,
   ADMINSENDMESS,
+  ADMINDELANN,
 } from "../../routes/routes";
 import "./AnnotatorList.css";
 
 function AdminDashboard(props) {
   document.title = "DaNotate | Admin Dashboard";
+
+  const icons = [
+    "matthew.png",
+    "elliot.jpg",
+    "steve.jpg",
+    "molly.png",
+    "jenny.jpg",
+    "daniel.jpg",
+  ];
 
   const [annotators, setAnnotators] = useState([]);
   const [admin, setAdmin] = useState({});
@@ -61,12 +71,37 @@ function AdminDashboard(props) {
     }
   }, [admin]);
 
-  const sendMessage = (body) => {
+  const deleteAnn = (annusername) => {
+    axios
+      .post(
+        ADMINDELANN,
+        {
+          username: annusername,
+        },
+        {
+          headers: { "content-type": "application/json" },
+          withCredentials: false,
+          auth: {
+            username: props.location.credentials.username,
+            password: props.location.credentials.password,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setAnnotators(annotators.filter((x) => x.username !== annusername));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const sendMessage = (annusername) => {
     axios
       .post(
         ADMINSENDMESS,
         {
-          username: body.children[1],
+          username: annusername,
           message,
         },
         {
@@ -169,6 +204,14 @@ function AdminDashboard(props) {
                   size="mini"
                   src="https://react.semantic-ui.com/images/avatar/large/matthew.png"
                 />
+                <Button
+                  color="red"
+                  floated="right"
+                  inverted
+                  onClick={(event) => deleteAnn(ann.username)}
+                >
+                  Delete Account
+                </Button>
                 <Card.Header>{ann.name}</Card.Header>
                 <Card.Meta>{ann.email}</Card.Meta>
                 <Card.Description>
@@ -188,7 +231,7 @@ function AdminDashboard(props) {
                   <Button
                     color="green"
                     inverted
-                    onClick={(key, body) => sendMessage(body)}
+                    onClick={(event) => sendMessage(ann.username)}
                   >
                     Send Message to {ann.username}
                   </Button>
