@@ -43,7 +43,7 @@ function HomeNav() {
             </Button.Content>
           </Button>
         </Menu.Item>
-        <Menu.Item>
+        {/* <Menu.Item>
           <Link to="/adminlogin">
             <Button color="blue" animated>
               <Button.Content visible>Admin Login</Button.Content>
@@ -52,7 +52,7 @@ function HomeNav() {
               </Button.Content>
             </Button>
           </Link>
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu.Menu>
     </Menu>
   );

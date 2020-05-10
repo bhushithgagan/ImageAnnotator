@@ -6,6 +6,8 @@ import {
   Segment,
   Header,
   Message,
+  Menu,
+  Image,
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import * as emailjs from "emailjs-com";
@@ -77,121 +79,150 @@ function AdminSignUp(props) {
   }
 
   return (
-    <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 500 }}>
-        <Header
-          as="h2"
-          textAlign="center"
-          style={{ color: "#008080" }}
-          className="zoomIn"
+    <div>
+      <Menu>
+        <Image
+          src="https://img.icons8.com/ios/50/000000/artificial-intelligence.png"
+          size="mini"
+          style={{
+            height: "50px",
+            width: "40px",
+            marginLeft: "0.2%",
+            paddingTop: "0.3%",
+            marginBottom: "0.3%",
+          }}
+        />
+        <span
+          style={{
+            color: "#008080",
+            paddingTop: "0.7%",
+            marginLeft: "0.5%",
+            fontSize: "160%",
+            fontWeight: "200%",
+          }}
         >
-          Admin Details
-        </Header>
-        <Form error size="large" onSubmit={handleSubmit}>
-          <Segment
-            raised
-            inverted
-            color="teal"
-            secondary
-            size="large"
-            textAlign="left"
+          <Link to="/" style={{ color: "#008080" }}>
+            DaNotate
+          </Link>
+        </span>
+      </Menu>
+      <Grid
+        textAlign="center"
+        style={{ height: "100vh" }}
+        verticalAlign="middle"
+      >
+        <Grid.Column style={{ maxWidth: 500 }}>
+          <Header
+            as="h2"
+            textAlign="center"
+            style={{ color: "#008080" }}
             className="zoomIn"
           >
-            <Form.Group widths="equal">
-              <Form.Input
-                fluid
-                required
-                onChange={handleEmailChange}
-                label="Enter Email"
-                placeholder="Email"
-                name="email"
-                type="input"
-                className="zoomIn"
-                value={email}
-              />
-              <Form.Input
-                fluid
-                required
-                onChange={handleNameChange}
-                label="Enter Name"
-                placeholder="Name"
-                name="name"
-                type="input"
-                className="zoomIn"
-                value={name}
-              />
-            </Form.Group>
-            <Form.Group widths="equal">
-              <Form.Input
-                fluid
-                required
-                onChange={handleUsernameChange}
-                label="Enter Username"
-                placeholder="Username"
-                name="username"
-                type="input"
-                className="zoomIn"
-                value={username}
-              />
-              <Form.Input
-                fluid
-                required
-                onChange={handlePosChange}
-                label="Enter Position"
-                placeholder="Position"
-                name="position"
-                type="input"
-                className="zoomIn"
-                value={pos}
-              />
-            </Form.Group>
+            Admin Details
+          </Header>
+          <Form error size="large" onSubmit={handleSubmit}>
+            <Segment
+              raised
+              inverted
+              color="teal"
+              secondary
+              size="large"
+              textAlign="left"
+              className="zoomIn"
+            >
+              <Form.Group widths="equal">
+                <Form.Input
+                  fluid
+                  required
+                  onChange={handleEmailChange}
+                  label="Enter Email"
+                  placeholder="Email"
+                  name="email"
+                  type="input"
+                  className="zoomIn"
+                  value={email}
+                />
+                <Form.Input
+                  fluid
+                  required
+                  onChange={handleNameChange}
+                  label="Enter Name"
+                  placeholder="Name"
+                  name="name"
+                  type="input"
+                  className="zoomIn"
+                  value={name}
+                />
+              </Form.Group>
+              <Form.Group widths="equal">
+                <Form.Input
+                  fluid
+                  required
+                  onChange={handleUsernameChange}
+                  label="Enter Username"
+                  placeholder="Username"
+                  name="username"
+                  type="input"
+                  className="zoomIn"
+                  value={username}
+                />
+                <Form.Input
+                  fluid
+                  required
+                  onChange={handlePosChange}
+                  label="Enter Position"
+                  placeholder="Position"
+                  name="position"
+                  type="input"
+                  className="zoomIn"
+                  value={pos}
+                />
+              </Form.Group>
 
-            <Form.Input
-              fluid
-              required
-              onChange={handlePasswordChange}
-              label="Enter Password"
-              placeholder="Password"
-              name="password"
-              type="password"
-              className="zoomIn"
-              value={password}
-            />
-            <Form.Input
-              fluid
-              required
-              onChange={handleRepasswordChange}
-              label="Re-enter Password"
-              placeholder="Password"
-              name="repassword"
-              type="password"
-              className="zoomIn"
-              value={repassword}
-            />
-            <Form.TextArea
-              label="Message"
-              placeholder="Short Message to Danotate Team"
-              name="message"
-              onChange={handleMessageChange}
-              value={message}
-            />
-            <Button type="submit" inverted loading={load}>
-              Request Acess
-            </Button>
-            <Button as={Link} to="/" style={{ marginLeft: "15em" }}>
-              Home
-            </Button>
-            {Object.entries(errors).length > 0 && (
-              <Message
-                error
-                header="There was some errors with your submission"
-                list={Object.keys(errors).map((key) => errors[key])}
+              <Form.Input
+                fluid
+                required
+                onChange={handlePasswordChange}
+                label="Enter Password"
+                placeholder="Password"
+                name="password"
+                type="password"
+                className="zoomIn"
+                value={password}
               />
-            )}
-          </Segment>
-        </Form>
-      </Grid.Column>
-    </Grid>
+              <Form.Input
+                fluid
+                required
+                onChange={handleRepasswordChange}
+                label="Re-enter Password"
+                placeholder="Password"
+                name="repassword"
+                type="password"
+                className="zoomIn"
+                value={repassword}
+              />
+              <Form.TextArea
+                label="Message"
+                placeholder="Short Message to Danotate Team"
+                name="message"
+                onChange={handleMessageChange}
+                value={message}
+              />
+              <Button type="submit" inverted loading={load}>
+                Request Acess
+              </Button>
+              {Object.entries(errors).length > 0 && (
+                <Message
+                  error
+                  header="There was some errors with your submission"
+                  list={Object.keys(errors).map((key) => errors[key])}
+                />
+              )}
+            </Segment>
+          </Form>
+        </Grid.Column>
+      </Grid>
+    </div>
   );
 }
 

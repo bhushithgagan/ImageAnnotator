@@ -6,6 +6,8 @@ import {
   Segment,
   Header,
   Message,
+  Menu,
+  Image,
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
@@ -99,124 +101,156 @@ function SignUpForm(props) {
   }
 
   return (
-    <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 500 }}>
-        <Header
-          as="h2"
-          textAlign="center"
-          style={{ color: "#008080" }}
-          className="zoomIn"
+    <div>
+      <Menu>
+        <Image
+          src="https://img.icons8.com/ios/50/000000/artificial-intelligence.png"
+          size="mini"
+          style={{
+            height: "50px",
+            width: "40px",
+            marginLeft: "0.2%",
+            paddingTop: "0.3%",
+            marginBottom: "0.3%",
+          }}
+        />
+        <span
+          style={{
+            color: "#008080",
+            paddingTop: "0.7%",
+            marginLeft: "0.5%",
+            fontSize: "160%",
+            fontWeight: "200%",
+          }}
         >
-          Create your account
-        </Header>
-        <Form error size="large" onSubmit={handleSubmit}>
-          <Segment
-            raised
-            inverted
-            color="teal"
-            secondary
-            size="large"
-            textAlign="left"
+          <Link to="/" style={{ color: "#008080" }}>
+            DaNotate
+          </Link>
+        </span>
+      </Menu>
+      <Grid
+        textAlign="center"
+        style={{ height: "100vh" }}
+        verticalAlign="middle"
+      >
+        <Grid.Column style={{ maxWidth: 500 }}>
+          <Header
+            as="h2"
+            textAlign="center"
+            style={{ color: "#008080" }}
             className="zoomIn"
           >
-            <Form.Group widths="equal">
-              <Form.Input
-                fluid
-                required
-                onChange={handleEmailChange}
-                label="Enter Email"
-                placeholder="Email"
-                name="email"
-                type="input"
-                className="zoomIn"
-                value={email}
-              />
-              <Form.Input
-                fluid
-                required
-                onChange={handleNameChange}
-                label="Enter Name"
-                placeholder="Name"
-                name="name"
-                type="input"
-                className="zoomIn"
-                value={name}
-              />
-            </Form.Group>
-            <Form.Group widths="equal">
-              <Form.Input
-                fluid
-                required
-                onChange={handleUsernameChange}
-                label="Enter Username"
-                placeholder="Username"
-                name="username"
-                type="input"
-                className="zoomIn"
-                value={username}
-              />
-              <Form.Input
-                fluid
-                required
-                onChange={handleOrganizationChange}
-                label="Enter Organisation"
-                placeholder="Organisation"
-                name="organisation"
-                type="input"
-                className="zoomIn"
-                value={organization}
-              />
-            </Form.Group>
+            Create your account
+          </Header>
+          <Form error size="large" onSubmit={handleSubmit}>
+            <Segment
+              raised
+              inverted
+              color="teal"
+              secondary
+              size="large"
+              textAlign="left"
+              className="zoomIn"
+            >
+              <Form.Group widths="equal">
+                <Form.Input
+                  fluid
+                  required
+                  onChange={handleEmailChange}
+                  label="Enter Email"
+                  placeholder="Email"
+                  name="email"
+                  type="input"
+                  className="zoomIn"
+                  value={email}
+                />
+                <Form.Input
+                  fluid
+                  required
+                  onChange={handleNameChange}
+                  label="Enter Name"
+                  placeholder="Name"
+                  name="name"
+                  type="input"
+                  className="zoomIn"
+                  value={name}
+                />
+              </Form.Group>
+              <Form.Group widths="equal">
+                <Form.Input
+                  fluid
+                  required
+                  onChange={handleUsernameChange}
+                  label="Enter Username"
+                  placeholder="Username"
+                  name="username"
+                  type="input"
+                  className="zoomIn"
+                  value={username}
+                />
+                <Form.Input
+                  fluid
+                  required
+                  onChange={handleOrganizationChange}
+                  label="Enter Organisation"
+                  placeholder="Organisation"
+                  name="organisation"
+                  type="input"
+                  className="zoomIn"
+                  value={organization}
+                />
+              </Form.Group>
 
-            <Form.Input
-              fluid
-              required
-              onChange={handlePasswordChange}
-              label="Enter Password"
-              placeholder="Password"
-              name="password"
-              type="password"
-              className="zoomIn"
-              value={password}
-            />
-            <Form.Input
-              fluid
-              required
-              onChange={handleRepasswordChange}
-              label="Re-enter Password"
-              placeholder="Password"
-              name="repassword"
-              type="password"
-              className="zoomIn"
-              value={repassword}
-            />
-            <Form.Group inline>
-              <label>Account Type</label>
-              User
-              <Form.Radio
-                toggle
-                style={{ marginLeft: "20%", marginTop: "10%" }}
-                onChange={handleTypeChange}
+              <Form.Input
+                fluid
+                required
+                onChange={handlePasswordChange}
+                label="Enter Password"
+                placeholder="Password"
+                name="password"
+                type="password"
+                className="zoomIn"
+                value={password}
               />
-              Annotator
-            </Form.Group>
-            <Button type="submit" loading={load}>
-              Sign Up
-            </Button>
-            {Object.entries(errors).length > 0 && (
-              <Message
-                error
-                header="There was some errors with your submission"
-                list={Object.keys(errors).map((key) => errors[key])}
+              <Form.Input
+                fluid
+                required
+                onChange={handleRepasswordChange}
+                label="Re-enter Password"
+                placeholder="Password"
+                name="repassword"
+                type="password"
+                className="zoomIn"
+                value={repassword}
               />
-            )}
-          </Segment>
-          <Message className="zoomIn">
-            Already have an account? <Link to="/login">Login</Link>
-          </Message>
-        </Form>
-      </Grid.Column>
-    </Grid>
+              <Form.Group inline>
+                <label>Account Type</label>
+                User
+                <Form.Radio
+                  toggle
+                  style={{ marginLeft: "20%", marginTop: "10%" }}
+                  onChange={handleTypeChange}
+                />
+                Annotator
+              </Form.Group>
+              <Button type="submit" loading={load}>
+                Sign Up
+              </Button>
+              {Object.entries(errors).length > 0 && (
+                <Message
+                  error
+                  header="There was some errors with your submission"
+                  list={Object.keys(errors).map((key) => errors[key])}
+                />
+              )}
+            </Segment>
+            <Message className="zoomIn">
+              Already have an account? <Link to="/login">Login</Link>
+            </Message>
+          </Form>
+        </Grid.Column>
+      </Grid>
+    </div>
   );
 }
 

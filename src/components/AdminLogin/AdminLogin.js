@@ -6,6 +6,8 @@ import {
   Segment,
   Header,
   Message,
+  Menu,
+  Image,
 } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
@@ -60,63 +62,96 @@ function AdminLogin(props) {
   }
 
   return (
-    <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header
-          as="h2"
-          textAlign="center"
-          className="zoomIn"
-          style={{ color: "#008080" }}
+    <div>
+      <Menu>
+        <Image
+          src="https://img.icons8.com/ios/50/000000/artificial-intelligence.png"
+          size="mini"
+          style={{
+            height: "50px",
+            width: "40px",
+            marginLeft: "0.2%",
+            paddingTop: "0.3%",
+            marginBottom: "0.3%",
+          }}
+        />
+        <span
+          style={{
+            color: "#008080",
+            paddingTop: "0.7%",
+            marginLeft: "0.5%",
+            fontSize: "160%",
+            fontWeight: "200%",
+          }}
         >
-          Hello, there. Login to your admin account
-        </Header>
-        <Form error size="large" onSubmit={handleSubmit}>
-          <Segment raised inverted color="teal" secondary className="zoomIn">
-            <Form.Input
-              fluid
-              onChange={handleUsernameChange}
-              icon="address card"
-              iconPosition="left"
-              placeholder="Username"
-              name="username"
-              type="input"
-              className="zoomIn"
-            />
-            <Form.Input
-              fluid
-              onChange={handlePasswordChange}
-              icon="lock"
-              iconPosition="left"
-              placeholder="Password"
-              name="password"
-              type="password"
-              className="zoomIn"
-            />
+          <Link to="/" style={{ color: "#008080" }}>
+            DaNotate
+          </Link>
+        </span>
+      </Menu>
+      <Grid
+        textAlign="center"
+        style={{ height: "100vh" }}
+        verticalAlign="middle"
+      >
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Header
+            as="h2"
+            textAlign="center"
+            className="zoomIn"
+            style={{ color: "#008080" }}
+          >
+            Hello, there. Login to your admin account
+          </Header>
+          <Form error size="large" onSubmit={handleSubmit}>
+            <Segment raised inverted color="teal" secondary className="zoomIn">
+              <Form.Input
+                fluid
+                onChange={handleUsernameChange}
+                icon="address card"
+                iconPosition="left"
+                placeholder="Username"
+                name="username"
+                type="input"
+                className="zoomIn"
+              />
+              <Form.Input
+                fluid
+                onChange={handlePasswordChange}
+                icon="lock"
+                iconPosition="left"
+                placeholder="Password"
+                name="password"
+                type="password"
+                className="zoomIn"
+              />
 
-            <Button
-              type="submit"
-              className="zoomIn"
-              loading={load}
-              onClick={() => setLoad(true)}
-            >
-              Login
-            </Button>
-            <Button inverted as={Link} to="/adminsignup">
-              Request Admin Access
-            </Button>
-          </Segment>
-          {Object.entries(errors).length > 0 && (
-            <Message
-              error
-              header="Could Not Sign In"
-              list={Object.keys(errors).map((key) => errors[key])}
-              size="small"
-              className="zoomIn"
-            />
-          )}
-        </Form>
-      </Grid.Column>
-    </Grid>
+              <Button
+                type="submit"
+                className="zoomIn"
+                inverted
+                loading={load}
+                onClick={() => setLoad(true)}
+              >
+                Login
+              </Button>
+              <Button color="teal" as={Link} to="/adminsignup">
+                Request Admin Access
+              </Button>
+            </Segment>
+            {Object.entries(errors).length > 0 && (
+              <Message
+                error
+                header="Could Not Sign In"
+                list={Object.keys(errors).map((key) => errors[key])}
+                size="small"
+                className="zoomIn"
+              />
+            )}
+          </Form>
+        </Grid.Column>
+      </Grid>
+    </div>
   );
 }
 

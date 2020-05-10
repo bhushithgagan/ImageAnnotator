@@ -6,7 +6,7 @@ import "./styles.css";
 import Details from "./Details";
 import CarouselHP from "./CarouselHP";
 import { Link, withRouter } from "react-router-dom";
-import { Button } from "semantic-ui-react";
+import { Button, Icon } from "semantic-ui-react";
 
 function HomePage() {
   document.title = "DaNotate | Home";
@@ -20,6 +20,17 @@ function HomePage() {
       <Details />
       <CarouselHP />
       <HomeBody />
+      <Link
+        to="/adminlogin"
+        style={{ position: "absolute", bottom: "3px", right: "3px" }}
+      >
+        <Button color="blue" animated>
+          <Button.Content visible>Administrator</Button.Content>
+          <Button.Content hidden>
+            <Icon name="address card outline" />
+          </Button.Content>
+        </Button>
+      </Link>
     </div>
   );
 }
