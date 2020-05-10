@@ -174,6 +174,7 @@ function UserDashboard(props) {
   const downloadCSV = (allImages, key) => {
     let images = allImages.filter((x) => x.folderName === folder[key]);
     let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Image Name,URL,Category \r\n";
     images.map((x) => {
       csvContent += x.imageName + "," + x.url + "," + x.category + "\r\n";
     });
