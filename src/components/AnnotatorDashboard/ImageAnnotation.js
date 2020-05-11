@@ -197,7 +197,6 @@ function ImageAnnotation(props) {
                 focus
                 placeholder="Categories"
                 onChange={handleCategoriesChange}
-                value={categories}
                 style={{
                   display: "flex",
                   margin: "auto",
