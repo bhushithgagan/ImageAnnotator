@@ -86,6 +86,7 @@ function ImageAnnotation(props) {
               credentials: { username, password },
             });
           }
+          props.setImgsAnnotated(prev => prev + 1);
         })
         .catch((e) => {
           setLoad(false);

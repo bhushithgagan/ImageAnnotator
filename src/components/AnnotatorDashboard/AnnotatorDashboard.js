@@ -15,6 +15,7 @@ function AnnotatorDashboard(props) {
 
   const [name, setName] = useState("");
   const [messages, setMessages] = useState([]);
+  const [imgsAnnotated, setImgsAnnotated] = useState(0);
 
   useEffect(() => {
     if (
@@ -35,6 +36,7 @@ function AnnotatorDashboard(props) {
         .then((res) => {
           console.log(res);
           setName(res.data.name);
+          setImgsAnnotated(res.data.num_images_annotated);
         })
         .catch((error) => {
           console.log(error);
@@ -146,6 +148,14 @@ function AnnotatorDashboard(props) {
       >
         Welcome, {name}!
       </Header>
+      <Header
+        as="h3"
+        color="teal"
+        textAlign="center"
+        style={{ align: "center", display: "block", margin: "auto" }}
+      >
+        You've annotated {imgsAnnotated} images in total!
+      </Header>
       <div
         style={{
           maxHeight: "15em",
@@ -178,7 +188,7 @@ function AnnotatorDashboard(props) {
       </div>
 
       {typeof props.location.credentials !== "undefined" && (
-        <ImageAnnotation credentials={props.location.credentials} />
+        <ImageAnnotation credentials={props.location.credentials} setImgsAnnotated = {setImgsAnnotated}/>
       )}
     </div>
   );
