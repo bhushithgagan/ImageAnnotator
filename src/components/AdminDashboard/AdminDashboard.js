@@ -75,28 +75,34 @@ function AdminDashboard(props) {
   }, []);
 
   const deleteAnn = (annusername) => {
-    axios
-      .post(
-        ADMINDELANN,
-        {
-          username: annusername,
-        },
-        {
-          headers: { "content-type": "application/json" },
-          withCredentials: false,
-          auth: {
-            username: props.location.credentials.username,
-            password: props.location.credentials.password,
+    let ann = prompt("Please enter the annotator's username to confirm");
+    if (ann === annusername) {
+      axios
+        .post(
+          ADMINDELANN,
+          {
+            username: annusername,
           },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        setAnnotators(annotators.filter((x) => x.username !== annusername));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+          {
+            headers: { "content-type": "application/json" },
+            withCredentials: false,
+            auth: {
+              username: props.location.credentials.username,
+              password: props.location.credentials.password,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          setAnnotators(annotators.filter((x) => x.username !== annusername));
+          alert("Delete Successful!");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      alert("Wrong username entered");
+    }
   };
 
   const sendMessage = (annusername) => {
