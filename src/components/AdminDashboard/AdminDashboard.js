@@ -57,6 +57,7 @@ function AdminDashboard(props) {
         })
         .then((res) => {
           setAdmin(res.data);
+          console.log(res);
           axios
             .get(ADMINANN, {
               withCredentials: false,
@@ -67,6 +68,7 @@ function AdminDashboard(props) {
             })
             .then((res) => {
               setAnnotators(res.data);
+              console.log(res);
             });
         });
     }
@@ -213,7 +215,7 @@ function AdminDashboard(props) {
                   inverted
                   onClick={(event) => deleteAnn(ann.username)}
                 >
-                  Delete Account
+                  Delete
                 </Button>
                 <Card.Header>{ann.name}</Card.Header>
                 <Card.Meta>{ann.email}</Card.Meta>
