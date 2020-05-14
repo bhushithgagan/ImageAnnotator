@@ -8,6 +8,7 @@ import {
   Message,
   Input,
   Icon,
+  Divider
 } from "semantic-ui-react";
 import { withRouter } from "react-router-dom";
 import { ANNGETIMG, ANNUPLOAD } from "../../routes/routes";
@@ -129,27 +130,16 @@ function ImageAnnotation(props) {
           key={key}
           style={{ display: "inlineBlock", margin: "auto", marginLeft: "1em" }}
         >
-          <Header
-            as="h3"
-            color="teal"
-            textAlign="center"
-            style={{ display: "block", margin: "auto", marginTop: "2em" }}
-          >
-            {img.imageName}
-          </Header>
+          
 
-          <Header
-            as="h3"
-            color="teal"
-            textAlign="center"
-            style={{ display: "block", margin: "auto", marginTop: "1em" }}
-          >
-            Categories =>{"  "}
-            {img.categories.map((cat, inkey) => (
-              <span key={inkey}>{cat} :: </span>
-            ))}
-          </Header>
-
+            <Message style={{width: "1000px"}}>
+                <Message.Header><h3>{img.imageName}</h3></Message.Header>
+                <Message.List>
+                {img.categories.map((cat, inkey) => (
+                <Message.Item key={inkey}>{cat}</Message.Item>
+                ))}
+                </Message.List>
+            </Message>
           <div>
             <ImageEditor
               includeUI={{
@@ -224,7 +214,9 @@ function ImageAnnotation(props) {
               size="small"
               className="zoomIn"
             />
+            
           )}
+          <Divider />
         </div>
       ))}
     </div>
