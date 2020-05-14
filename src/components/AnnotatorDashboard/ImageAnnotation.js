@@ -8,7 +8,8 @@ import {
   Message,
   Input,
   Icon,
-  Divider
+  Divider,
+  Checkbox
 } from "semantic-ui-react";
 import { withRouter } from "react-router-dom";
 import { ANNGETIMG, ANNUPLOAD } from "../../routes/routes";
@@ -22,7 +23,8 @@ function ImageAnnotation(props) {
   const [done, setDone] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const handleCategoriesChange = (event) => setCategories(event.target.value);
+//   const handleCategoriesChange = (event) => setCategories(event.target.value);
+  const changeCat = (e, {value}) => setCategories(value);
 
   const handleSubmit = (event, key) => {
     setLoad(true);
@@ -117,7 +119,7 @@ function ImageAnnotation(props) {
   }, [username]);
 
   return (
-    <div style={{ align: "left", overlow: "auto" }}>
+    <div style={{  overlow: "auto" }}>
       {done && (
         <div style={{ display: "flex", marginLeft: "47%", marginTop: "5em" }}>
           <Message positive>
@@ -128,17 +130,36 @@ function ImageAnnotation(props) {
       {images.map((img, key) => (
         <div
           key={key}
-          style={{ display: "inlineBlock", margin: "auto", marginLeft: "1em" }}
+          style={{  margin: "auto", marginLeft: "1em" }}
         >
           
 
-            <Message style={{width: "1000px"}}>
+            <Message style={{width: "1000px", margin: "auto"}}>
                 <Message.Header><h3>{img.imageName}</h3></Message.Header>
                 <Message.List>
                 {img.categories.map((cat, inkey) => (
-                <Message.Item key={inkey}>{cat}</Message.Item>
+                <Message.Item key={inkey}>
+                    <Checkbox radio
+                            label={cat}
+                            name='checkboxRadioGroup'
+                            value={cat}
+                            checked={categories === cat}
+                            onChange={changeCat}
+                    />
+                </Message.Item>
                 ))}
                 </Message.List>
+                <Button
+                animated
+                loading={load}
+                style={{ display: "block", marginTop: "1em" }}
+                onClick={handleSubmit}
+              >
+                <Button.Content visible>Label</Button.Content>
+                <Button.Content hidden>
+                  <Icon name="arrow up" />
+                </Button.Content>
+              </Button>
             </Message>
           <div>
             <ImageEditor
@@ -165,47 +186,6 @@ function ImageAnnotation(props) {
               usageStatistics={true}
             />
           </div>
-
-          <Form
-            size="large"
-            onSubmit={(event) => handleSubmit(event, key)}
-            style={{ align: "center", overlow: "auto" }}
-          >
-            <Segment
-              stacked
-              style={{
-                display: "block",
-                margin: "auto",
-                float: "right",
-                marginTop: "-30em",
-                marginRight: "5em",
-                width: "20%",
-                overlow: "auto",
-              }}
-            >
-              <Input
-                focus
-                placeholder="Categories"
-                onChange={handleCategoriesChange}
-                style={{
-                  display: "flex",
-                  margin: "auto",
-                  position: "relative",
-                  marginTop: "1em",
-                }}
-              />
-              <Button
-                animated
-                loading={load}
-                style={{ display: "block", margin: "auto", marginTop: "1em" }}
-              >
-                <Button.Content visible>Upload</Button.Content>
-                <Button.Content hidden>
-                  <Icon name="arrow up" />
-                </Button.Content>
-              </Button>
-            </Segment>
-          </Form>
           {Object.entries(errors).length > 0 && (
             <Message
               error
