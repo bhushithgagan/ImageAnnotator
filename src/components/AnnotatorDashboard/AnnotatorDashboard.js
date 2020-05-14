@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Dropdown, Header, Image, Message, Divider, Container } from "semantic-ui-react";
+import {
+  Menu,
+  Dropdown,
+  Header,
+  Image,
+  Message,
+  Divider,
+  Container,
+} from "semantic-ui-react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import ImageAnnotation from "./ImageAnnotation";
@@ -146,45 +154,46 @@ function AnnotatorDashboard(props) {
         textAlign="center"
         style={{ align: "center", display: "block", margin: "auto" }}
       >
-        <span style={{color: 'Black'}}>Welcome</span>, {name}!
+        <span style={{ color: "Grey" }}>Welcome,</span> {` ${name}`}
+        <span style={{ color: "Grey" }}>!</span>
       </Header>
       <Header
         as="h3"
-        color="teal"
+        color="grey"
         textAlign="center"
         style={{ align: "center", display: "block", margin: "auto" }}
       >
-        You've annotated <span style={{color: 'red'}}>{imgsAnnotated}</span> images in total!
+        You've annotated <span style={{ color: "green" }}>{imgsAnnotated}</span>{" "}
+        images in total!
       </Header>
-      <Divider horizontal>
-            Instructions from Admin
-        </Divider>
-        <Container textAlign='center'>
+      <Divider horizontal>Instructions from Admin</Divider>
+      <Container textAlign="center">
         {messages.length > 0 &&
-            messages.map((mess, key) => {
+          messages.map((mess, key) => {
             return (
-                <Message
-                color="black"
+              <Message
+                color="teal"
                 header={mess}
                 onDismiss={(event, body) => delMessage(body)}
                 key={key}
                 style={{
-                    maxWidth: "20%",
-                    align: "center",
-                    display: "inlineBlock",
-                    margin: "auto",
-                    marginTop: "2em",
+                  maxWidth: "20%",
+                  align: "center",
+                  display: "inlineBlock",
+                  margin: "auto",
+                  marginTop: "2em",
                 }}
-                />
+              />
             );
-            })}
-        </Container>
-        
-       <Divider horizontal>
-            Images to Annotate
-        </Divider>
+          })}
+      </Container>
+
+      <Divider horizontal>Images to Annotate</Divider>
       {typeof props.location.credentials !== "undefined" && (
-        <ImageAnnotation credentials={props.location.credentials} setImgsAnnotated = {setImgsAnnotated}/>
+        <ImageAnnotation
+          credentials={props.location.credentials}
+          setImgsAnnotated={setImgsAnnotated}
+        />
       )}
     </div>
   );

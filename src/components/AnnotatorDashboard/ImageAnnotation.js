@@ -9,7 +9,7 @@ import {
   Input,
   Icon,
   Divider,
-  Checkbox
+  Checkbox,
 } from "semantic-ui-react";
 import { withRouter } from "react-router-dom";
 import { ANNGETIMG, ANNUPLOAD } from "../../routes/routes";
@@ -23,10 +23,9 @@ function ImageAnnotation(props) {
   const [done, setDone] = useState(false);
   const [errors, setErrors] = useState({});
 
-//   const handleCategoriesChange = (event) => setCategories(event.target.value);
-  const changeCat = (e, {value}) => setCategories(value);
+  const handleCategoriesChange = (value) => setCategories(value);
 
-  const handleSubmit = (event, key) => {
+  const handleSubmit = (key) => {
     setLoad(true);
     let error = {};
     if (!categories) {
@@ -119,7 +118,7 @@ function ImageAnnotation(props) {
   }, [username]);
 
   return (
-    <div style={{  overlow: "auto" }}>
+    <div style={{ overlow: "auto", align: "center" }}>
       {done && (
         <div style={{ display: "flex", marginLeft: "47%", marginTop: "5em" }}>
           <Message positive>
@@ -130,38 +129,53 @@ function ImageAnnotation(props) {
       {images.map((img, key) => (
         <div
           key={key}
-          style={{  margin: "auto", marginLeft: "1em" }}
+          style={{ margin: "auto", marginLeft: "1em", align: "center" }}
         >
-          
-
-            <Message style={{width: "1000px", margin: "auto"}}>
-                <Message.Header><h3>{img.imageName}</h3></Message.Header>
-                <Message.List>
-                {img.categories.map((cat, inkey) => (
+          <Message
+            color="green"
+            style={{
+              width: "20%",
+              float: "right",
+              marginTop: "10%",
+              marginRight: "3%",
+              textAlign: "center",
+            }}
+          >
+            <Message.Header style={{ align: "center" }}>
+              <h3 style={{ margin: "auto" }}>{img.imageName}</h3>
+            </Message.Header>
+            <Message.List>
+              {img.categories.map((cat, inkey) => (
                 <Message.Item key={inkey}>
-                    <Checkbox radio
-                            label={cat}
-                            name='checkboxRadioGroup'
-                            value={cat}
-                            checked={categories === cat}
-                            onChange={changeCat}
-                    />
+                  <Checkbox
+                    radio
+                    label={cat}
+                    name="checkboxRadioGroup"
+                    value={cat}
+                    checked={categories === cat}
+                    onChange={() => handleCategoriesChange(cat)}
+                  />
                 </Message.Item>
-                ))}
-                </Message.List>
-                <Button
-                animated
-                loading={load}
-                style={{ display: "block", marginTop: "1em" }}
-                onClick={handleSubmit}
-              >
-                <Button.Content visible>Label</Button.Content>
-                <Button.Content hidden>
-                  <Icon name="arrow up" />
-                </Button.Content>
-              </Button>
-            </Message>
-          <div>
+              ))}
+            </Message.List>
+            <Button
+              animated
+              color="green"
+              loading={load}
+              style={{ display: "block", marginTop: "1em" }}
+              onClick={() => handleSubmit(key)}
+            >
+              <Button.Content visible>Label</Button.Content>
+              <Button.Content hidden>
+                <Icon name="arrow up" />
+              </Button.Content>
+            </Button>
+          </Message>
+          <div
+            style={{
+              display: "inlineBlock",
+            }}
+          >
             <ImageEditor
               includeUI={{
                 loadImage: {
@@ -194,7 +208,6 @@ function ImageAnnotation(props) {
               size="small"
               className="zoomIn"
             />
-            
           )}
           <Divider />
         </div>
