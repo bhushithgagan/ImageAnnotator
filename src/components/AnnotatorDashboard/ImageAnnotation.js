@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ImageEditor from "@toast-ui/react-image-editor";
-import {
-  Button,
-  Form,
-  Segment,
-  Header,
-  Message,
-  Input,
-  Icon,
-  Divider,
-  Checkbox,
-} from "semantic-ui-react";
+import { Button, Message, Icon, Divider, Checkbox } from "semantic-ui-react";
 import { withRouter } from "react-router-dom";
 import { ANNGETIMG, ANNUPLOAD } from "../../routes/routes";
 import axios from "axios";
