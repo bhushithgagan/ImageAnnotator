@@ -70,7 +70,7 @@ function AdminDashboard(props) {
             });
         });
     }
-  }, [admin]);
+  }, []);
 
   const deleteAnn = (annusername) => {
     axios
