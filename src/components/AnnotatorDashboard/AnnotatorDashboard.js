@@ -163,8 +163,9 @@ function AnnotatorDashboard(props) {
         textAlign="center"
         style={{ align: "center", display: "block", margin: "auto" }}
       >
-        You've annotated <span style={{ color: "green" }}>{imgsAnnotated}</span>{" "}
-        images in total!
+        You've annotated{" "}
+        <span style={{ color: "purple" }}>{imgsAnnotated}</span> images in
+        total!
       </Header>
       <Divider horizontal>Instructions from Admin</Divider>
       <Container textAlign="center">
