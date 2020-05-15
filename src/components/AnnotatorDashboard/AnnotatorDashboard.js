@@ -67,12 +67,12 @@ function AnnotatorDashboard(props) {
     }
   }, [name]);
 
-  const delMessage = (body) => {
+  const delMessage = (key) => {
     axios
       .post(
         ANNDELMESS,
         {
-          message: body.header,
+          id: messages[key].id,
         },
         {
           headers: { "content-type": "application/json" },
@@ -85,7 +85,7 @@ function AnnotatorDashboard(props) {
       )
       .then((res) => {
         console.log(res);
-        setMessages(messages.filter((x) => x !== body.header));
+        setMessages(messages.filter((x) => x.id !== messages[key].id));
       })
       .catch((error) => {
         console.log(error);
@@ -174,8 +174,8 @@ function AnnotatorDashboard(props) {
             return (
               <Message
                 color="teal"
-                header={mess}
-                onDismiss={(event, body) => delMessage(body)}
+                header={mess.message}
+                onDismiss={() => delMessage(key)}
                 key={key}
                 style={{
                   maxWidth: "20%",

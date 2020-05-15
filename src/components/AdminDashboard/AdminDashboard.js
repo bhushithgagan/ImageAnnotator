@@ -228,6 +228,10 @@ function AdminDashboard(props) {
                 <Card.Description>
                   <List>
                     <List.Item
+                      icon="user circle"
+                      content={`Username: ${ann.username}`}
+                    />
+                    <List.Item
                       icon="hashtag"
                       content={`Images Annotated: ${ann.num_images_annotated}`}
                     />

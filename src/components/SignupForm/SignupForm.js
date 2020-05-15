@@ -21,7 +21,6 @@ function SignUpForm(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
-  const [organization, setOrganization] = useState("");
   const [type, setType] = useState(true); //true = user false = annotator
 
   document.title = "DaNotate | Sign Up";
@@ -31,8 +30,6 @@ function SignUpForm(props) {
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
   const handleRepasswordChange = (event) => setRepassword(event.target.value);
-  const handleOrganizationChange = (event) =>
-    setOrganization(event.target.value);
   const handleTypeChange = (event) => setType(!type);
 
   useEffect(() => {
@@ -63,7 +60,6 @@ function SignUpForm(props) {
             password,
             email,
             name,
-            organization,
           })
           .then((res) => {
             console.log(res);
@@ -85,7 +81,6 @@ function SignUpForm(props) {
             password,
             email,
             name,
-            organization,
           })
           .then((res) => {
             console.log(res);
@@ -190,17 +185,6 @@ function SignUpForm(props) {
                   type="input"
                   className="zoomIn"
                   value={username}
-                />
-                <Form.Input
-                  fluid
-                  required
-                  onChange={handleOrganizationChange}
-                  label="Enter Organisation"
-                  placeholder="Organisation"
-                  name="organisation"
-                  type="input"
-                  className="zoomIn"
-                  value={organization}
                 />
               </Form.Group>
 
