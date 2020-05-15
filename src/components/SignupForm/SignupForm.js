@@ -50,6 +50,9 @@ function SignUpForm(props) {
     if (!email || !password || !repassword || !name || !username)
       error.fill = "Make sure you fill in all the fields";
 
+    if (password.length < 8)
+      error.pass = "Password should be atleast 8 characters in length";
+
     setErrors(error);
     if (Object.keys(error).length > 0) setLoad(false);
     else {
