@@ -217,7 +217,7 @@ function AdminSignUp(props) {
               {Object.entries(errors).length > 0 && (
                 <Message
                   error
-                  header="There was some errors with your submission"
+                  header="There were some errors with your submission"
                   list={Object.keys(errors).map((key) => errors[key])}
                 />
               )}

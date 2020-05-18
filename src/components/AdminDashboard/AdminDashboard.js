@@ -95,7 +95,6 @@ function AdminDashboard(props) {
         .then((res) => {
           console.log(res);
           setAnnotators(annotators.filter((x) => x.username !== annusername));
-          alert("Delete Successful!");
         })
         .catch((error) => {
           console.log(error);
@@ -212,7 +211,7 @@ function AdminDashboard(props) {
                   floated="right"
                   size="mini"
                   src={`https://react.semantic-ui.com/images/avatar/large/${
-                    avatars[key % 5]
+                    avatars[key % 6]
                   }`}
                 />
                 <Button

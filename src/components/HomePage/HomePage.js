@@ -27,7 +27,7 @@ function HomePage() {
         <Button color="blue" animated>
           <Button.Content visible>Administrator</Button.Content>
           <Button.Content hidden>
-            <Icon name="address card outline" />
+            <Icon name="user secret" />
           </Button.Content>
         </Button>
       </Link>

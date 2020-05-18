@@ -73,6 +73,8 @@ function SignUpForm(props) {
             console.log(error);
             setLoad(false);
             setErrors({ invalid: "Unable to Create Account" });
+            if (error.response.status === 400)
+              setErrors({ redundant: "Email and Username Already in Use" });
           });
       else
         axios
@@ -94,6 +96,8 @@ function SignUpForm(props) {
             console.log(error);
             setLoad(false);
             setErrors({ invalid: "Unable to Create Account" });
+            if (error.response.status === 400)
+              setErrors({ redundant: "Email and Username Already in Use" });
           });
     }
   }
@@ -226,7 +230,7 @@ function SignUpForm(props) {
               {Object.entries(errors).length > 0 && (
                 <Message
                   error
-                  header="There was some errors with your submission"
+                  header="There were some errors with your submission"
                   list={Object.keys(errors).map((key) => errors[key])}
                 />
               )}
